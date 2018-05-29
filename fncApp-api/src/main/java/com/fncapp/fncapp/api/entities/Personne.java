@@ -86,7 +86,7 @@ public class Personne extends BaseEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date rowvers;
 
-    @OneToMany(mappedBy = "personneId")
+    @OneToMany(mappedBy = "personne")
     private Collection<Condamnation> condamnationCollection;
 
     public Personne() {

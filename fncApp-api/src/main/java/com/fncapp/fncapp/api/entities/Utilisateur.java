@@ -5,7 +5,6 @@
  */
 package com.fncapp.fncapp.api.entities;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
@@ -76,6 +75,12 @@ public class Utilisateur extends BaseEntity {
 
     @Column(name = "profilactif")
     private Boolean profilactif;
+
+    @Column(name = "question")
+    private String question;
+
+    @Column(name = "reponse")
+    private String reponse ;
 
     @OneToMany(mappedBy = "utilisateur")
     private Collection<GroupeUtilisateur> groupeutilisateurCollection;
@@ -242,6 +247,22 @@ public class Utilisateur extends BaseEntity {
         this.version = version;
     }
 
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+    public String getReponse() {
+        return reponse;
+    }
+
+    public void setReponse(String reponse) {
+        this.reponse = reponse;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -269,7 +290,7 @@ public class Utilisateur extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Utilisateur{" + "id=" + id + ", login=" + login + ", civilite=" + civilite + ", mail=" + mail + ", telephone=" + telephone + ", passwd=" + passwd + ", nom=" + nom + ", nomprenoms=" + nomprenoms + ", prenom=" + prenom + ", datecreation=" + datecreation + ", rowvers=" + rowvers + ", profilactif=" + profilactif + ", corps=" + corps + ", juridiction=" + juridiction + ", service=" + service + '}';
+        return "Utilisateur{" + "id=" + id + ", login=" + login + ", civilite=" + civilite + ", mail=" + mail + ", telephone=" + telephone + ", passwd=" + passwd + ", nom=" + nom + ", nomprenoms=" + nomprenoms + ", prenom=" + prenom + ", datecreation=" + datecreation + ", rowvers=" + rowvers + ", profilactif=" + profilactif + ", question=" + question + ", reponse=" + reponse + ", corps=" + corps + ", juridiction=" + juridiction + ", service=" + service + '}';
     }
 
 }

@@ -5,11 +5,9 @@
  */
 package com.fncapp.fncapp.api.entities;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -57,7 +55,7 @@ public class Service extends BaseEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date rowvers;
 
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "service")
     private Collection<Utilisateur> utilisateurCollection;
 
     @JoinColumn(name = "juridiction")

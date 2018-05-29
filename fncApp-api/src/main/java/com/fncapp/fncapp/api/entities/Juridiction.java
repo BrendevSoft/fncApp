@@ -5,11 +5,9 @@
  */
 package com.fncapp.fncapp.api.entities;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -70,23 +68,23 @@ public class Juridiction extends BaseEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date rowvers;
 
-    @OneToMany(mappedBy = "juridictionCode")
+    @OneToMany(mappedBy = "juridiction")
     private Collection<Juridiction> juridictionCollection;
 
     @JoinColumn(name = "juridiction")
     @ManyToOne
-    private Juridiction juridictionCode;
+    private Juridiction juridiction;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "juridictionCode")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "juridiction")
     private Collection<Condamnation> condamnationCollection;
 
-    @OneToMany(mappedBy = "juridictionCode")
+    @OneToMany(mappedBy = "juridiction")
     private Collection<Utilisateur> utilisateurCollection;
 
-    @OneToMany(mappedBy = "juridictionCode")
+    @OneToMany(mappedBy = "juridiction")
     private Collection<Service> serviceCollection;
 
-    @OneToMany(mappedBy = "juridictionCode")
+    @OneToMany(mappedBy = "juridiction")
     private Collection<Statistique> statistiqueCollection;
 
     public Juridiction() {
@@ -180,13 +178,14 @@ public class Juridiction extends BaseEntity {
         this.juridictionCollection = juridictionCollection;
     }
 
-    public Juridiction getJuridictionCode() {
-        return juridictionCode;
+    public Juridiction getJuridiction() {
+        return juridiction;
     }
 
-    public void setJuridictionCode(Juridiction juridictionCode) {
-        this.juridictionCode = juridictionCode;
+    public void setJuridiction(Juridiction juridiction) {
+        this.juridiction = juridiction;
     }
+
 
     public Collection<Condamnation> getCondamnationCollection() {
         return condamnationCollection;
@@ -255,7 +254,8 @@ public class Juridiction extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Juridiction{" + "id=" + id + ", code=" + code + ", adresse=" + adresse + ", coderg=" + coderg + ", datecreation=" + datecreation + ", libellecourt=" + libellecourt + ", libellelong=" + libellelong + ", precleprimaire=" + precleprimaire + ", type=" + type + ", rowvers=" + rowvers + ", juridictionCode=" + juridictionCode + '}';
+        return "Juridiction{" + "id=" + id + ", code=" + code + ", adresse=" + adresse + ", coderg=" + coderg + ", datecreation=" + datecreation + ", libellecourt=" + libellecourt + ", libellelong=" + libellelong + ", precleprimaire=" + precleprimaire + ", type=" + type + ", rowvers=" + rowvers + ", juridiction=" + juridiction + '}';
     }
 
+  
 }

@@ -5,14 +5,11 @@
  */
 package com.fncapp.fncapp.api.entities;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -34,19 +31,16 @@ public class Logs extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
     @Column(name = "id")
     private String Id;
 
     @Column(name = "log_action")
     private String logAction;
 
-    @Basic(optional = false)
     @Column(name = "log_date")
     @Temporal(TemporalType.DATE)
     private Date logDate;
 
-    @Basic(optional = false)
     @Column(name = "log_date_heure")
     @Temporal(TemporalType.TIMESTAMP)
     private Date logDateHeure;
@@ -57,8 +51,8 @@ public class Logs extends BaseEntity {
     @Column(name = "log_remote_mac")
     private String logRemoteMac;
 
-    @JoinColumn(name = "id")
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "utilisateur")
+    @ManyToOne
     private Utilisateur utilisateur;
 
     public Logs() {
