@@ -8,9 +8,12 @@ package com.fncapp.fncapp.api.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -29,34 +32,47 @@ import javax.persistence.TemporalType;
 @Table(name = "service")
 @NamedQueries({
     @NamedQuery(name = "Service.findAll", query = "SELECT s FROM Service s")})
-public class Service implements Serializable {
+public class Service extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
     @Column(name = "code")
     private String code;
+
     @Column(name = "naturservice")
     private String naturservice;
+
     @Column(name = "datecreation")
     @Temporal(TemporalType.TIMESTAMP)
     private Date datecreation;
+
     @Column(name = "libelle")
     private String libelle;
+
     @Column(name = "rowvers")
     @Temporal(TemporalType.TIMESTAMP)
     private Date rowvers;
-    @OneToMany(mappedBy = "serviceCode")
+
+    @OneToMany(mappedBy = "id")
     private Collection<Utilisateur> utilisateurCollection;
-    @JoinColumn(name = "juridiction_code", referencedColumnName = "code")
+
+    @JoinColumn(name = "juridiction")
     @ManyToOne
-    private Juridiction juridictionCode;
+    private Juridiction juridiction;
 
     public Service() {
     }
 
-    public Service(String code) {
-        this.code = code;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCode() {
@@ -107,29 +123,42 @@ public class Service implements Serializable {
         this.utilisateurCollection = utilisateurCollection;
     }
 
-    public Juridiction getJuridictionCode() {
-        return juridictionCode;
+    public Juridiction getJuridiction() {
+        return juridiction;
     }
 
-    public void setJuridictionCode(Juridiction juridictionCode) {
-        this.juridictionCode = juridictionCode;
+    public void setJuridiction(Juridiction juridiction) {
+        this.juridiction = juridiction;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (code != null ? code.hashCode() : 0);
+        int hash = 3;
+        hash = 23 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Service)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Service other = (Service) object;
-        if ((this.code == null && other.code != null) || (this.code != null && !this.code.equals(other.code))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Service other = (Service) obj;
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
@@ -137,7 +166,7 @@ public class Service implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fncapp.fncapp.api.entities.Service[ code=" + code + " ]";
+        return "Service{" + "id=" + id + ", code=" + code + ", naturservice=" + naturservice + ", datecreation=" + datecreation + ", libelle=" + libelle + ", rowvers=" + rowvers + ", juridiction=" + juridiction + '}';
     }
-    
+
 }

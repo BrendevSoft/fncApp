@@ -8,9 +8,12 @@ package com.fncapp.fncapp.api.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -27,31 +30,43 @@ import javax.persistence.TemporalType;
 @Table(name = "annee")
 @NamedQueries({
     @NamedQuery(name = "Annee.findAll", query = "SELECT a FROM Annee a")})
-public class Annee implements Serializable {
+public class Annee extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @Column(name = "code")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "code", unique = true)
     private String code;
-    @Column(name = "datecreation")
+
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "datecreation")
     private Date datecreation;
+
     @Column(name = "valeur")
     private String valeur;
+
     @Column(name = "rowvers")
     @Temporal(TemporalType.TIMESTAMP)
     private Date rowvers;
-    @OneToMany(mappedBy = "anneeCode")
+
+    @OneToMany(mappedBy = "annee")
     private Collection<Condamnation> condamnationCollection;
-    @OneToMany(mappedBy = "anneeCode")
+
+    @OneToMany(mappedBy = "annee")
     private Collection<Statistique> statistiqueCollection;
 
     public Annee() {
     }
 
-    public Annee(String code) {
-        this.code = code;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCode() {
@@ -102,21 +117,34 @@ public class Annee implements Serializable {
         this.statistiqueCollection = statistiqueCollection;
     }
 
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (code != null ? code.hashCode() : 0);
+        int hash = 3;
+        hash = 79 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Annee)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Annee other = (Annee) object;
-        if ((this.code == null && other.code != null) || (this.code != null && !this.code.equals(other.code))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Annee other = (Annee) obj;
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
@@ -124,7 +152,7 @@ public class Annee implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fncapp.fncapp.api.entities.Annee[ code=" + code + " ]";
+        return "Annee{" + "id=" + id + ", code=" + code + ", datecreation=" + datecreation + ", valeur=" + valeur + ", rowvers=" + rowvers + '}';
     }
-    
+
 }

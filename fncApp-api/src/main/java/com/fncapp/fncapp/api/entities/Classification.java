@@ -8,9 +8,12 @@ package com.fncapp.fncapp.api.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -27,29 +30,40 @@ import javax.persistence.TemporalType;
 @Table(name = "classification")
 @NamedQueries({
     @NamedQuery(name = "Classification.findAll", query = "SELECT c FROM Classification c")})
-public class Classification implements Serializable {
+public class Classification extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @Column(name = "code")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "code", unique = true)
     private String code;
+
     @Column(name = "datecreation")
     @Temporal(TemporalType.TIMESTAMP)
     private Date datecreation;
+
     @Column(name = "libelle")
     private String libelle;
+
     @Column(name = "rowvers")
     @Temporal(TemporalType.TIMESTAMP)
     private Date rowvers;
-    @OneToMany(mappedBy = "classificationCode")
+
+    @OneToMany(mappedBy = "classification")
     private Collection<Categorie> categorieCollection;
 
     public Classification() {
     }
 
-    public Classification(String code) {
-        this.code = code;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCode() {
@@ -92,21 +106,34 @@ public class Classification implements Serializable {
         this.categorieCollection = categorieCollection;
     }
 
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (code != null ? code.hashCode() : 0);
+        int hash = 7;
+        hash = 71 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Classification)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Classification other = (Classification) object;
-        if ((this.code == null && other.code != null) || (this.code != null && !this.code.equals(other.code))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Classification other = (Classification) obj;
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
@@ -114,7 +141,7 @@ public class Classification implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fncapp.fncapp.api.entities.Classification[ code=" + code + " ]";
+        return "Classification{" + "id=" + id + ", code=" + code + ", datecreation=" + datecreation + ", libelle=" + libelle + ", rowvers=" + rowvers + '}';
     }
-    
+
 }

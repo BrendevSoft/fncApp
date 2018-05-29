@@ -8,10 +8,13 @@ package com.fncapp.fncapp.api.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -30,69 +33,76 @@ import javax.persistence.TemporalType;
 @Table(name = "utilisateur")
 @NamedQueries({
     @NamedQuery(name = "Utilisateur.findAll", query = "SELECT u FROM Utilisateur u")})
-public class Utilisateur implements Serializable {
+public class Utilisateur extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private String id;
+    private Long id;
+
     @Basic(optional = false)
     @Column(name = "login")
     private String login;
+
     @Column(name = "civilite")
     private String civilite;
+
     @Column(name = "mail")
     private String mail;
+
     @Column(name = "telephone")
     private String telephone;
+
     @Column(name = "passwd")
     private String passwd;
+
     @Column(name = "nom")
     private String nom;
+
     @Column(name = "nomprenoms")
     private String nomprenoms;
+
     @Column(name = "prenom")
     private String prenom;
+
     @Column(name = "datecreation")
     @Temporal(TemporalType.TIMESTAMP)
     private Date datecreation;
+
     @Column(name = "rowvers")
     @Temporal(TemporalType.TIMESTAMP)
     private Date rowvers;
+
     @Column(name = "profilactif")
     private Boolean profilactif;
-    @OneToMany(mappedBy = "utilisateurId")
-    private Collection<Groupeutilisateur> groupeutilisateurCollection;
-    @JoinColumn(name = "corps_code", referencedColumnName = "code")
+
+    @OneToMany(mappedBy = "utilisateur")
+    private Collection<GroupeUtilisateur> groupeutilisateurCollection;
+
+    @JoinColumn(name = "corps")
     @ManyToOne
-    private Corps corpsCode;
-    @JoinColumn(name = "juridiction_code", referencedColumnName = "code")
+    private Corps corps;
+
+    @JoinColumn(name = "juridiction")
     @ManyToOne
-    private Juridiction juridictionCode;
-    @JoinColumn(name = "service_code", referencedColumnName = "code")
+    private Juridiction juridiction;
+
+    @JoinColumn(name = "service")
     @ManyToOne
-    private Service serviceCode;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "utilisateurId")
+    private Service service;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "utilisateur")
     private Collection<Logs> logsCollection;
 
     public Utilisateur() {
     }
 
-    public Utilisateur(String id) {
-        this.id = id;
-    }
-
-    public Utilisateur(String id, String login) {
-        this.id = id;
-        this.login = login;
-    }
-
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -184,36 +194,36 @@ public class Utilisateur implements Serializable {
         this.profilactif = profilactif;
     }
 
-    public Collection<Groupeutilisateur> getGroupeutilisateurCollection() {
+    public Collection<GroupeUtilisateur> getGroupeutilisateurCollection() {
         return groupeutilisateurCollection;
     }
 
-    public void setGroupeutilisateurCollection(Collection<Groupeutilisateur> groupeutilisateurCollection) {
+    public void setGroupeutilisateurCollection(Collection<GroupeUtilisateur> groupeutilisateurCollection) {
         this.groupeutilisateurCollection = groupeutilisateurCollection;
     }
 
-    public Corps getCorpsCode() {
-        return corpsCode;
+    public Corps getCorps() {
+        return corps;
     }
 
-    public void setCorpsCode(Corps corpsCode) {
-        this.corpsCode = corpsCode;
+    public void setCorps(Corps corps) {
+        this.corps = corps;
     }
 
-    public Juridiction getJuridictionCode() {
-        return juridictionCode;
+    public Juridiction getJuridiction() {
+        return juridiction;
     }
 
-    public void setJuridictionCode(Juridiction juridictionCode) {
-        this.juridictionCode = juridictionCode;
+    public void setJuridiction(Juridiction juridiction) {
+        this.juridiction = juridiction;
     }
 
-    public Service getServiceCode() {
-        return serviceCode;
+    public Service getService() {
+        return service;
     }
 
-    public void setServiceCode(Service serviceCode) {
-        this.serviceCode = serviceCode;
+    public void setService(Service service) {
+        this.service = service;
     }
 
     public Collection<Logs> getLogsCollection() {
@@ -224,21 +234,34 @@ public class Utilisateur implements Serializable {
         this.logsCollection = logsCollection;
     }
 
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 67 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Utilisateur)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Utilisateur other = (Utilisateur) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Utilisateur other = (Utilisateur) obj;
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
@@ -246,7 +269,7 @@ public class Utilisateur implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fncapp.fncapp.api.entities.Utilisateur[ id=" + id + " ]";
+        return "Utilisateur{" + "id=" + id + ", login=" + login + ", civilite=" + civilite + ", mail=" + mail + ", telephone=" + telephone + ", passwd=" + passwd + ", nom=" + nom + ", nomprenoms=" + nomprenoms + ", prenom=" + prenom + ", datecreation=" + datecreation + ", rowvers=" + rowvers + ", profilactif=" + profilactif + ", corps=" + corps + ", juridiction=" + juridiction + ", service=" + service + '}';
     }
-    
+
 }

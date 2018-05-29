@@ -7,9 +7,12 @@ package com.fncapp.fncapp.api.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -27,49 +30,54 @@ import javax.persistence.TemporalType;
 @Table(name = "statistique")
 @NamedQueries({
     @NamedQuery(name = "Statistique.findAll", query = "SELECT s FROM Statistique s")})
-public class Statistique implements Serializable {
+public class Statistique extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private String id;
+    private Long id;
+
     @Column(name = "nombre_saisi")
     private Integer nombreSaisi;
+
     @Column(name = "nombre_infraction")
     private Integer nombreInfraction;
+
     @Column(name = "nombre_saisi_total")
     private Integer nombreSaisiTotal;
+
     @Column(name = "nombre_infraction_total")
     private Integer nombreInfractionTotal;
+
     @Column(name = "datecreation")
     @Temporal(TemporalType.TIMESTAMP)
     private Date datecreation;
+
     @Column(name = "rowvers")
     @Temporal(TemporalType.TIMESTAMP)
     private Date rowvers;
-    @JoinColumn(name = "annee_code", referencedColumnName = "code")
+
+    @JoinColumn(name = "annee")
     @ManyToOne
-    private Annee anneeCode;
-    @JoinColumn(name = "infraction_code", referencedColumnName = "code")
+    private Annee annee;
+
+    @JoinColumn(name = "infraction")
     @ManyToOne
-    private Infraction infractionCode;
-    @JoinColumn(name = "juridiction_code", referencedColumnName = "code")
+    private Infraction infraction;
+
+    @JoinColumn(name = "juridiction")
     @ManyToOne
-    private Juridiction juridictionCode;
+    private Juridiction juridiction;
 
     public Statistique() {
     }
 
-    public Statistique(String id) {
-        this.id = id;
-    }
-
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -121,45 +129,58 @@ public class Statistique implements Serializable {
         this.rowvers = rowvers;
     }
 
-    public Annee getAnneeCode() {
-        return anneeCode;
+    public Annee getAnnee() {
+        return annee;
     }
 
-    public void setAnneeCode(Annee anneeCode) {
-        this.anneeCode = anneeCode;
+    public void setAnnee(Annee annee) {
+        this.annee = annee;
     }
 
-    public Infraction getInfractionCode() {
-        return infractionCode;
+    public Infraction getInfraction() {
+        return infraction;
     }
 
-    public void setInfractionCode(Infraction infractionCode) {
-        this.infractionCode = infractionCode;
+    public void setInfraction(Infraction infraction) {
+        this.infraction = infraction;
     }
 
-    public Juridiction getJuridictionCode() {
-        return juridictionCode;
+    public Juridiction getJuridiction() {
+        return juridiction;
     }
 
-    public void setJuridictionCode(Juridiction juridictionCode) {
-        this.juridictionCode = juridictionCode;
+    public void setJuridiction(Juridiction juridiction) {
+        this.juridiction = juridiction;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 11 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Statistique)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Statistique other = (Statistique) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Statistique other = (Statistique) obj;
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
@@ -167,7 +188,7 @@ public class Statistique implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fncapp.fncapp.api.entities.Statistique[ id=" + id + " ]";
+        return "Statistique{" + "id=" + id + ", nombreSaisi=" + nombreSaisi + ", nombreInfraction=" + nombreInfraction + ", nombreSaisiTotal=" + nombreSaisiTotal + ", nombreInfractionTotal=" + nombreInfractionTotal + ", datecreation=" + datecreation + ", rowvers=" + rowvers + ", annee=" + annee + ", infraction=" + infraction + ", juridiction=" + juridiction + '}';
     }
-    
+
 }

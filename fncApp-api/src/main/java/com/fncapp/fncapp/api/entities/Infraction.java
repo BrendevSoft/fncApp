@@ -8,10 +8,13 @@ package com.fncapp.fncapp.api.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -30,40 +33,56 @@ import javax.persistence.TemporalType;
 @Table(name = "infraction")
 @NamedQueries({
     @NamedQuery(name = "Infraction.findAll", query = "SELECT i FROM Infraction i")})
-public class Infraction implements Serializable {
+public class Infraction extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
     @Column(name = "code")
     private String code;
+
     @Column(name = "datecreation")
     @Temporal(TemporalType.TIMESTAMP)
     private Date datecreation;
+
     @Column(name = "disposition")
     private String disposition;
+
     @Column(name = "infradeveloppe")
     private String infradeveloppe;
+
     @Column(name = "libelle")
     private String libelle;
+
     @Column(name = "rowvers")
     @Temporal(TemporalType.TIMESTAMP)
     private Date rowvers;
+
     @Column(name = "qualification")
     private String qualification;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "infractionCode")
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "infraction")
     private Collection<Peine> peineCollection;
-    @JoinColumn(name = "categorie_id", referencedColumnName = "id")
+
+    @JoinColumn(name = "categorie")
     @ManyToOne
-    private Categorie categorieId;
-    @OneToMany(mappedBy = "infractionCode")
+    private Categorie categorie;
+
+    @OneToMany(mappedBy = "infraction")
     private Collection<Statistique> statistiqueCollection;
 
     public Infraction() {
     }
 
-    public Infraction(String code) {
-        this.code = code;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCode() {
@@ -130,12 +149,12 @@ public class Infraction implements Serializable {
         this.peineCollection = peineCollection;
     }
 
-    public Categorie getCategorieId() {
-        return categorieId;
+    public Categorie getCategorie() {
+        return categorie;
     }
 
-    public void setCategorieId(Categorie categorieId) {
-        this.categorieId = categorieId;
+    public void setCategorie(Categorie categorie) {
+        this.categorie = categorie;
     }
 
     public Collection<Statistique> getStatistiqueCollection() {
@@ -146,21 +165,34 @@ public class Infraction implements Serializable {
         this.statistiqueCollection = statistiqueCollection;
     }
 
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (code != null ? code.hashCode() : 0);
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Infraction)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Infraction other = (Infraction) object;
-        if ((this.code == null && other.code != null) || (this.code != null && !this.code.equals(other.code))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Infraction other = (Infraction) obj;
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
@@ -168,7 +200,7 @@ public class Infraction implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fncapp.fncapp.api.entities.Infraction[ code=" + code + " ]";
+        return "Infraction{" + "id=" + id + ", code=" + code + ", datecreation=" + datecreation + ", disposition=" + disposition + ", infradeveloppe=" + infradeveloppe + ", libelle=" + libelle + ", rowvers=" + rowvers + ", qualification=" + qualification + ", categorie=" + categorie + '}';
     }
-    
+
 }

@@ -7,6 +7,7 @@ package com.fncapp.fncapp.api.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,51 +30,56 @@ import javax.persistence.TemporalType;
 @Table(name = "logs")
 @NamedQueries({
     @NamedQuery(name = "Logs.findAll", query = "SELECT l FROM Logs l")})
-public class Logs implements Serializable {
+public class Logs extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "log_id")
-    private Long logId;
+    @Column(name = "id")
+    private String Id;
+
     @Column(name = "log_action")
     private String logAction;
+
     @Basic(optional = false)
     @Column(name = "log_date")
     @Temporal(TemporalType.DATE)
     private Date logDate;
+
     @Basic(optional = false)
     @Column(name = "log_date_heure")
     @Temporal(TemporalType.TIMESTAMP)
     private Date logDateHeure;
+
     @Column(name = "log_remote_ip")
     private String logRemoteIp;
+
     @Column(name = "log_remote_mac")
     private String logRemoteMac;
-    @JoinColumn(name = "utilisateur_id", referencedColumnName = "id")
+
+    @JoinColumn(name = "id")
     @ManyToOne(optional = false)
-    private Utilisateur utilisateurId;
+    private Utilisateur utilisateur;
 
     public Logs() {
     }
 
-    public Logs(Long logId) {
-        this.logId = logId;
-    }
-
-    public Logs(Long logId, Date logDate, Date logDateHeure) {
-        this.logId = logId;
+    public Logs(String Id, String logAction, Date logDate, Date logDateHeure, String logRemoteIp, String logRemoteMac, Utilisateur utilisateur) {
+        this.Id = Id;
+        this.logAction = logAction;
         this.logDate = logDate;
         this.logDateHeure = logDateHeure;
+        this.logRemoteIp = logRemoteIp;
+        this.logRemoteMac = logRemoteMac;
+        this.utilisateur = utilisateur;
     }
 
-    public Long getLogId() {
-        return logId;
+    public String getId() {
+        return Id;
     }
 
-    public void setLogId(Long logId) {
-        this.logId = logId;
+    public void setId(String Id) {
+        this.Id = Id;
     }
 
     public String getLogAction() {
@@ -116,29 +122,42 @@ public class Logs implements Serializable {
         this.logRemoteMac = logRemoteMac;
     }
 
-    public Utilisateur getUtilisateurId() {
-        return utilisateurId;
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
     }
 
-    public void setUtilisateurId(Utilisateur utilisateurId) {
-        this.utilisateurId = utilisateurId;
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (logId != null ? logId.hashCode() : 0);
+        int hash = 3;
+        hash = 37 * hash + Objects.hashCode(this.Id);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Logs)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Logs other = (Logs) object;
-        if ((this.logId == null && other.logId != null) || (this.logId != null && !this.logId.equals(other.logId))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Logs other = (Logs) obj;
+        if (!Objects.equals(this.Id, other.Id)) {
             return false;
         }
         return true;
@@ -146,7 +165,7 @@ public class Logs implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fncapp.fncapp.api.entities.Logs[ logId=" + logId + " ]";
+        return "Logs{" + "Id=" + Id + ", logAction=" + logAction + ", logDate=" + logDate + ", logDateHeure=" + logDateHeure + ", logRemoteIp=" + logRemoteIp + ", logRemoteMac=" + logRemoteMac + ", utilisateur=" + utilisateur + '}';
     }
-    
+
 }

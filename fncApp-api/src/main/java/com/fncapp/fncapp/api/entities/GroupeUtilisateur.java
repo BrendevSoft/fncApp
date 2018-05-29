@@ -5,20 +5,15 @@
  */
 package com.fncapp.fncapp.api.entities;
 
-import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -28,43 +23,46 @@ import javax.persistence.TemporalType;
  * @author Brendev
  */
 @Entity
-@Table(name = "categorie")
+@Table(name = "groupeutilisateur")
 @NamedQueries({
-    @NamedQuery(name = "Categorie.findAll", query = "SELECT c FROM Categorie c")})
-public class Categorie extends BaseEntity {
+    @NamedQuery(name = "GroupeUtilisateur.findAll", query = "SELECT g FROM GroupeUtilisateur g")})
+public class GroupeUtilisateur extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    @EmbeddedId
+    private GroupeUtilisateurId id;
 
     @Column(name = "datecreation")
     @Temporal(TemporalType.TIMESTAMP)
     private Date datecreation;
 
-    @Column(name = "libelle")
-    private String libelle;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "dateRevocation")
+    private Date dateRevocation;
 
     @Column(name = "rowvers")
     @Temporal(TemporalType.TIMESTAMP)
     private Date rowvers;
 
-    @JoinColumn(name = "classification")
+    @Column(name = "utilisateur_login")
+    private String utilisateurLogin;
+
+    @JoinColumn(name = "groupe", insertable = true, updatable = true)
     @ManyToOne
-    private Classification classification;
+    private Groupe groupe;
 
-    @OneToMany(mappedBy = "categorie")
-    private Collection<Infraction> infractionCollection;
+    @JoinColumn(name = "utilisateur", insertable = true, updatable = true)
+    @ManyToOne
+    private Utilisateur utilisateur;
 
-    public Categorie() {
+    public GroupeUtilisateur() {
     }
 
-    public Long getId() {
+    public GroupeUtilisateurId getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(GroupeUtilisateurId id) {
         this.id = id;
     }
 
@@ -76,12 +74,12 @@ public class Categorie extends BaseEntity {
         this.datecreation = datecreation;
     }
 
-    public String getLibelle() {
-        return libelle;
+    public Date getDateRevocation() {
+        return dateRevocation;
     }
 
-    public void setLibelle(String libelle) {
-        this.libelle = libelle;
+    public void setDateRevocation(Date dateRevocation) {
+        this.dateRevocation = dateRevocation;
     }
 
     public Date getRowvers() {
@@ -92,20 +90,28 @@ public class Categorie extends BaseEntity {
         this.rowvers = rowvers;
     }
 
-    public Classification getClassification() {
-        return classification;
+    public String getUtilisateurLogin() {
+        return utilisateurLogin;
     }
 
-    public void setClassification(Classification classification) {
-        this.classification = classification;
+    public void setUtilisateurLogin(String utilisateurLogin) {
+        this.utilisateurLogin = utilisateurLogin;
     }
 
-    public Collection<Infraction> getInfractionCollection() {
-        return infractionCollection;
+    public Groupe getGroupe() {
+        return groupe;
     }
 
-    public void setInfractionCollection(Collection<Infraction> infractionCollection) {
-        this.infractionCollection = infractionCollection;
+    public void setGroupe(Groupe groupe) {
+        this.groupe = groupe;
+    }
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
     }
 
     public Integer getVersion() {
@@ -118,8 +124,8 @@ public class Categorie extends BaseEntity {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 53 * hash + Objects.hashCode(this.id);
+        int hash = 3;
+        hash = 37 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -134,7 +140,7 @@ public class Categorie extends BaseEntity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Categorie other = (Categorie) obj;
+        final GroupeUtilisateur other = (GroupeUtilisateur) obj;
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
@@ -143,7 +149,7 @@ public class Categorie extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Categorie{" + "id=" + id + ", datecreation=" + datecreation + ", libelle=" + libelle + ", rowvers=" + rowvers + ", classification=" + classification + '}';
+        return "Groupeutilisateur{" + "id=" + id + ", datecreation=" + datecreation + ", dateRevocation=" + dateRevocation + ", rowvers=" + rowvers + ", utilisateurLogin=" + utilisateurLogin + ", groupe=" + groupe + ", utilisateur=" + utilisateur + '}';
     }
 
 }

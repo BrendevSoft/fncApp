@@ -5,12 +5,13 @@
  */
 package com.fncapp.fncapp.api.entities;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-import javax.persistence.Basic;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -27,29 +28,40 @@ import javax.persistence.TemporalType;
 @Table(name = "corps")
 @NamedQueries({
     @NamedQuery(name = "Corps.findAll", query = "SELECT c FROM Corps c")})
-public class Corps implements Serializable {
+public class Corps extends BaseEntity{
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
     @Column(name = "code")
     private String code;
+
     @Column(name = "datecreation")
     @Temporal(TemporalType.TIMESTAMP)
     private Date datecreation;
+
     @Column(name = "libelle")
     private String libelle;
+
     @Column(name = "rowvers")
     @Temporal(TemporalType.TIMESTAMP)
     private Date rowvers;
-    @OneToMany(mappedBy = "corpsCode")
+
+    @OneToMany(mappedBy = "corps")
     private Collection<Utilisateur> utilisateurCollection;
 
     public Corps() {
     }
 
-    public Corps(String code) {
-        this.code = code;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCode() {
@@ -92,21 +104,36 @@ public class Corps implements Serializable {
         this.utilisateurCollection = utilisateurCollection;
     }
 
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+    
+    
+
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (code != null ? code.hashCode() : 0);
+        int hash = 5;
+        hash = 53 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Corps)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Corps other = (Corps) object;
-        if ((this.code == null && other.code != null) || (this.code != null && !this.code.equals(other.code))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Corps other = (Corps) obj;
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
@@ -114,7 +141,7 @@ public class Corps implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fncapp.fncapp.api.entities.Corps[ code=" + code + " ]";
+        return "Corps{" + "id=" + id + ", code=" + code + ", datecreation=" + datecreation + ", libelle=" + libelle + ", rowvers=" + rowvers + '}';
     }
-    
+
 }

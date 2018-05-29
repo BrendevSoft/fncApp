@@ -20,7 +20,7 @@ import javax.persistence.Query;
  * @param <PK> type de sort value
  */
 public abstract class BaseDaoBean<T , PK extends java.io.Serializable> implements BaseDaoBeanLocal<T, PK>{
-    @PersistenceContext(unitName = "shopAppPU")
+    @PersistenceContext(unitName = "fncAppPU")
     protected EntityManager em;
     protected Class<T> type;
 

@@ -5,48 +5,51 @@
  */
 package com.fncapp.fncapp.api.entities;
 
-import java.util.Collection;
-import java.util.Date;
+import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Brendev
  */
 @Entity
-@Table(name = "groupe")
-@NamedQueries({
-    @NamedQuery(name = "Groupe.findAll", query = "SELECT g FROM Groupe g")})
-public class Groupe extends BaseEntity {
+@Table(name = "rolee")
+public class Rolee extends BaseEntity{
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "nom", unique = true)
-    private String nom;
+    @Column(name = "nom")
+    private String nom = " ";
 
     @Column(name = "description")
-    private String description;
+    private String description = " ";
 
-    @Column(name = "datecreation")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date datecreation;
+    public Rolee() {
+    }
 
-    public Groupe() {
+    public void detruire() {
+
+    }
+
+    public Rolee(String nom) {
+        this.nom = nom;
+    }
+
+    public Rolee(String nom, String description) {
+        this.nom = nom;
+        this.description = description;
     }
 
     public Long getId() {
@@ -73,14 +76,6 @@ public class Groupe extends BaseEntity {
         this.description = description;
     }
 
-    public Date getDatecreation() {
-        return datecreation;
-    }
-
-    public void setDatecreation(Date datecreation) {
-        this.datecreation = datecreation;
-    }
-
     public Integer getVersion() {
         return version;
     }
@@ -91,8 +86,8 @@ public class Groupe extends BaseEntity {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 29 * hash + Objects.hashCode(this.id);
+        int hash = 3;
+        hash = 97 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -107,7 +102,7 @@ public class Groupe extends BaseEntity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Groupe other = (Groupe) obj;
+        final Rolee other = (Rolee) obj;
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
@@ -116,7 +111,7 @@ public class Groupe extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Groupe{" + "id=" + id + ", nom=" + nom + ", description=" + description + ", datecreation=" + datecreation + '}';
+        return "Rolee{" + "id=" + id + ", nom=" + nom + ", description=" + description + '}';
     }
 
 }

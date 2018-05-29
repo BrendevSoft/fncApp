@@ -8,9 +8,12 @@ package com.fncapp.fncapp.api.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -29,59 +32,59 @@ import javax.persistence.TemporalType;
 @Table(name = "condamnation")
 @NamedQueries({
     @NamedQuery(name = "Condamnation.findAll", query = "SELECT c FROM Condamnation c")})
-public class Condamnation implements Serializable {
+public class Condamnation extends BaseEntity{
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private String id;
-    @Basic(optional = false)
+    private Long id;
+
     @Column(name = "datejugement")
     @Temporal(TemporalType.DATE)
     private Date datejugement;
+
     @Column(name = "datecreation")
     @Temporal(TemporalType.TIMESTAMP)
     private Date datecreation;
+
     @Column(name = "rowvers")
     @Temporal(TemporalType.TIMESTAMP)
     private Date rowvers;
+
     @Column(name = "numero_rp")
     private String numeroRp;
+
     @Column(name = "numero_ordre")
     private String numeroOrdre;
-    @JoinColumn(name = "annee_code", referencedColumnName = "code")
+
+    @JoinColumn(name = "annee")
     @ManyToOne
-    private Annee anneeCode;
-    @JoinColumn(name = "juridiction_code", referencedColumnName = "code")
+    private Annee annee;
+
+    @JoinColumn(name = "juridiction")
     @ManyToOne(optional = false)
-    private Juridiction juridictionCode;
-    @JoinColumn(name = "peine_id", referencedColumnName = "id")
+    private Juridiction juridiction;
+
+    @JoinColumn(name = "peine")
     @ManyToOne
-    private Peine peineId;
-    @JoinColumn(name = "personne_id", referencedColumnName = "id")
+    private Peine peine;
+
+    @JoinColumn(name = "personne")
     @ManyToOne
-    private Personne personneId;
-    @OneToMany(mappedBy = "condamnationId")
+    private Personne personne;
+
+    @OneToMany(mappedBy = "condamnation")
     private Collection<Situation> situationCollection;
 
     public Condamnation() {
     }
 
-    public Condamnation(String id) {
-        this.id = id;
-    }
-
-    public Condamnation(String id, Date datejugement) {
-        this.id = id;
-        this.datejugement = datejugement;
-    }
-
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -125,36 +128,36 @@ public class Condamnation implements Serializable {
         this.numeroOrdre = numeroOrdre;
     }
 
-    public Annee getAnneeCode() {
-        return anneeCode;
+    public Annee getAnnee() {
+        return annee;
     }
 
-    public void setAnneeCode(Annee anneeCode) {
-        this.anneeCode = anneeCode;
+    public void setAnnee(Annee annee) {
+        this.annee = annee;
     }
 
-    public Juridiction getJuridictionCode() {
-        return juridictionCode;
+    public Juridiction getJuridiction() {
+        return juridiction;
     }
 
-    public void setJuridictionCode(Juridiction juridictionCode) {
-        this.juridictionCode = juridictionCode;
+    public void setJuridiction(Juridiction juridiction) {
+        this.juridiction = juridiction;
     }
 
-    public Peine getPeineId() {
-        return peineId;
+    public Peine getPeine() {
+        return peine;
     }
 
-    public void setPeineId(Peine peineId) {
-        this.peineId = peineId;
+    public void setPeine(Peine peine) {
+        this.peine = peine;
     }
 
-    public Personne getPersonneId() {
-        return personneId;
+    public Personne getPersonne() {
+        return personne;
     }
 
-    public void setPersonneId(Personne personneId) {
-        this.personneId = personneId;
+    public void setPersonne(Personne personne) {
+        this.personne = personne;
     }
 
     public Collection<Situation> getSituationCollection() {
@@ -165,21 +168,35 @@ public class Condamnation implements Serializable {
         this.situationCollection = situationCollection;
     }
 
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
+    
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 5;
+        hash = 13 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Condamnation)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Condamnation other = (Condamnation) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Condamnation other = (Condamnation) obj;
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
@@ -187,7 +204,7 @@ public class Condamnation implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fncapp.fncapp.api.entities.Condamnation[ id=" + id + " ]";
+        return "Condamnation{" + "id=" + id + ", datejugement=" + datejugement + ", datecreation=" + datecreation + ", rowvers=" + rowvers + ", numeroRp=" + numeroRp + ", numeroOrdre=" + numeroOrdre + ", annee=" + annee + ", juridiction=" + juridiction + ", peine=" + peine + ", personne=" + personne + '}';
     }
-    
+
 }

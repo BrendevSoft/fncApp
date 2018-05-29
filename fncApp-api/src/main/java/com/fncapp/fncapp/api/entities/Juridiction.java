@@ -8,10 +8,13 @@ package com.fncapp.fncapp.api.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -30,50 +33,71 @@ import javax.persistence.TemporalType;
 @Table(name = "juridiction")
 @NamedQueries({
     @NamedQuery(name = "Juridiction.findAll", query = "SELECT j FROM Juridiction j")})
-public class Juridiction implements Serializable {
+public class Juridiction extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
     @Column(name = "code")
     private String code;
+
     @Column(name = "adresse")
     private String adresse;
+
     @Column(name = "coderg")
     private String coderg;
+
     @Column(name = "datecreation")
     @Temporal(TemporalType.DATE)
     private Date datecreation;
+
     @Column(name = "libellecourt")
     private String libellecourt;
+
     @Column(name = "libellelong")
     private String libellelong;
+
     @Column(name = "precleprimaire")
     private String precleprimaire;
+
     @Column(name = "type")
     private String type;
+
     @Column(name = "rowvers")
     @Temporal(TemporalType.TIMESTAMP)
     private Date rowvers;
+
     @OneToMany(mappedBy = "juridictionCode")
     private Collection<Juridiction> juridictionCollection;
-    @JoinColumn(name = "juridiction_code", referencedColumnName = "code")
+
+    @JoinColumn(name = "juridiction")
     @ManyToOne
     private Juridiction juridictionCode;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "juridictionCode")
     private Collection<Condamnation> condamnationCollection;
+
     @OneToMany(mappedBy = "juridictionCode")
     private Collection<Utilisateur> utilisateurCollection;
+
     @OneToMany(mappedBy = "juridictionCode")
     private Collection<Service> serviceCollection;
+
     @OneToMany(mappedBy = "juridictionCode")
     private Collection<Statistique> statistiqueCollection;
 
     public Juridiction() {
     }
 
-    public Juridiction(String code) {
-        this.code = code;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCode() {
@@ -196,21 +220,34 @@ public class Juridiction implements Serializable {
         this.statistiqueCollection = statistiqueCollection;
     }
 
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (code != null ? code.hashCode() : 0);
+        int hash = 3;
+        hash = 71 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Juridiction)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Juridiction other = (Juridiction) object;
-        if ((this.code == null && other.code != null) || (this.code != null && !this.code.equals(other.code))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Juridiction other = (Juridiction) obj;
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
@@ -218,7 +255,7 @@ public class Juridiction implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fncapp.fncapp.api.entities.Juridiction[ code=" + code + " ]";
+        return "Juridiction{" + "id=" + id + ", code=" + code + ", adresse=" + adresse + ", coderg=" + coderg + ", datecreation=" + datecreation + ", libellecourt=" + libellecourt + ", libellelong=" + libellelong + ", precleprimaire=" + precleprimaire + ", type=" + type + ", rowvers=" + rowvers + ", juridictionCode=" + juridictionCode + '}';
     }
-    
+
 }

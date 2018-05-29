@@ -8,9 +8,12 @@ package com.fncapp.fncapp.api.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -29,43 +32,46 @@ import javax.persistence.TemporalType;
 @Table(name = "peine")
 @NamedQueries({
     @NamedQuery(name = "Peine.findAll", query = "SELECT p FROM Peine p")})
-public class Peine implements Serializable {
+public class Peine extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private String id;
+    private Long id;
+
     @Column(name = "libelle")
     private String libelle;
+
     @Column(name = "amande")
     private String amande;
+
     @Column(name = "peine_is")
     private String peineIs;
+
     @Column(name = "datecreation")
     @Temporal(TemporalType.TIMESTAMP)
     private Date datecreation;
+
     @Column(name = "rowvers")
     @Temporal(TemporalType.TIMESTAMP)
     private Date rowvers;
-    @JoinColumn(name = "infraction_code", referencedColumnName = "code")
+
+    @JoinColumn(name = "infranction")
     @ManyToOne(optional = false)
-    private Infraction infractionCode;
-    @OneToMany(mappedBy = "peineId")
+    private Infraction infraction;
+
+    @OneToMany(mappedBy = "peine")
     private Collection<Condamnation> condamnationCollection;
 
     public Peine() {
     }
 
-    public Peine(String id) {
-        this.id = id;
-    }
-
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -109,12 +115,12 @@ public class Peine implements Serializable {
         this.rowvers = rowvers;
     }
 
-    public Infraction getInfractionCode() {
-        return infractionCode;
+    public Infraction getInfraction() {
+        return infraction;
     }
 
-    public void setInfractionCode(Infraction infractionCode) {
-        this.infractionCode = infractionCode;
+    public void setInfraction(Infraction infraction) {
+        this.infraction = infraction;
     }
 
     public Collection<Condamnation> getCondamnationCollection() {
@@ -125,21 +131,34 @@ public class Peine implements Serializable {
         this.condamnationCollection = condamnationCollection;
     }
 
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 83 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Peine)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Peine other = (Peine) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Peine other = (Peine) obj;
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
@@ -147,7 +166,7 @@ public class Peine implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fncapp.fncapp.api.entities.Peine[ id=" + id + " ]";
+        return "Peine{" + "id=" + id + ", libelle=" + libelle + ", amande=" + amande + ", peineIs=" + peineIs + ", datecreation=" + datecreation + ", rowvers=" + rowvers + ", infraction=" + infraction + '}';
     }
-    
+
 }

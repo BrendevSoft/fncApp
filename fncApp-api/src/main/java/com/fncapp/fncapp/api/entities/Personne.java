@@ -8,9 +8,12 @@ package com.fncapp.fncapp.api.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -27,71 +30,73 @@ import javax.persistence.TemporalType;
 @Table(name = "personne")
 @NamedQueries({
     @NamedQuery(name = "Personne.findAll", query = "SELECT p FROM Personne p")})
-public class Personne implements Serializable {
+public class Personne extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private String id;
+    private Long id;
     @Basic(optional = false)
     @Column(name = "nom")
     private String nom;
+
     @Basic(optional = false)
     @Column(name = "prenom")
     private String prenom;
+
     @Basic(optional = false)
     @Column(name = "datenaissance")
     @Temporal(TemporalType.DATE)
     private Date datenaissance;
+
     @Column(name = "numpi")
     private String numpi;
+
     @Column(name = "numactenaiss")
     private String numactenaiss;
+
     @Basic(optional = false)
     @Column(name = "lieunaissance")
     private String lieunaissance;
+
     @Column(name = "sexe")
     private String sexe;
+
     @Column(name = "profession")
     private String profession;
+
     @Column(name = "nomprenom")
     private String nomprenom;
+
     @Column(name = "telephone")
     private String telephone;
+
     @Column(name = "email")
     private String email;
+
     @Column(name = "adresse")
     private String adresse;
+
     @Column(name = "datecreation")
     @Temporal(TemporalType.TIMESTAMP)
     private Date datecreation;
+
     @Column(name = "rowvers")
     @Temporal(TemporalType.TIMESTAMP)
     private Date rowvers;
+
     @OneToMany(mappedBy = "personneId")
     private Collection<Condamnation> condamnationCollection;
 
     public Personne() {
     }
 
-    public Personne(String id) {
-        this.id = id;
-    }
-
-    public Personne(String id, String nom, String prenom, Date datenaissance, String lieunaissance) {
-        this.id = id;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.datenaissance = datenaissance;
-        this.lieunaissance = lieunaissance;
-    }
-
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -215,21 +220,34 @@ public class Personne implements Serializable {
         this.condamnationCollection = condamnationCollection;
     }
 
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 71 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Personne)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Personne other = (Personne) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Personne other = (Personne) obj;
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
@@ -237,7 +255,7 @@ public class Personne implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fncapp.fncapp.api.entities.Personne[ id=" + id + " ]";
+        return "Personne{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", datenaissance=" + datenaissance + ", numpi=" + numpi + ", numactenaiss=" + numactenaiss + ", lieunaissance=" + lieunaissance + ", sexe=" + sexe + ", profession=" + profession + ", nomprenom=" + nomprenom + ", telephone=" + telephone + ", email=" + email + ", adresse=" + adresse + ", datecreation=" + datecreation + ", rowvers=" + rowvers + '}';
     }
-    
+
 }
