@@ -16,8 +16,6 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class GroupeUtilisateurId implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
     @Column(name = "Groupe", insertable = false, updatable = false)
     private Long groupe;
 
