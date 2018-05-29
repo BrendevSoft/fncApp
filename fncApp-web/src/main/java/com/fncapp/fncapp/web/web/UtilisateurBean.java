@@ -8,7 +8,7 @@ package com.fncapp.fncapp.web.web;
 import com.fncapp.fncapp.api.api.utils.Constante;
 import com.fncapp.fncapp.api.api.utils.MethodeJournalisation;
 import com.fncapp.fncapp.api.entities.Groupe;
-import com.fncapp.fncapp.api.entities.GroupeUtilisateur;
+import com.fncapp.fncapp.api.entities.Groupeutilisateur;
 import com.fncapp.fncapp.api.entities.GroupeUtilisateurId;
 import com.fncapp.fncapp.api.entities.Utilisateur;
 import com.fncapp.fncapp.api.service.GroupeServiceBeanLocal;
@@ -53,8 +53,8 @@ import org.primefaces.event.FlowEvent;
 public class UtilisateurBean implements Serializable {
 
     private Utilisateur utilisateur;
-    private GroupeUtilisateur profilUtilisateur;
-    private List<GroupeUtilisateur> profilUtilisateurs;
+    private Groupeutilisateur profilUtilisateur;
+    private List<Groupeutilisateur> profilUtilisateurs;
     private List<Utilisateur> utilisateurs;
     private List<Utilisateur> list;
     private Groupe profil;
@@ -89,7 +89,7 @@ public class UtilisateurBean implements Serializable {
         this.situation = new ArrayList<>();
         this.pays = new ArrayList<>();
         this.u = new Utilisateur();
-        this.profilUtilisateur = new GroupeUtilisateur();
+        this.profilUtilisateur = new Groupeutilisateur();
         this.profilUtilisateurs = new ArrayList<>();
         this.journalisation = new MethodeJournalisation();
         this.list = new ArrayList<>();
@@ -452,11 +452,11 @@ public class UtilisateurBean implements Serializable {
         this.usbl = usbl;
     }
 
-    public void setProfilUtilisateur(GroupeUtilisateur profilUtilisateur) {
+    public void setProfilUtilisateur(Groupeutilisateur profilUtilisateur) {
         this.profilUtilisateur = profilUtilisateur;
     }
 
-    public List<GroupeUtilisateur> getProfilUtilisateurs() {
+    public List<Groupeutilisateur> getProfilUtilisateurs() {
         this.profilUtilisateurs = this.pusbl.getAll();
         return profilUtilisateurs;
     }

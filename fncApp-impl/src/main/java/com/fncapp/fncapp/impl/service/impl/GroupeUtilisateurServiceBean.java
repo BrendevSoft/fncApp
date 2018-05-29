@@ -7,7 +7,7 @@ package com.fncapp.fncapp.impl.service.impl;
 
 import com.fncapp.fncapp.api.dao.GroupeUtilisateurDaoBeanLocal;
 import com.fncapp.fncapp.api.dao.core.BaseDaoBeanLocal;
-import com.fncapp.fncapp.api.entities.GroupeUtilisateur;
+import com.fncapp.fncapp.api.entities.Groupeutilisateur;
 import com.fncapp.fncapp.api.entities.GroupeUtilisateurId;
 import com.fncapp.fncapp.api.entities.Utilisateur;
 import com.fncapp.fncapp.api.service.GroupeUtilisateurServiceBeanLocal;
@@ -21,13 +21,13 @@ import javax.ejb.Stateless;
  * @author Brendev
  */
 @Stateless
-public class GroupeUtilisateurServiceBean extends BaseServiceBean<GroupeUtilisateur, GroupeUtilisateurId> implements GroupeUtilisateurServiceBeanLocal {
+public class GroupeUtilisateurServiceBean extends BaseServiceBean<Groupeutilisateur, GroupeUtilisateurId> implements GroupeUtilisateurServiceBeanLocal {
 
     @EJB
     private GroupeUtilisateurDaoBeanLocal gudbl;
 
     @Override
-    public BaseDaoBeanLocal<GroupeUtilisateur, GroupeUtilisateurId> getDao() {
+    public BaseDaoBeanLocal<Groupeutilisateur, GroupeUtilisateurId> getDao() {
         return gudbl;
     }
 

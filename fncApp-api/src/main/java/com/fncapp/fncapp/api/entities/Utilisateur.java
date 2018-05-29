@@ -83,7 +83,7 @@ public class Utilisateur extends BaseEntity {
     private String reponse ;
 
     @OneToMany(mappedBy = "utilisateur")
-    private Collection<GroupeUtilisateur> groupeutilisateurCollection;
+    private Collection<Groupeutilisateur> groupeutilisateurCollection;
 
     @JoinColumn(name = "corps")
     @ManyToOne
@@ -199,11 +199,11 @@ public class Utilisateur extends BaseEntity {
         this.profilactif = profilactif;
     }
 
-    public Collection<GroupeUtilisateur> getGroupeutilisateurCollection() {
+    public Collection<Groupeutilisateur> getGroupeutilisateurCollection() {
         return groupeutilisateurCollection;
     }
 
-    public void setGroupeutilisateurCollection(Collection<GroupeUtilisateur> groupeutilisateurCollection) {
+    public void setGroupeutilisateurCollection(Collection<Groupeutilisateur> groupeutilisateurCollection) {
         this.groupeutilisateurCollection = groupeutilisateurCollection;
     }
 

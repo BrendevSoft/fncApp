@@ -8,7 +8,7 @@ package com.fncapp.fncapp.web.web;
 import com.fncapp.fncapp.api.api.utils.MethodeJournalisation;
 import com.fncapp.fncapp.api.entities.Groupe;
 import com.fncapp.fncapp.api.entities.GroupeRole;
-import com.fncapp.fncapp.api.entities.GroupeUtilisateur;
+import com.fncapp.fncapp.api.entities.Groupeutilisateur;
 import com.fncapp.fncapp.api.entities.Rolee;
 import com.fncapp.fncapp.api.entities.Utilisateur;
 import com.fncapp.fncapp.api.service.GroupeRoleServiceBeanLocal;
@@ -138,7 +138,7 @@ public class LoginBean implements Serializable {
                 u.setProfilactif(true);
                 usbl.saveOne(u);
 
-                GroupeUtilisateur pu = new GroupeUtilisateur();
+                Groupeutilisateur pu = new Groupeutilisateur();
                 pu.setUtilisateur(usbl.getBy("login", "Brenda").get(0));
                 pu.setDateAffectation(date);
                 pu.setGroupe(psbl.getBy("nom", "Super").get(0));

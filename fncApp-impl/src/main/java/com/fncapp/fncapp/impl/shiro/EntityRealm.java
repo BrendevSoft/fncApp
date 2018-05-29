@@ -5,7 +5,7 @@ import com.fncapp.fncapp.api.dao.GroupeUtilisateurDaoBeanLocal;
 import com.fncapp.fncapp.api.dao.UtilisateurDaoBeanLocal;
 import com.fncapp.fncapp.api.entities.Groupe;
 import com.fncapp.fncapp.api.entities.GroupeRole;
-import com.fncapp.fncapp.api.entities.GroupeUtilisateur;
+import com.fncapp.fncapp.api.entities.Groupeutilisateur;
 import com.fncapp.fncapp.api.entities.Utilisateur;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +35,8 @@ public class EntityRealm extends AuthorizingRealm {
 
     private GroupeRoleDaoBeanLocal prdbl;
 
-    private List<GroupeUtilisateur> profilUtilisateurs;
-    private static GroupeUtilisateur profilUtilisateur;
+    private List<Groupeutilisateur> profilUtilisateurs;
+    private static Groupeutilisateur profilUtilisateur;
     private static List<Utilisateur> utilisateurs;
     private static Utilisateur utilisateur;
 
@@ -92,7 +92,7 @@ public class EntityRealm extends AuthorizingRealm {
             final SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
             setProfilUtilisateurs(this.getPudbl().getBy("utilisateur", getUtilisateur()));
             if (!profilUtilisateurs.isEmpty()) {
-                for (GroupeUtilisateur pu : getProfilUtilisateurs()) {
+                for (Groupeutilisateur pu : getProfilUtilisateurs()) {
                     if (pu.getDateRevocation() == null) {
                         setProfilRoles(this.getPrdbl().getBy("profil", pu.getGroupe()));
                     }
@@ -160,19 +160,19 @@ public class EntityRealm extends AuthorizingRealm {
         this.prdbl = prdbl;
     }
 
-    public List<GroupeUtilisateur> getProfilUtilisateurs() {
+    public List<Groupeutilisateur> getProfilUtilisateurs() {
         return profilUtilisateurs;
     }
 
-    public void setProfilUtilisateurs(List<GroupeUtilisateur> profilUtilisateurs) {
+    public void setProfilUtilisateurs(List<Groupeutilisateur> profilUtilisateurs) {
         this.profilUtilisateurs = profilUtilisateurs;
     }
 
-    public static GroupeUtilisateur getProfilUtilisateur() {
+    public static Groupeutilisateur getProfilUtilisateur() {
         return profilUtilisateur;
     }
 
-    public static void setProfilUtilisateur(GroupeUtilisateur profilUtilisateur) {
+    public static void setProfilUtilisateur(Groupeutilisateur profilUtilisateur) {
         EntityRealm.profilUtilisateur = profilUtilisateur;
     }
 

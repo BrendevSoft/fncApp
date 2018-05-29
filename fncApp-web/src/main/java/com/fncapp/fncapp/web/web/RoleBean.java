@@ -7,7 +7,7 @@ package com.fncapp.fncapp.web.web;
 
 import com.fncapp.fncapp.api.entities.Groupe;
 import com.fncapp.fncapp.api.entities.GroupeRole;
-import com.fncapp.fncapp.api.entities.GroupeUtilisateur;
+import com.fncapp.fncapp.api.entities.Groupeutilisateur;
 import com.fncapp.fncapp.api.entities.Rolee;
 import com.fncapp.fncapp.api.service.GroupeRoleServiceBeanLocal;
 import com.fncapp.fncapp.api.service.GroupeServiceBeanLocal;
@@ -41,7 +41,7 @@ public class RoleBean implements Serializable {
     private Groupe selectProfil;
     private List<Rolee> mesRoles;
     private String profil;
-    private List<GroupeUtilisateur> profilUtilisateurs;
+    private List<Groupeutilisateur> profilUtilisateurs;
     @EJB
     private GroupeServiceBeanLocal psbl;
     @EJB
@@ -71,7 +71,7 @@ public class RoleBean implements Serializable {
         if (EntityRealm.getUser() != null) {
             this.profilUtilisateurs = this.pudbl.getBy("utilisateur", EntityRealm.getUser());
             if (!profilUtilisateurs.isEmpty()) {
-                for (GroupeUtilisateur pu : profilUtilisateurs) {
+                for (Groupeutilisateur pu : profilUtilisateurs) {
                     if (pu.getDateRevocation() == null) {
                         profil = pu.getGroupe().getNom();
                         List< GroupeRole> l = this.prsbl.getBy("profil", pu.getGroupe());
@@ -242,11 +242,11 @@ public class RoleBean implements Serializable {
         this.selectProfil = selectProfil;
     }
 
-    public List<GroupeUtilisateur> getProfilUtilisateurs() {
+    public List<Groupeutilisateur> getProfilUtilisateurs() {
         return profilUtilisateurs;
     }
 
-    public void setProfilUtilisateurs(List<GroupeUtilisateur> profilUtilisateurs) {
+    public void setProfilUtilisateurs(List<Groupeutilisateur> profilUtilisateurs) {
         this.profilUtilisateurs = profilUtilisateurs;
     }
 

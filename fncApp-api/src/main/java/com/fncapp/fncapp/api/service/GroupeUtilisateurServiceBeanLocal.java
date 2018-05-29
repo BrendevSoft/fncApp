@@ -5,7 +5,7 @@
  */
 package com.fncapp.fncapp.api.service;
 
-import com.fncapp.fncapp.api.entities.GroupeUtilisateur;
+import com.fncapp.fncapp.api.entities.Groupeutilisateur;
 import com.fncapp.fncapp.api.entities.GroupeUtilisateurId;
 import com.fncapp.fncapp.api.entities.Utilisateur;
 import com.fncapp.fncapp.api.service.core.BaseServiceBeanLocal;
@@ -17,7 +17,7 @@ import javax.ejb.Remote;
  * @author Brendev
  */
 @Remote
-public interface GroupeUtilisateurServiceBeanLocal extends BaseServiceBeanLocal<GroupeUtilisateur,GroupeUtilisateurId> {
+public interface GroupeUtilisateurServiceBeanLocal extends BaseServiceBeanLocal<Groupeutilisateur,GroupeUtilisateurId> {
 
     public List<Utilisateur> getUtilisateursGroupe();
 

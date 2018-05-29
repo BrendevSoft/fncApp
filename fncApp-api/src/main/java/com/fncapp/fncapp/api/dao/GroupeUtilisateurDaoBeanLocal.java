@@ -7,7 +7,7 @@ package com.fncapp.fncapp.api.dao;
 
 import com.fncapp.fncapp.api.dao.core.BaseDaoBeanLocal;
 import com.fncapp.fncapp.api.entities.GroupeUtilisateurId;
-import com.fncapp.fncapp.api.entities.GroupeUtilisateur;
+import com.fncapp.fncapp.api.entities.Groupeutilisateur;
 import com.fncapp.fncapp.api.entities.Utilisateur;
 import java.util.List;
 import javax.ejb.Remote;
@@ -17,7 +17,7 @@ import javax.ejb.Remote;
  * @author Brendev
  */
 @Remote
-public interface GroupeUtilisateurDaoBeanLocal extends BaseDaoBeanLocal<GroupeUtilisateur, GroupeUtilisateurId> {
+public interface GroupeUtilisateurDaoBeanLocal extends BaseDaoBeanLocal<Groupeutilisateur, GroupeUtilisateurId> {
 
     public List<Utilisateur> getUtilisateursGroupe();
 
