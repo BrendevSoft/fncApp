@@ -1,0 +1,113 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Infractions</ui:define>
+
+    <ui:define name="viewname">Infractions</ui:define>
+
+    <ui:define name="content">
+
+
+
+        <h:form id="infraction">
+            <p:growl id="message" life="4000" showSummary="true"/>
+            <p:fieldset legend="Gestion des infractions">
+                <h:form id="infractionForm" styleClass="personne">
+                    <div class="ui-g-12 ui-md-12 ui-lg-12 ui-fluid contact-form">
+                        <p:panel style="width: 100%" id="infractionPanel">
+                            <div class="ui-g">
+                                <div class="ui-g-12">
+                                    <div class="ui-g-3">
+                                    </div>
+                                    <div class="ui-g-6">
+                                        <h:inputHidden value="#{infractionBean.infraction.id}"/>
+                                        <p:inputText value="#{infractionBean.infraction.libelle}" required="true" placeholder="Libellé"/>
+                                    </div>
+                                    <div class="ui-g-3">
+                                    </div>
+                                </div>
+                                <div class="ui-g-12">
+                                    <div class="ui-g-3">
+                                    </div>
+                                    <div class="ui-g-6">
+                                        <p:inputText value="#{infractionBean.infraction.infradeveloppe}" required="true" placeholder="Description"/>
+                                    </div>
+                                    <div class="ui-g-3">
+                                    </div>
+                                </div>
+                                <div class="ui-g-12">
+                                    <div class="ui-g-3">
+                                    </div>
+                                    <div class="ui-g-6">
+                                        <p:inputText value="#{infractionBean.infraction.qualification}" required="true" placeholder="Qualification"/>
+                                    </div>
+                                    <div class="ui-g-3">
+                                    </div>
+                                </div>
+                                <div class="ui-g-12">
+                                    <div class="ui-g-3">
+                                    </div>
+                                    <div class="ui-g-6">
+                                        <p:inputText value="#{infractionBean.infraction.disposition}" required="true" placeholder="Disposition"/>
+                                    </div>
+                                    <div class="ui-g-3">
+                                    </div>
+                                </div>
+                                <div class="ui-g-12">
+                                    <div class="ui-g-3">
+                                    </div>
+                                    <div class="ui-g-3">
+                                        <p:commandButton process="@form" update=":infraction:infractionForm:infractionPanel" action="#{infractionBean.cancel(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
+                                    </div>
+                                    <div class="ui-g-3">
+                                        <p:commandButton process="@form" update=":infraction:infractionForm:infractionPanel,:infraction:message,:infraction:infractionsTab:infractionTab" action ="#{infractionBean.save(actionEvent)}" value="Valider" icon="fa fa-paper-plane-o"></p:commandButton>
+                                    </div>
+                                    <div class="ui-g-3">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </p:panel>
+                    </div>
+                </h:form>
+
+                <h:form id="infractionsTab">
+
+                    <p:dataTable var="infras" id="infractionTab" widgetVar="infractionsTable" value="#{infractionBean.infractions}"
+                                 emptyMessage="infraction non trouvé"
+                                 style="border-color: #00AEEF" filteredValue="#{infractionBean.infractionsfilter}" 
+                                 rows="5" scrollable="true"  paginator="true" paginatorPosition="top" 
+                                 rowsPerPageTemplate="2,5,10,15">
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
+                                <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
+                                <h:outputText value="Rechercher toutes les valeurs :" />
+                                <p:inputText id="globalFilter" onkeyup="PF('infractionsTable').filter()" style="width:150px" placeholder="entrer la valeur"/>
+                            </p:outputPanel>
+                        </f:facet>
+                        <p:column style="width: 30%" filterBy="#{infras.libelle}" filterMatchMode="contains" id="libProfil"  headerText="Libellé">
+                            <h:outputText value="#{infras.libelle}" />
+                        </p:column>
+                        <p:column style="width: 30%" headerText="Qualification"  filterBy="#{infras.qualification}" filterMatchMode="contains">
+                            <h:outputText value="#{infras.qualification}" />
+                        </p:column>
+                        <p:column style="width: 30%" headerText="Qualification"  filterBy="#{infras.disposition}" filterMatchMode="contains">
+                              <h:outputText value="#{infras.disposition}" />
+                        </p:column>
+                        <p:column style="width: 10%">
+                            <p:commandButton style="width: 100%" process="@form" update=":infraction:infractionForm:infractionPanel" value="Editer" actionListener="#{infractionBean.getObject(infras.id)}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </p:fieldset>
+        </h:form>
+
+
+    </ui:define>
+
+</ui:composition>

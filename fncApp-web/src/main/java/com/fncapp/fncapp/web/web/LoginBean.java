@@ -89,12 +89,13 @@ public class LoginBean implements Serializable {
     public LoginBean() {
         pers = new Utilisateur();
         perse = new Utilisateur();
+        journalisation = new MethodeJournalisation();
     }
 
     @PostConstruct
     public void init() {
         List<Rolee> all = rsl.getAll();
-        if (all.isEmpty()) {;
+        if (all.isEmpty()) {
             this.rsl.saveOne(new Rolee("Créer poste"));
             this.rsl.saveOne(new Rolee("Modifier poste"));
             this.rsl.saveOne(new Rolee("Créer profil"));
@@ -112,12 +113,12 @@ public class LoginBean implements Serializable {
         }
 
         List<Groupe> profils = psbl.getBy("nom", "super");
+
         UserTransaction tx = TransactionManager.getUserTransaction();
         try {
             tx.begin();
             if (profils.isEmpty()) {
                 this.psbl.saveOne(new Groupe("super", "superviser"));
-                Groupe p = psbl.getBy("nom", "super").get(0);
                 GroupeRole pr;
                 List<Rolee> roles = this.rsl.getAll();
                 for (Rolee rolee : roles) {
@@ -128,20 +129,20 @@ public class LoginBean implements Serializable {
                 }
 
                 Utilisateur u = new Utilisateur();
-                u.setLogin("Brenda");
-                u.setQuestion("Brenda");
-                u.setReponse("Brenda");
-                u.setNom("Brenda");
-                u.setPrenom("Brenda");
-                u.setMail("bobo@bibo.vino");
-                u.setPasswd(new Sha256Hash("@frica").toHex());
+                u.setLogin("FncApp");
+                u.setQuestion("fncapp");
+                u.setReponse("fncapp");
+                u.setNom("FNC");
+                u.setPrenom("FNC");
+                u.setMail("fnc@fnc.com");
+                u.setPasswd(new Sha256Hash("@fnc2018").toHex());
                 u.setProfilactif(true);
                 usbl.saveOne(u);
 
                 Groupeutilisateur pu = new Groupeutilisateur();
-                pu.setUtilisateur(usbl.getBy("login", "Brenda").get(0));
+                pu.setUtilisateur(usbl.getBy("login", "FncApp").get(0));
                 pu.setDateAffectation(date);
-                pu.setGroupe(psbl.getBy("nom", "Super").get(0));
+                pu.setGroupe(psbl.getBy("nom", "super").get(0));
                 pusbl.saveOne(pu);
                 tx.commit();
             }
@@ -189,7 +190,7 @@ public class LoginBean implements Serializable {
             UsernamePasswordToken token = new UsernamePasswordToken(username.trim(), password.trim());
             //  journalisation.saveLog4j(LoginBean.class.getName(), Level.INFO, "Journaliser");
             //”Remember Me” built-in, just do this:
-            token.setRememberMe(false);
+            token.setRememberMe(true);
             //With most of Shiro, you'll always want to make sure you're working with 
             //the currently executing user, referred to as the subject
             SecurityUtils.getSubject().login(token);
@@ -310,7 +311,7 @@ public class LoginBean implements Serializable {
             Faces.redirect(savedRequest != null ? savedRequest.getRequestUrl() : "index.xhtml");
         } catch (AuthenticationException e) {
             e.printStackTrace();
-            FacesMessage mf = new FacesMessage(FacesMessage.SEVERITY_FATAL,
+            FacesMessage mf = new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "Nom d'utlisateur ou mot de passe incorrect", "");
             FacesContext.getCurrentInstance().addMessage("", mf);
         }

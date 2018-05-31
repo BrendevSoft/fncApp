@@ -23,7 +23,7 @@ public class MethodeJournalisation {
      * @param priority priorité
      * @param message le message qui suit le log
      */
-    public void saveLog4j(String loggerName, Priority priority, String message) {
+    public void saveLog4j(String loggerName, Priority priority,String message) {
         try {
             Logger logger = Logger.getLogger(loggerName);
             URL u = getClass().getClassLoader().getResource("log4j.xml");

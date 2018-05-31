@@ -5,12 +5,12 @@
  */
 package com.fncapp.fncapp.api.entities;
 
-import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
+import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -18,6 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -27,41 +28,65 @@ import javax.persistence.TemporalType;
 @Table(name = "groupeutilisateur")
 @NamedQueries({
     @NamedQuery(name = "Groupeutilisateur.findAll", query = "SELECT g FROM Groupeutilisateur g")})
-public class Groupeutilisateur implements Serializable {
+public class Groupeutilisateur extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "id")
-    private String id;
+    @EmbeddedId
+    GroupeUtilisateurId id;
+
+    @Column(name = "dateRevocation")
+    @Temporal(TemporalType.DATE)
+    private Date dateRevocation;
+
+    @Column(name = "dateAffectation")
+    @Temporal(TemporalType.DATE)
+    private Date dateAffectation;
+
     @Column(name = "datecreation")
     @Temporal(TemporalType.TIMESTAMP)
     private Date datecreation;
+
     @Column(name = "rowvers")
     @Temporal(TemporalType.TIMESTAMP)
     private Date rowvers;
+
+    @Size(max = 255)
     @Column(name = "utilisateur_login")
     private String utilisateurLogin;
-    @JoinColumn(name = "groupe_nom", referencedColumnName = "nom")
-    @ManyToOne
-    private Groupe groupeNom;
-    @JoinColumn(name = "utilisateur_id", referencedColumnName = "id")
-    @ManyToOne
-    private Utilisateur utilisateurId;
+
+    @JoinColumn(name = "groupe",insertable = true,updatable = true)
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Groupe groupe;
+
+    @JoinColumn(name = "utilisateur",insertable = true,updatable = true)
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Utilisateur utilisateur;
 
     public Groupeutilisateur() {
     }
 
-    public Groupeutilisateur(String id) {
-        this.id = id;
-    }
-
-    public String getId() {
+    public GroupeUtilisateurId getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(GroupeUtilisateurId id) {
         this.id = id;
+    }
+
+    public Date getDateRevocation() {
+        return dateRevocation;
+    }
+
+    public void setDateRevocation(Date dateRevocation) {
+        this.dateRevocation = dateRevocation;
+    }
+
+    public Date getDateAffectation() {
+        return dateAffectation;
+    }
+
+    public void setDateAffectation(Date dateAffectation) {
+        this.dateAffectation = dateAffectation;
     }
 
     public Date getDatecreation() {
@@ -88,37 +113,50 @@ public class Groupeutilisateur implements Serializable {
         this.utilisateurLogin = utilisateurLogin;
     }
 
-    public Groupe getGroupeNom() {
-        return groupeNom;
+    public Groupe getGroupe() {
+        return groupe;
     }
 
-    public void setGroupeNom(Groupe groupeNom) {
-        this.groupeNom = groupeNom;
+    public void setGroupe(Groupe groupe) {
+        this.groupe = groupe;
     }
 
-    public Utilisateur getUtilisateurId() {
-        return utilisateurId;
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
     }
 
-    public void setUtilisateurId(Utilisateur utilisateurId) {
-        this.utilisateurId = utilisateurId;
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 53 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Groupeutilisateur)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Groupeutilisateur other = (Groupeutilisateur) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Groupeutilisateur other = (Groupeutilisateur) obj;
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
@@ -126,7 +164,8 @@ public class Groupeutilisateur implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fncapp.fncapp.api.entities.Groupeutilisateur[ id=" + id + " ]";
+        return "Groupeutilisateur{" + "id=" + id + ", dateRevocation=" + dateRevocation + ", dateAffectation=" + dateAffectation + ", datecreation=" + datecreation + ", rowvers=" + rowvers + ", utilisateurLogin=" + utilisateurLogin + '}';
     }
+
     
 }

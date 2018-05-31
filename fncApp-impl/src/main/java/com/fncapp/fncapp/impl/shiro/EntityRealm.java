@@ -26,6 +26,8 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Produces;
 
 public class EntityRealm extends AuthorizingRealm {
 
@@ -51,10 +53,10 @@ public class EntityRealm extends AuthorizingRealm {
         this.setCredentialsMatcher(credentialsMatcher);
         InitialContext context = new InitialContext();
         //La classe session bean de l'utilisateur(précise la classe du sesion bean)
-        this.pudbl = (GroupeUtilisateurDaoBeanLocal) context.lookup("java:global/fncApp-web/GroupeUtilisateurDaoBeanLocal");
+        this.pudbl = (GroupeUtilisateurDaoBeanLocal) context.lookup("java:global/fncApp-web/GroupeUtilisateurDaoBean");
         this.udbl = (UtilisateurDaoBeanLocal) context.lookup("java:global/fncApp-web/UtilisateurDaoBean");
         //La classe session bean des roles par profil(précise la classe du sesion bean)
-        this.prdbl = (GroupeRoleDaoBeanLocal) context.lookup("java:global/fncApp-web/GroupeRoleDaoBeanLocal");
+        this.prdbl = (GroupeRoleDaoBeanLocal) context.lookup("java:global/fncApp-web/GroupeRoleDaoBean");
         System.out.println("out entity realm");
     }
 
@@ -94,7 +96,7 @@ public class EntityRealm extends AuthorizingRealm {
             if (!profilUtilisateurs.isEmpty()) {
                 for (Groupeutilisateur pu : getProfilUtilisateurs()) {
                     if (pu.getDateRevocation() == null) {
-                        setProfilRoles(this.getPrdbl().getBy("profil", pu.getGroupe()));
+                        setProfilRoles(this.getPrdbl().getBy("groupe", pu.getGroupe()));
                     }
                 }
 
@@ -120,6 +122,15 @@ public class EntityRealm extends AuthorizingRealm {
         return null;
     }
 
+    public static Long getUserId() {
+        Subject currentUser = SecurityUtils.getSubject();
+        if (currentUser.isAuthenticated()) {
+            return getUtilisateur().getId();
+        }
+        return null;
+    }
+
+    @Produces @SessionScoped
     public static Subject getSubject() {
         return SecurityUtils.getSubject();
 

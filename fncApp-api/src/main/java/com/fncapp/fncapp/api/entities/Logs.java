@@ -5,9 +5,9 @@
  */
 package com.fncapp.fncapp.api.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -27,12 +27,12 @@ import javax.persistence.TemporalType;
 @Table(name = "logs")
 @NamedQueries({
     @NamedQuery(name = "Logs.findAll", query = "SELECT l FROM Logs l")})
-public class Logs extends BaseEntity {
+public class Logs implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Column(name = "id")
-    private String Id;
+    private Long Id;
 
     @Column(name = "log_action")
     private String logAction;
@@ -42,8 +42,7 @@ public class Logs extends BaseEntity {
     private Date logDate;
 
     @Column(name = "log_date_heure")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date logDateHeure;
+    private String logDateHeure;
 
     @Column(name = "log_remote_ip")
     private String logRemoteIp;
@@ -58,21 +57,11 @@ public class Logs extends BaseEntity {
     public Logs() {
     }
 
-    public Logs(String Id, String logAction, Date logDate, Date logDateHeure, String logRemoteIp, String logRemoteMac, Utilisateur utilisateur) {
-        this.Id = Id;
-        this.logAction = logAction;
-        this.logDate = logDate;
-        this.logDateHeure = logDateHeure;
-        this.logRemoteIp = logRemoteIp;
-        this.logRemoteMac = logRemoteMac;
-        this.utilisateur = utilisateur;
-    }
-
-    public String getId() {
+    public Long getId() {
         return Id;
     }
 
-    public void setId(String Id) {
+    public void setId(Long Id) {
         this.Id = Id;
     }
 
@@ -92,11 +81,11 @@ public class Logs extends BaseEntity {
         this.logDate = logDate;
     }
 
-    public Date getLogDateHeure() {
+    public String getLogDateHeure() {
         return logDateHeure;
     }
 
-    public void setLogDateHeure(Date logDateHeure) {
+    public void setLogDateHeure(String logDateHeure) {
         this.logDateHeure = logDateHeure;
     }
 
@@ -124,14 +113,6 @@ public class Logs extends BaseEntity {
         this.utilisateur = utilisateur;
     }
 
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
     @Override
     public int hashCode() {
         int hash = 3;
@@ -155,11 +136,6 @@ public class Logs extends BaseEntity {
             return false;
         }
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Logs{" + "Id=" + Id + ", logAction=" + logAction + ", logDate=" + logDate + ", logDateHeure=" + logDateHeure + ", logRemoteIp=" + logRemoteIp + ", logRemoteMac=" + logRemoteMac + ", utilisateur=" + utilisateur + '}';
     }
 
 }

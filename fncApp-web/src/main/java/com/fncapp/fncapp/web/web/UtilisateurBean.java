@@ -10,9 +10,11 @@ import com.fncapp.fncapp.api.api.utils.MethodeJournalisation;
 import com.fncapp.fncapp.api.entities.Groupe;
 import com.fncapp.fncapp.api.entities.Groupeutilisateur;
 import com.fncapp.fncapp.api.entities.GroupeUtilisateurId;
+import com.fncapp.fncapp.api.entities.Juridiction;
 import com.fncapp.fncapp.api.entities.Utilisateur;
 import com.fncapp.fncapp.api.service.GroupeServiceBeanLocal;
 import com.fncapp.fncapp.api.service.GroupeUtilisateurServiceBeanLocal;
+import com.fncapp.fncapp.api.service.JuridictionServiceBeanLocal;
 import com.fncapp.fncapp.api.service.UtilisateurServiceBeanLocal;
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +25,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -34,13 +35,6 @@ import javax.faces.view.ViewScoped;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageOutputStream;
 import javax.servlet.ServletContext;
-import org.apache.log4j.Level;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.FlowEvent;
 
@@ -53,6 +47,10 @@ import org.primefaces.event.FlowEvent;
 public class UtilisateurBean implements Serializable {
 
     private Utilisateur utilisateur;
+    private Juridiction juridiction;
+    private List<Utilisateur> utilisateursTotal;
+    private List<Utilisateur> utilisateursFilter;
+    private List<Juridiction> juridictions;
     private Groupeutilisateur profilUtilisateur;
     private List<Groupeutilisateur> profilUtilisateurs;
     private List<Utilisateur> utilisateurs;
@@ -71,6 +69,8 @@ public class UtilisateurBean implements Serializable {
     private InputStream inptStrm;
 
     @EJB
+    private JuridictionServiceBeanLocal jsbl;
+    @EJB
     private UtilisateurServiceBeanLocal usbl;
     @EJB
     private GroupeServiceBeanLocal psbl1;
@@ -81,6 +81,7 @@ public class UtilisateurBean implements Serializable {
      * Creates a new instance of UtilisateurBean
      */
     public UtilisateurBean() {
+        this.utilisateursTotal = new ArrayList<>();
         this.utilisateur = new Utilisateur();
         this.utilisateurs = new ArrayList<>();
         this.utilisateurs1 = new ArrayList<>();
@@ -93,6 +94,36 @@ public class UtilisateurBean implements Serializable {
         this.profilUtilisateurs = new ArrayList<>();
         this.journalisation = new MethodeJournalisation();
         this.list = new ArrayList<>();
+        this.juridictions = new ArrayList<>();
+        this.juridiction = new Juridiction();
+        this.utilisateursFilter = new ArrayList<>();
+    }
+
+    public void save(java.awt.event.ActionEvent actionEvent) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        try {
+            if (this.utilisateur.getId() == null) {
+                this.utilisateur.setJuridiction(juridiction);
+                this.utilisateur.setDatecreation(new Date());
+                this.utilisateur.setRowvers(new Date());
+                this.utilisateur.setProfilactif(true);
+                this.usbl.saveOne(utilisateur);
+                context.addMessage(null, new FacesMessage(Constante.ENREGISTREMENT_REUSSIT));
+            } else {
+                this.utilisateur.setJuridiction(juridiction);
+                this.utilisateur.setRowvers(new Date());
+                this.utilisateur.setProfilactif(true);
+                this.usbl.updateOne(utilisateur);
+                context.addMessage(null, new FacesMessage(Constante.MODIFICATION_REUSSIT));
+            }
+            this.juridiction = new Juridiction();
+            this.utilisateur = new Utilisateur();
+
+        } catch (Exception e) {
+            e.getMessage();
+            context.addMessage(null, new FacesMessage(Constante.ENREGISTREMENT_ECHOUE));
+        }
+
     }
 
     public void handleFileUpload(FileUploadEvent event) {
@@ -211,6 +242,7 @@ public class UtilisateurBean implements Serializable {
     }
 
     public void cancel(ActionEvent actionEvent) {
+        this.juridiction = new Juridiction();
         this.utilisateur = new Utilisateur();
     }
 
@@ -517,5 +549,49 @@ public class UtilisateurBean implements Serializable {
     public void setPusbl(GroupeUtilisateurServiceBeanLocal pusbl) {
         this.pusbl = pusbl;
     }
+
+    public Juridiction getJuridiction() {
+        return juridiction;
+    }
+
+    public void setJuridiction(Juridiction juridiction) {
+        this.juridiction = juridiction;
+    }
+
+    public List<Juridiction> getJuridictions() {
+        this.juridictions = this.jsbl.getAll();
+        return juridictions;
+    }
+
+    public void setJuridictions(List<Juridiction> juridictions) {
+        this.juridictions = juridictions;
+    }
+
+    public List<Utilisateur> getUtilisateursTotal() {
+        this.utilisateursTotal = this.usbl.getAll();
+        return utilisateursTotal;
+    }
+
+    public void setUtilisateursTotal(List<Utilisateur> utilisateursTotal) {
+        this.utilisateursTotal = utilisateursTotal;
+    }
+
+    public JuridictionServiceBeanLocal getJsbl() {
+        return jsbl;
+    }
+
+    public void setJsbl(JuridictionServiceBeanLocal jsbl) {
+        this.jsbl = jsbl;
+    }
+
+    public List<Utilisateur> getUtilisateursFilter() {
+        return utilisateursFilter;
+    }
+
+    public void setUtilisateursFilter(List<Utilisateur> utilisateursFilter) {
+        this.utilisateursFilter = utilisateursFilter;
+    }
+    
+    
 
 }

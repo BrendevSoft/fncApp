@@ -1,0 +1,42 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Comptes</ui:define>
+
+    <ui:define name="viewname">Comptes</ui:define>
+
+    <ui:define name="content">
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <div class="card">
+                    <p:fieldset legend="Gestion des comptes">
+                        <h:form id="afficheTabP">
+                            <p:growl id="growl" showSummary="true" life="4000"/>
+                            <p:dataTable   var="user" id="ajouTabP"
+                                           emptyMessage="Personnel non trouvé" paginator="true" rows="5"
+                                           paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks}
+                                           {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                           rowsPerPageTemplate="2,5,10,15" style="border-color: #00AEEF">
+                                <p:column id="utilisateurNom" headerText="Nom"  filterMatchMode="exact">
+                                    <h:outputText />
+                                </p:column>
+                                <p:column id="utilisateurPrenom" headerText="Prenom"  filterMatchMode="startsWith">
+                                    <h:outputText />
+                                </p:column>
+                                <p:column>
+                                    <p:commandButton process="@this"  value="activer" />
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </p:fieldset>
+                </div>
+            </div>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

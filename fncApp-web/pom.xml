@@ -17,7 +17,6 @@
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <org.apache.logging.log4j.simplelog.StatusLogger.level>TRACE</org.apache.logging.log4j.simplelog.StatusLogger.level>
     </properties>
     <repositories>
 
@@ -103,13 +102,7 @@
             <version>3.0.0</version>
         </dependency>
        
-        <!-- it help to get slf4j and log4j 
-       <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.2</version>
-        </dependency>
-        -->
+       
         
         
         <dependency>

@@ -1,0 +1,39 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pp="http://primefaces.org/poseidon">
+
+    <h:form id="menuform"> 
+        <div class="layout-menu-container">
+            <div class="nano">
+                <div class="nano-content menu-scroll-content">
+                    <div class="search-input">
+                        <input type="text" placeholder="Search"/>
+                        <i class="fa fa-search"></i>
+                    </div>
+                    <pp:menu widgetVar="me">
+                        <p:menuitem id="tableau_de_bord" value="Tableau de bord" icon="fa fa-fw fa-home" outcome="/tableau/tableau"/>
+                        <p:menuitem id="condamnation" value="Condamnation" icon="fa fa-fw fa-certificate" outcome="/condamnation/condamnation"/>
+                        <p:submenu id="administration" label="Administration" icon="fa fa-fw fa-life-saver">
+                            <p:menuitem id="tribunaux" value="Tribunaux" icon="fa fa-fw fa-square-o" outcome="/administration/tribunaux" />
+                            <p:menuitem id="prisons" value="Prisons" icon="fa fa-fw fa-sign-in" outcome="/administration/prisons" />
+                            <p:menuitem id="infractions" value="Infractions" icon="fa fa-fw fa-exclamation-circle" outcome="/administration/infractions" />
+                        </p:submenu>
+                        <p:submenu id="securite" label="Sécurité" icon="fa fa-fw fa-life-saver">
+                            <p:menuitem id="profils" value="Profils" icon="fa fa-fw fa-square-o" outcome="/securite/profil" />
+                            <p:menuitem id="groupeRoles" value="Associer Roles" icon="fa fa-fw fa-sign-in" outcome="/securite/roles" />
+                            <p:menuitem id="utilisateurs" value="Utilisateurs" icon="fa fa-fw fa-exclamation-circle" outcome="/securite/utilisateurs" />
+                            <p:menuitem id="utilisateursProfils" value="Associer Profils" icon="fa fa-fw fa-exclamation-circle" outcome="/securite/utilisateurs" />
+                            <p:menuitem id="activation" value="Activation des comptes" icon="fa fa-fw fa-exclamation-circle" outcome="/securite/compte" />
+                        </p:submenu>
+                    </pp:menu>
+
+
+                </div>
+            </div>
+        </div>
+    </h:form>
+</ui:composition>

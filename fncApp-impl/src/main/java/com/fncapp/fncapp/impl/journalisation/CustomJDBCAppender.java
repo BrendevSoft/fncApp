@@ -9,10 +9,11 @@ package com.fncapp.fncapp.impl.journalisation;
  *
  * @author PaulAbram
  */
-
 import com.fncapp.fncapp.api.api.utils.Convertiseur;
+import com.fncapp.fncapp.api.api.utils.IpAdressUtils;
 import com.fncapp.fncapp.impl.shiro.EntityRealm;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -74,7 +75,7 @@ public class CustomJDBCAppender extends AppenderSkeleton {
     private ResultSet rst;
     private Statement st;
     int countLogs;
-    private String sql = "insert into journals (id,date_journal,heure,level_journal,logger,message,utilisateur) values(?,?,?,?,?,?,?)";
+    private String sql = "insert into logs (id,log_action,log_date,log_date_heure,log_remote_ip,log_remote_mac,utilisateur) values(?,?,?,?,?,?,?)";
 
     @Override
     protected void append(LoggingEvent event) {
@@ -84,11 +85,11 @@ public class CustomJDBCAppender extends AppenderSkeleton {
                 Class.forName(driver);
                 Connection conn = DriverManager.getConnection(URL, user, password);
                 st = conn.createStatement();
-                rst = st.executeQuery("select count(*) as nome from journals");
+                rst = st.executeQuery("select count(*) as log from logs");
                 countLogs = 1;
 
                 while (rst.next()) {
-                    countLogs = rst.getInt("nome") + 1;
+                    countLogs = rst.getInt("log") + 1;
                 }
                 rst.close();
 
@@ -96,17 +97,17 @@ public class CustomJDBCAppender extends AppenderSkeleton {
 
                 pst.setLong(1, Long.parseLong(String.valueOf(countLogs)));
 
-                pst.setDate(2, new java.sql.Date(System.currentTimeMillis()));
+                pst.setString(2, event.getMessage().toString());
 
-                pst.setString(3, Convertiseur.getHeure(Calendar.getInstance().getTime()));
+                pst.setDate(3, new java.sql.Date(System.currentTimeMillis()));
 
-                pst.setString(4, event.getLevel().toString());
+                pst.setString(4, Convertiseur.getHeure(Calendar.getInstance().getTime()));
 
-                pst.setString(5, event.getLoggerName());
+                pst.setString(5, IpAdressUtils.getIpAdresse());
 
-                pst.setString(6, event.getMessage().toString());
+                pst.setString(6, IpAdressUtils.getMacAddress());
 
-                pst.setString(7, EntityRealm.getUser().getNom() + " " + EntityRealm.getUser().getPrenom());
+                pst.setLong(7, EntityRealm.getUserId());
 
                 /*     pst.setLong(1, Long.parseLong(String.valueOf(countLogs)));
 

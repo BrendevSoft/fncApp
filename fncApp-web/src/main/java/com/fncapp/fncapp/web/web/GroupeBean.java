@@ -28,6 +28,7 @@ public class GroupeBean implements Serializable {
 
     private Groupe profil;
     private List<Groupe> profils;
+    private List<Groupe> profilsFilter;
     @EJB
     private GroupeServiceBeanLocal psbl;
 
@@ -63,7 +64,8 @@ public class GroupeBean implements Serializable {
     }
 
     public void getObject(Long id) {
-        this.profil = this.psbl.find(id);
+        System.out.println(this.psbl.find(id));
+        this.profil =  this.psbl.find(id);
     }
 
     public List<Groupe> getProfils() {
@@ -90,5 +92,15 @@ public class GroupeBean implements Serializable {
     public void setPsbl(GroupeServiceBeanLocal psbl) {
         this.psbl = psbl;
     }
+
+    public List<Groupe> getProfilsFilter() {
+        return profilsFilter;
+    }
+
+    public void setProfilsFilter(List<Groupe> profilsFilter) {
+        this.profilsFilter = profilsFilter;
+    }
+    
+    
 
 }

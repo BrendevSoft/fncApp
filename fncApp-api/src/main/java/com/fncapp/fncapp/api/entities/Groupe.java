@@ -5,6 +5,7 @@
  */
 package com.fncapp.fncapp.api.entities;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -14,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -43,6 +45,9 @@ public class Groupe extends BaseEntity {
     @Column(name = "datecreation")
     @Temporal(TemporalType.TIMESTAMP)
     private Date datecreation;
+    
+    @OneToMany(mappedBy = "groupe")
+    private Collection<Groupeutilisateur> groupeutilisateurCollection;
 
     public Groupe() {
     }
