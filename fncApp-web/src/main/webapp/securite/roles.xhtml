@@ -10,43 +10,44 @@
     <ui:define name="viewname">Roles</ui:define>
 
     <ui:define name="content">
-        <div class="ui-g">
-            <div class="ui-g-12">
-                <div class="card">
-                    <h:form id="pdialogProfilForm">
-                        <p:growl id="messages" showSummary="true" life="4000"/>
-                        <p:panel style="border-color: #00AEEF">
-                            <p:outputPanel autoUpdate="true" id="panel">
-                                <center>
-                                    <h:panelGrid columns="2">    
-                                        <p:outputLabel value="Profils" for="profils" styleClass="labelfont"/> 
-                                        <p:selectOneMenu id="profils" value="#{roleBean.selectProfil}" 
-                                                         converter="omnifaces.SelectItemsIndexConverter" required="true">  
-                                            <f:selectItem itemLabel="Choisir un Profil"  noSelectionOption="true"/>
-                                            <f:selectItems value="#{roleBean.profils}" var="profil"
-                                                           itemLabel="#{profil.nom}" itemValue="#{profil}"/>
-                                            <p:ajax event="change" process="@this" listener="#{roleBean.setProfilRole()}" update="roleGrid"/>
-                                        </p:selectOneMenu>
-                                    </h:panelGrid>
-                                </center>
+        <h:form id="role">
+            <p:growl id="message" life="4000" showSummary="true"/>
+            <p:fieldset legend="Gestion des roles">
+                <h:form id="roleForm" styleClass="personne">
+                    <div class="ui-g-12 ui-md-12 ui-lg-12 ui-fluid contact-form">
+                        <p:panel style="width: 100%" id="rolePanel">
+                            <div class="ui-g">
+
+                                <p:autoUpdate id="panel"/>
+                                    <center>
+                                        <h:panelGrid columns="2">    
+                                            <p:outputLabel value="Profils" for="profils" styleClass="labelfont"/> 
+                                            <p:selectOneMenu id="profils" value="#{roleBean.selectProfil}" 
+                                                             converter="omnifaces.SelectItemsIndexConverter" required="true">  
+                                                <f:selectItem itemLabel="Choisir un Profil"  noSelectionOption="true"/>
+                                                <f:selectItems value="#{roleBean.profils}" var="profil"
+                                                               itemLabel="#{profil.nom}" itemValue="#{profil}"/>
+                                                <p:ajax event="change" process="@this" listener="#{roleBean.setProfilRole()}" update="roleGrid"/>
+                                            </p:selectOneMenu>
+                                        </h:panelGrid>
+                                    </center>
+                                    <br/>
+                                    <p:selectManyCheckbox id="roleGrid" value="#{roleBean.selectRoles}"
+                                                          layout="grid" columns="8" 
+                                                          converter="omnifaces.SelectItemsIndexConverter" >
+                                        <f:selectItems value="#{roleBean.roles}" var="role" itemLabel="#{role.nom}" itemValue="#{role}" />
+                                    </p:selectManyCheckbox>
                                 <br/>
-                                <p:selectManyCheckbox id="roleGrid" value="#{roleBean.selectRoles}"
-                                                      layout="grid" columns="8" 
-                                                      converter="omnifaces.SelectItemsIndexConverter" >
-                                    <f:selectItems value="#{roleBean.roles}" var="role" itemLabel="#{role.nom}" itemValue="#{role}" />
-                                </p:selectManyCheckbox>
-                            </p:outputPanel>
-                            <br/>
-                            <center>
-                                <p:commandButton update="messages,panel" value="Modifier" process="@form"  action="#{roleBean.modifierRole()}"/>  
-                            </center>
-
+                                <center>
+                                    <p:commandButton update=":role:message" value="Modifier" process="@form"  action="#{roleBean.modifierRole()}"/>  
+                                </center>
+                            </div>
                         </p:panel>
+                    </div>
+                </h:form>
 
-                    </h:form>
-                </div>
-            </div>
-        </div>
+            </p:fieldset>
+        </h:form>
     </ui:define>
 
 </ui:composition>

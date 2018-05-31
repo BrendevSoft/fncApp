@@ -32,7 +32,7 @@ public class GroupeUtilisateurDaoBean extends BaseDaoBean<Groupeutilisateur, Gro
     @SuppressWarnings("unchecked")
     public List<Utilisateur> getUtilisateursGroupe() {
         return getEntityManager()
-                .createQuery("SELECT p FROM Utilisateur p WHERE p NOT IN (SELECT pi.utilisateur FROM GroupeUtilisateur pi WHERE pi.dateRevocation IS NULL)")
+                .createQuery("SELECT p FROM Utilisateur p WHERE p NOT IN (SELECT pi.utilisateur FROM Groupeutilisateur pi WHERE pi.dateRevocation IS NULL)")
                 .getResultList();
     }
 
@@ -40,7 +40,7 @@ public class GroupeUtilisateurDaoBean extends BaseDaoBean<Groupeutilisateur, Gro
     @SuppressWarnings("unchecked")
     public List<Utilisateur> getUtilisateursGroupee() {
         return getEntityManager()
-                .createQuery("SELECT p FROM Utilisateur p,GroupeUtilisateur pi WHERE pi.utilisateur = p AND pi.dateRevocation IS NOT NULL")
+                .createQuery("SELECT p FROM Utilisateur p,Groupeutilisateur pi WHERE pi.utilisateur = p AND pi.dateRevocation IS NOT NULL")
                 .getResultList();
     }
 
@@ -48,7 +48,7 @@ public class GroupeUtilisateurDaoBean extends BaseDaoBean<Groupeutilisateur, Gro
     @SuppressWarnings("unchecked")
     public List<Utilisateur> getUtilisateursNonGroupe() {
         return getEntityManager()
-                .createQuery("SELECT p FROM Utilisateur p WHERE p IN (SELECT pi.utilisateur FROM GroupeUtilisateur pi WHERE pi.dateRevocation IS NULL AND pi.utilisateur = p)")
+                .createQuery("SELECT p FROM Utilisateur p WHERE p IN (SELECT pi.utilisateur FROM Groupeutilisateur pi WHERE pi.dateRevocation IS NULL AND pi.utilisateur = p)")
                 .getResultList();
     }
 
@@ -56,7 +56,7 @@ public class GroupeUtilisateurDaoBean extends BaseDaoBean<Groupeutilisateur, Gro
     @SuppressWarnings("unchecked")
     public List<Utilisateur> getUtilisateursNonGroupee() {
         return getEntityManager()
-                .createQuery("SELECT p FROM Utilisateur p,GroupeUtilisateur pi WHERE pi.utilisateur = p AND pi.dateRevocation IS NOT NULL")
+                .createQuery("SELECT p FROM Utilisateur p,Groupeutilisateur pi WHERE pi.utilisateur = p AND pi.dateRevocation IS NOT NULL")
                 .getResultList();
     }
 }

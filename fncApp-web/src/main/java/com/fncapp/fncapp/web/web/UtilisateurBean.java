@@ -16,6 +16,7 @@ import com.fncapp.fncapp.api.service.GroupeServiceBeanLocal;
 import com.fncapp.fncapp.api.service.GroupeUtilisateurServiceBeanLocal;
 import com.fncapp.fncapp.api.service.JuridictionServiceBeanLocal;
 import com.fncapp.fncapp.api.service.UtilisateurServiceBeanLocal;
+import com.fncapp.fncapp.impl.transaction.TransactionManager;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,6 +36,11 @@ import javax.faces.view.ViewScoped;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageOutputStream;
 import javax.servlet.ServletContext;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.FlowEvent;
 
@@ -96,32 +102,61 @@ public class UtilisateurBean implements Serializable {
         this.list = new ArrayList<>();
         this.juridictions = new ArrayList<>();
         this.juridiction = new Juridiction();
-        this.utilisateursFilter = new ArrayList<>();
     }
 
-    public void save(java.awt.event.ActionEvent actionEvent) {
+    public void save(java.awt.event.ActionEvent actionEvent) throws SystemException {
         FacesContext context = FacesContext.getCurrentInstance();
+        UserTransaction tx = TransactionManager.getUserTransaction();
         try {
+            tx.begin();
             if (this.utilisateur.getId() == null) {
                 this.utilisateur.setJuridiction(juridiction);
                 this.utilisateur.setDatecreation(new Date());
                 this.utilisateur.setRowvers(new Date());
-                this.utilisateur.setProfilactif(true);
-                this.usbl.saveOne(utilisateur);
-                context.addMessage(null, new FacesMessage(Constante.ENREGISTREMENT_REUSSIT));
+                this.utilisateur.setProfilactif(false);
+                utilisateur.setLogin(utilisateur.getPrenom().charAt(0) + "." + utilisateur.getNom());
+                if (usbl.getBy("login", utilisateur.getLogin()).isEmpty()) {
+                    utilisateur.setPasswd(new Sha256Hash(Constante.MOT_DE_PASSE_DEFAUT).toHex());
+                    usbl.saveOne(utilisateur);
+                    journalisation.saveLog4j(UtilisateurBean.class.getName(), Level.INFO, "Enregistrement d'un personnel :" + utilisateur.getNom() + " " + utilisateur.getPrenom());
+                    utilisateur = new Utilisateur();
+                    context.addMessage(null, new FacesMessage(Constante.ENREGISTREMENT_REUSSIT));
+                } else {
+                    int test = 1;
+                    do {
+                        test++;
+                    } while (usbl.getBy("login", utilisateur.getLogin() + "" + test).isEmpty() == false);
+                    utilisateur.setPasswd(new Sha256Hash(Constante.MOT_DE_PASSE_DEFAUT).toHex());
+                    utilisateur.setLogin(utilisateur.getLogin() + "" + test);
+                    usbl.saveOne(utilisateur);
+
+                    journalisation.saveLog4j(UtilisateurBean.class.getName(), Level.INFO, "Enregistrement d'un personnel :" + utilisateur.getNom() + " " + utilisateur.getPrenom());
+                    utilisateur = new Utilisateur();
+                    context.addMessage(null, new FacesMessage(Constante.ENREGISTREMENT_REUSSIT));
+
+                }
+
             } else {
                 this.utilisateur.setJuridiction(juridiction);
                 this.utilisateur.setRowvers(new Date());
-                this.utilisateur.setProfilactif(true);
                 this.usbl.updateOne(utilisateur);
                 context.addMessage(null, new FacesMessage(Constante.MODIFICATION_REUSSIT));
             }
             this.juridiction = new Juridiction();
             this.utilisateur = new Utilisateur();
-
+            tx.commit();
         } catch (Exception e) {
             e.getMessage();
             context.addMessage(null, new FacesMessage(Constante.ENREGISTREMENT_ECHOUE));
+            try {
+                tx.rollback();
+            } catch (IllegalStateException ex) {
+                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+            } catch (SecurityException ex) {
+                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+            } catch (SystemException ex) {
+                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+            }
         }
 
     }
@@ -246,20 +281,35 @@ public class UtilisateurBean implements Serializable {
         this.utilisateur = new Utilisateur();
     }
 
+    public void cancelProfil(ActionEvent actionEvent) {
+        this.profil = new Groupe();
+        this.utilisateur = new Utilisateur();
+        this.profilUtilisateur = new Groupeutilisateur();
+    }
+
     public Date max() {
         Calendar ca = Calendar.getInstance();
         ca.add(Calendar.YEAR, -15);
         return ca.getTime();
     }
 
-    public void getObject(Long id) {
+    public void getUsersObject(Long id) {
         this.utilisateur = this.usbl.find(id);
+        if (this.utilisateur.getJuridiction() != null) {
+            this.juridiction = this.utilisateur.getJuridiction();
+        }
     }
 
     public void getObject(GroupeUtilisateurId id) {
         this.profilUtilisateur = this.pusbl.find(id);
-        this.utilisateur = this.profilUtilisateur.getUtilisateur();
-        this.profil = this.profilUtilisateur.getGroupe();
+        if (this.profilUtilisateur.getUtilisateur() != null) {
+            this.utilisateur = this.profilUtilisateur.getUtilisateur();
+        }
+
+        if (this.profilUtilisateur.getGroupe() != null) {
+            this.profil = this.profilUtilisateur.getGroupe();
+        }
+
     }
 
     public String onFlowProcess(FlowEvent event) {
@@ -273,16 +323,31 @@ public class UtilisateurBean implements Serializable {
 
     public void associerProfil() {
         FacesContext context = FacesContext.getCurrentInstance();
+        UserTransaction tx = TransactionManager.getUserTransaction();
         try {
+            tx.begin();
             for (Utilisateur utilisateur1 : utilisateurs1) {
                 this.profilUtilisateur.setGroupe(profil);
                 this.profilUtilisateur.setUtilisateur(utilisateur1);
                 this.profilUtilisateur.setDateAffectation(date);
                 this.pusbl.saveOne(profilUtilisateur);
+
+                journalisation.saveLog4j(UtilisateurBean.class.getName(), Level.INFO, "Affectation du profil:" + profil.getNom() + " à l'utilisateur :" + utilisateur1.getNom() + " " + utilisateur1.getPrenom());
+
             }
             context.addMessage(null, new FacesMessage(Constante.ENREGISTREMENT_REUSSIT));
+            tx.commit();
         } catch (Exception e) {
             context.addMessage(null, new FacesMessage(Constante.ENREGISTREMENT_ECHOUE));
+            try {
+                tx.rollback();
+            } catch (IllegalStateException ex) {
+                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+            } catch (SecurityException ex) {
+                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+            } catch (SystemException ex) {
+                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+            }
         }
     }
 
@@ -313,31 +378,60 @@ public class UtilisateurBean implements Serializable {
 
     public void activerUtilisateur(Long u) {
         FacesContext context = FacesContext.getCurrentInstance();
+        UserTransaction tx = TransactionManager.getUserTransaction();
         try {
+            tx.begin();
             List<Utilisateur> us = this.usbl.getBy("id", u);
             Utilisateur u1 = new Utilisateur();
             u1 = us.get(0);
             u1.setProfilactif(true);
             this.usbl.updateOne(u1);
+
+            journalisation.saveLog4j(UtilisateurBean.class.getName(), Level.INFO, "Activation de l'utilisateur:" + u1.getNom() + " " + u1.getPrenom());
             context.addMessage(null, new FacesMessage(u1.getLogin().concat(space) + "activé"));
+            u1 = new Utilisateur();
+            tx.commit();
         } catch (Exception e) {
             e.getMessage();
             context.addMessage(null, new FacesMessage(Constante.DESACTIVATION_ECHOU));
+            try {
+                tx.rollback();
+            } catch (IllegalStateException ex) {
+                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+            } catch (SecurityException ex) {
+                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+            } catch (SystemException ex) {
+                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+            }
         }
     }
 
     public void desactiverUtilisateur(Long u) {
         FacesContext context = FacesContext.getCurrentInstance();
+        UserTransaction tx = TransactionManager.getUserTransaction();
         try {
+            tx.begin();
             List<Utilisateur> us = this.usbl.getBy("id", u);
             Utilisateur u1 = new Utilisateur();
             u1 = us.get(0);
             u1.setProfilactif(false);
             this.usbl.updateOne(u1);
+            journalisation.saveLog4j(UtilisateurBean.class.getName(), Level.INFO, "Désactivation de l'utilisateur:" + u1.getNom() + " " + u1.getPrenom());
             context.addMessage(null, new FacesMessage(u1.getLogin().concat(space) + "désactivé"));
+            u1 = new Utilisateur();
+            tx.commit();
         } catch (Exception e) {
             e.getMessage();
             context.addMessage(null, new FacesMessage(Constante.DESACTIVATION_ECHOU));
+            try {
+                tx.rollback();
+            } catch (IllegalStateException ex) {
+                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+            } catch (SecurityException ex) {
+                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+            } catch (SystemException ex) {
+                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+            }
         }
     }
 
@@ -591,7 +685,5 @@ public class UtilisateurBean implements Serializable {
     public void setUtilisateursFilter(List<Utilisateur> utilisateursFilter) {
         this.utilisateursFilter = utilisateursFilter;
     }
-    
-    
 
 }

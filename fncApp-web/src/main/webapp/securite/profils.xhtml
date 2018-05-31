@@ -5,9 +5,9 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
 
-    <ui:define name="title">Profils</ui:define>
+    <ui:define name="title">Associer profils</ui:define>
 
-    <ui:define name="viewname">Profils</ui:define>
+    <ui:define name="viewname">Associers profils</ui:define>
 
     <ui:define name="content">
 
@@ -22,9 +22,13 @@
                                     <div class="ui-g-3">
                                     </div>
                                     <div class="ui-g-6">
-                                        <h:inputHidden value="#{profilBean.profil.id}"/>
-                                        <p:inputText id="nomProfil" value="#{profilBean.profil.nom}" required="true" placeholder="Libellé"/>
-                                    </div>
+                                        <p:selectOneMenu  id="profi" value="#{utilisateurBean.profil}" effect="fade"
+                                                          filter="true" filterMatchMode="startsWith"
+                                                          converter="omnifaces.SelectItemsIndexConverter">
+                                            <f:selectItem itemLabel="Choisir le profil" noSelectionOption="true"/>
+                                            <f:selectItems value="#{utilisateurBean.profils}" var="prof" itemLabel="#{prof.nom}" itemValue="#{prof}"/>
+
+                                        </p:selectOneMenu>  </div>
                                     <div class="ui-g-3">
                                     </div>
                                 </div>
@@ -32,8 +36,11 @@
                                     <div class="ui-g-3">
                                     </div>
                                     <div class="ui-g-6">
-                                        <p:inputText value="#{profilBean.profil.description}" required="true" placeholder="Description"/>
-                                    </div>
+                                        <p:selectCheckboxMenu id="utilisateur" value="#{utilisateurBean.utilisateurs1}" panelStyleClass="without-selectall"
+                                                              converter="omnifaces.SelectItemsIndexConverter"  
+                                                              label="Groupe" filter="true" filterMatchMode="contains">
+                                            <f:selectItems value="#{utilisateurBean.utilisateursNonProfil()}" itemLabel="#{num.nom}#{utilisateurBean.space}#{num.prenom}" itemValue="#{num}" var="num"/>
+                                        </p:selectCheckboxMenu>   </div>
                                     <div class="ui-g-3">
                                     </div>
                                 </div>
@@ -41,10 +48,10 @@
                                     <div class="ui-g-3">
                                     </div>
                                     <div class="ui-g-3">
-                                        <p:commandButton process="@form" update=":profil:profilForm:profilPanel" action="#{profilBean.cancel(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
+                                        <p:commandButton process="@form" update=":profil:profilForm:profilPanel" action="#{utilisateurBean.cancelProfil(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
                                     </div>
                                     <div class="ui-g-3">
-                                        <p:commandButton process="@form" update=":profil:profilForm:profilPanel,:profil:message,:profil:profilsTab:profilTab" action ="#{profilBean.save(actionEvent)}" value="Valider" icon="fa fa-paper-plane-o"></p:commandButton>
+                                        <p:commandButton update=":profil:profilForm:profilPanel,:profil:message,:profil:profilsTab:profilTab" class="Fs16 GreenButton" id="ajouter1" value="Ajouter" actionListener="#{utilisateurBean.associerProfil()}" process="@form" style="left: 35%"/>
                                     </div>
                                     <div class="ui-g-3">
                                     </div>
@@ -57,9 +64,9 @@
 
                 <h:form id="profilsTab">
 
-                    <p:dataTable var="profil" id="profilTab" widgetVar="profilsTable" value="#{profilBean.profils}"
+                    <p:dataTable var="profil" id="profilTab" widgetVar="profilsTable" value="#{utilisateurBean.profilUtilisateurs}"
                                  emptyMessage="Profil non trouvé"
-                                 style="border-color: #00AEEF" filteredValue="#{profilBean.profilsFilter}" 
+                                 style="border-color: #00AEEF" filteredValue="#{utilisateurBean.utilisateursFilter}" 
                                  rows="5" scrollable="true"  paginator="true" paginatorPosition="top" 
                                  rowsPerPageTemplate="2,5,10,15">
                         <f:facet name="header">
@@ -70,14 +77,17 @@
                                 <p:inputText id="globalFilter" onkeyup="PF('profilsTable').filter()" style="width:150px" placeholder="entrer la valeur"/>
                             </p:outputPanel>
                         </f:facet>
-                        <p:column style="width: 45%" filterBy="#{profil.nom}" filterMatchMode="contains" id="libProfil"  headerText="Libellé">
-                            <h:outputText value="#{profil.nom}" />
+                        <p:column style="width: 45%" filterBy="#{profil.utilisateur.nom}" filterMatchMode="contains" headerText="Nom">
+                            <h:outputText value="#{profil.utilisateur.nom}" />
                         </p:column>
-                        <p:column style="width: 45%" id="descProfil" headerText="Description"  filterBy="#{profil.description}" filterMatchMode="contains">
-                            <h:outputText value="#{profil.description}" />
+                        <p:column style="width: 45%" headerText="Prenom"  filterBy="#{profil.utilisateur.prenom}" filterMatchMode="contains">
+                            <h:outputText value="#{profil.utilisateur.prenom}" />
+                        </p:column>
+                        <p:column style="width: 45%" headerText="Date affectation"  filterBy="#{profil.dateAffectation}" filterMatchMode="contains">
+                            <h:outputText value="#{profil.dateAffectation}" />
                         </p:column>
                         <p:column style="width: 10%">
-                            <p:commandButton style="width: 100%" process="@form" update=":profil:profilForm:profilPanel" value="Editer" actionListener="#{profilBean.getObject(profil.id)}"/>
+                            <p:commandButton style="width: 100%" process="@form" update=":profil:profilForm:profilPanel" value="Editer" actionListener="#{utilisateurBean.getObject(profil.id)}"/>
                         </p:column>
                     </p:dataTable>
                 </h:form>

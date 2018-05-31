@@ -22,18 +22,17 @@
                                     <div class="col-sm-6">
 
                                         <div class="ui-g-6">
-
+                                            <h:inputHidden value="#{utilisateurBean.utilisateur.id}"/>
                                             <p:selectOneMenu id="juridiction" value="#{utilisateurBean.juridiction}" 
                                                              required="true" filter="true" filterMatchMode="startsWith"
                                                              converter="omnifaces.SelectItemsIndexConverter">
-                                                <f:selectItem itemLabel="Juridiction" noSelectionOption="true"/>
+                                                <f:selectItem itemLabel="Choisir la jurudiction" noSelectionOption="true"/>
                                                 <f:selectItems var="juri" value="#{utilisateurBean.juridictions}"  itemLabel="#{juri.libellecourt}" itemValue="#{juri}" />
                                             </p:selectOneMenu> 
                                         </div>
 
                                         <div class="ui-g-6">
-                                            <h:inputHidden value="#{utilisateurBean.utilisateur.civilite}"/>
-                                            <p:selectOneRadio layout="responsive" columns="3">
+                                            <p:selectOneRadio layout="responsive" columns="3" value="#{utilisateurBean.utilisateur.civilite}">
                                                 <f:selectItem itemLabel="Monsieur" itemValue="Monsieur" />
                                                 <f:selectItem itemLabel="Madame" itemValue="Madame" />
 
@@ -71,7 +70,7 @@
 
                 <h:form id="usersTab">
 
-                    <p:dataTable var="users" id="userTab" widgetVar="usersTable" value="#{utilisateurBean.utilisateursTotal}"
+                    <p:dataTable var="use" id="userTab" widgetVar="usersTable" value="#{utilisateurBean.utilisateursTotal}"
                                  emptyMessage="Utilisateur non trouvé"
                                  style="border-color: #00AEEF" filteredValue="#{utilisateurBean.utilisateursFilter}" 
                                  rows="5" scrollable="true"  paginator="true" paginatorPosition="top" 
@@ -84,23 +83,23 @@
                                 <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" style="width:150px" placeholder="entrer la valeur"/>
                             </p:outputPanel>
                         </f:facet>
-                        <p:column style="width: 18%" filterBy="#{users.civilite}" filterMatchMode="contains" headerText="Civilité">
-                            <h:outputText value="#{users.civilite}" />
+                        <p:column style="width: 18%" filterBy="#{use.civilite}" filterMatchMode="contains" headerText="Civilité">
+                            <h:outputText value="#{use.civilite}" />
                         </p:column>
-                        <p:column style="width: 18%" headerText="Nom"  filterBy="#{users.nom}" filterMatchMode="contains">
-                            <h:outputText value="#{users.nom}" />
+                        <p:column style="width: 18%" headerText="Nom"  filterBy="#{use.nom}" filterMatchMode="contains">
+                            <h:outputText value="#{use.nom}" />
                         </p:column>
-                        <p:column style="width: 18%" filterBy="#{users.prenom}" filterMatchMode="contains"  headerText="Prenom">
-                            <h:outputText value="#{users.prenom}" />
+                        <p:column style="width: 18%" filterBy="#{use.prenom}" filterMatchMode="contains"  headerText="Prenom">
+                            <h:outputText value="#{use.prenom}" />
                         </p:column>
-                        <p:column style="width: 18%" headerText="Adresse mail"  filterBy="#{users.mail}" filterMatchMode="contains">
-                            <h:outputText value="#{users.mail}" />
+                        <p:column style="width: 18%" headerText="Adresse mail"  filterBy="#{use.mail}" filterMatchMode="contains">
+                            <h:outputText value="#{use.mail}" />
                         </p:column>
-                        <p:column style="width: 18%" headerText="Téléphone"  filterBy="#{users.telephone}" filterMatchMode="contains">
-                            <h:outputText value="#{users.telephone}" />
+                        <p:column style="width: 18%" headerText="Téléphone"  filterBy="#{use.telephone}" filterMatchMode="contains">
+                            <h:outputText value="#{use.telephone}" />
                         </p:column>
                         <p:column style="width: 10%">
-                            <p:commandButton style="width: 100%" update=":users:userForm:userPanel" process="@form" value="Editer" actionListener="#{utilisateurBean.getObject(users.id)}"/>
+                            <p:commandButton style="width: 100%" update=":users:userForm:userPanel" process="@form" value="Editer" actionListener="#{utilisateurBean.getUsersObject(use.id)}"/>
                         </p:column>
                     </p:dataTable>
                 </h:form>

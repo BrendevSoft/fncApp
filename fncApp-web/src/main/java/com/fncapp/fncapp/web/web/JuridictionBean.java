@@ -6,9 +6,10 @@
 package com.fncapp.fncapp.web.web;
 
 import com.fncapp.fncapp.api.api.utils.Constante;
-import com.fncapp.fncapp.api.entities.Groupe;
+import com.fncapp.fncapp.api.api.utils.MethodeJournalisation;
 import com.fncapp.fncapp.api.entities.Juridiction;
 import com.fncapp.fncapp.api.service.JuridictionServiceBeanLocal;
+import com.fncapp.fncapp.impl.transaction.TransactionManager;
 import java.awt.event.ActionEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,6 +20,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -26,11 +31,12 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "juridictionBean")
 @ViewScoped
-public class JuridictionBean implements Serializable{
+public class JuridictionBean implements Serializable {
 
     private Juridiction juridiction;
     private List<Juridiction> juridictions;
     private List<Juridiction> juridictionsFilter;
+    private MethodeJournalisation journalisation;
 
     @EJB
     private JuridictionServiceBeanLocal jsbl;
@@ -41,30 +47,44 @@ public class JuridictionBean implements Serializable{
     public JuridictionBean() {
         this.juridiction = new Juridiction();
         this.juridictions = new ArrayList<>();
+        this.journalisation = new MethodeJournalisation();
     }
 
     public void cancel(ActionEvent actionEvent) {
         this.juridiction = new Juridiction();
     }
 
-    public void save(ActionEvent actionEvent) {
+    public void save(ActionEvent actionEvent) throws SystemException {
         FacesContext context = FacesContext.getCurrentInstance();
+        UserTransaction tx = TransactionManager.getUserTransaction();
         try {
+            tx.begin();
             if (this.juridiction.getId() == null) {
                 this.juridiction.setDatecreation(new Date());
                 this.juridiction.setRowvers(new Date());
                 this.jsbl.saveOne(juridiction);
+                journalisation.saveLog4j(UtilisateurBean.class.getName(), Level.INFO, "Enregistrement d'un tribunal :" + juridiction.getLibellecourt());
                 context.addMessage(null, new FacesMessage(Constante.ENREGISTREMENT_REUSSIT));
             } else {
                 this.juridiction.setRowvers(new Date());
                 this.jsbl.updateOne(juridiction);
+                journalisation.saveLog4j(UtilisateurBean.class.getName(), Level.INFO, "Modification d'un tribunal :" + juridiction.getLibellecourt());
                 context.addMessage(null, new FacesMessage(Constante.MODIFICATION_REUSSIT));
             }
             this.juridiction = new Juridiction();
-
+            tx.commit();
         } catch (Exception e) {
             e.getMessage();
             context.addMessage(null, new FacesMessage(Constante.ENREGISTREMENT_ECHOUE));
+            try {
+                tx.rollback();
+            } catch (IllegalStateException ex) {
+                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+            } catch (SecurityException ex) {
+                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+            } catch (SystemException ex) {
+                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+            }
         }
 
     }

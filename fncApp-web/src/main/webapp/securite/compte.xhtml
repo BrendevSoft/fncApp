@@ -1,41 +1,67 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                template="/WEB-INF/template.xhtml">
+                template="/WEB-INF/template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="title">Comptes</ui:define>
 
     <ui:define name="viewname">Comptes</ui:define>
 
     <ui:define name="content">
-        <div class="ui-g">
-            <div class="ui-g-12">
-                <div class="card">
-                    <p:fieldset legend="Gestion des comptes">
-                        <h:form id="afficheTabP">
-                            <p:growl id="growl" showSummary="true" life="4000"/>
-                            <p:dataTable   var="user" id="ajouTabP"
-                                           emptyMessage="Personnel non trouvé" paginator="true" rows="5"
-                                           paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks}
-                                           {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                           rowsPerPageTemplate="2,5,10,15" style="border-color: #00AEEF">
-                                <p:column id="utilisateurNom" headerText="Nom"  filterMatchMode="exact">
-                                    <h:outputText />
-                                </p:column>
-                                <p:column id="utilisateurPrenom" headerText="Prenom"  filterMatchMode="startsWith">
-                                    <h:outputText />
-                                </p:column>
-                                <p:column>
-                                    <p:commandButton process="@this"  value="activer" />
-                                </p:column>
-                            </p:dataTable>
-                        </h:form>
-                    </p:fieldset>
-                </div>
-            </div>
-        </div>
+
+        <h:form id="comptes">
+            <p:growl id="message" life="4000" showSummary="true"/>
+            <p:fieldset legend="Gestion des comptes">
+                <h:form id="comptesTab">
+
+                    <p:dataTable  value="#{utilisateurBean.utilisateurInactif()}" widgetVar="usersInactifs" var="user" id="compteTab"
+                                  emptyMessage="Personnel non trouvé" paginator="true" rows="5"
+                                  rowsPerPageTemplate="2,5,10,15" style="border-color: #00AEEF" filteredValue="#{utilisateurBean.utilisateursFilter}">
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
+                                <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
+                                <h:outputText value="Rechercher toutes les valeurs :" />
+                                <p:inputText id="globalFilter" onkeyup="PF('usersInactifs').filter()" style="width:150px" placeholder="entrer la valeur"/>
+                            </p:outputPanel>
+                        </f:facet>
+                        <p:column style="width: 45%" headerText="Nom" filterBy="#{user.nom}" filterMatchMode="exact">
+                            <h:outputText value="#{user.nom}"/>
+                        </p:column>
+                        <p:column style="width: 45%" headerText="Prenom" filterBy="#{user.prenom}" filterMatchMode="startsWith">
+                            <h:outputText value="#{user.prenom}"/>
+                        </p:column>
+                        <p:column style="width: 10%">
+                            <p:commandButton process="@this" update=":comptes:message,:comptes:comptesTab:compteTab1,:comptes:comptesTab:compteTab" value="activer" action="#{utilisateurBean.activerUtilisateur(user.id)}"/>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:dataTable  value="#{utilisateurBean.utilisateurActif()}" widgetVar="usersActifs" var="user" id="compteTab1"
+                                  emptyMessage="Personnel non trouvé" paginator="true" rows="5"
+                                  rowsPerPageTemplate="2,5,10,15" style="border-color: #00AEEF" filteredValue="#{utilisateurBean.utilisateursFilter}">
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
+                                <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
+                                <h:outputText value="Rechercher toutes les valeurs :" />
+                                <p:inputText id="globalFilter" onkeyup="PF('usersActifs').filter()" style="width:150px" placeholder="entrer la valeur"/>
+                            </p:outputPanel>
+                        </f:facet>
+                        <p:column style="width: 45%" headerText="Nom" filterBy="#{user.nom}" filterMatchMode="exact">
+                            <h:outputText value="#{user.nom}"/>
+                        </p:column>
+                        <p:column style="width: 45%" headerText="Prenom" filterBy="#{user.prenom}" filterMatchMode="startsWith">
+                            <h:outputText value="#{user.prenom}"/>
+                        </p:column>
+                        <p:column style="width: 10%">
+                            <p:commandButton value="desactiver" process="@this" update=":comptes:message,:comptes:comptesTab:compteTab1,:comptes:comptesTab:compteTab" action="#{utilisateurBean.desactiverUtilisateur(user.id)}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </p:fieldset>
+        </h:form>
 
     </ui:define>
 

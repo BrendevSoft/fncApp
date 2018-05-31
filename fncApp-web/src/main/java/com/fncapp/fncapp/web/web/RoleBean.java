@@ -74,7 +74,7 @@ public class RoleBean implements Serializable {
                 for (Groupeutilisateur pu : profilUtilisateurs) {
                     if (pu.getDateRevocation() == null) {
                         profil = pu.getGroupe().getNom();
-                        List< GroupeRole> l = this.prsbl.getBy("profil", pu.getGroupe());
+                        List< GroupeRole> l = this.prsbl.getBy("groupe", pu.getGroupe());
                         for (GroupeRole p : l) {
                             mesRoles.add(p.getRole());
                         }
@@ -104,7 +104,7 @@ public class RoleBean implements Serializable {
             }
             //si la liste des personne n'est pas vide et ls roles selectioné ne le sont pas on fait une suppression
             if (!profilRoles.isEmpty() && selectRoles.isEmpty()) {
-                List<GroupeRole> profilRole = prsbl.getBy("profil", selectProfil);
+                List<GroupeRole> profilRole = prsbl.getBy("groupe", selectProfil);
                 for (GroupeRole role2 : profilRole) {
                     prsbl.supGroupeRoles(role2);
                 }
