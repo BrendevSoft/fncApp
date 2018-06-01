@@ -1,0 +1,116 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <p:tab id="situation" title="Informations">
+        <center>
+            <div class="ui-g-12 ui-md-12 ui-lg-12 ui-fluid contact-form"> 
+                <p:panel style="width: 100%" id="situaPanel">
+                    <div class="ui-g">
+                        <div class="row">
+                            <div class="col-sm-6">
+
+                                <div class="ui-g-12">
+                                    <div class="ui-g-4">
+                                        <h:outputText value="Situation au moment du jugement"/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:selectOneMenu  value="#{utilisateurBean.juridiction}" 
+                                                          required="true" filter="true" filterMatchMode="startsWith"
+                                                          converter="omnifaces.SelectItemsIndexConverter">
+                                            <f:selectItem itemLabel="Choisir la jurudiction" noSelectionOption="true"/>
+                                            <f:selectItem itemLabel="En détention"/>
+                                            <f:selectItem itemLabel="En fuite"/>
+                                            <f:selectItem itemLabel="En Liberté" />
+                                        </p:selectOneMenu>   
+                                    </div>
+                                </div>
+                                <div class="ui-g-6">
+                                    <div class="ui-g-4">
+                                        <h:outputText value="Numéro mandat de dépôt"/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="Numéro mandat de dépôt"/>
+                                    </div> 
+                                </div>
+                                <div class="ui-g-6">
+                                    <div class="ui-g-4">
+                                       <h:outputText value="Date mandat de dépôt"/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                    <p:calendar showOn="button" readonlyInput="true">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </p:calendar>  </div>
+                                </div>
+                                <div class="ui-g-6">
+                                    <div class="ui-g-4">
+                                        <h:outputText value="Numéro Ecrou"/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="Numéro Ecrou"/>
+                                    </div> 
+                                </div>
+                                <div class="ui-g-6">
+                                    <div class="ui-g-4">
+                                        <h:outputText value="Prsion"/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="Prison"/>
+                                    </div>
+                                </div>
+
+                                <div class="ui-g-6">
+                                    <div class="ui-g-4">
+                                        <h:outputText value="Numéro mandat d'arrêt"/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="Numéro mandat d'arrêt"/>
+                                    </div> 
+                                </div>
+                                <div class="ui-g-6">
+                                    <div class="ui-g-4">
+                                       <h:outputText value="Date mandat d'arrêt"/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                  <p:calendar showOn="button" readonlyInput="true">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </p:calendar>    </div> 
+                                </div>
+                                <div class="ui-g-6">
+                                    <div class="ui-g-4">
+                                        <h:outputText value="Numéro décision LP"/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="Numéro décision LP"/>
+                                    </div> 
+                                </div>
+                                <div class="ui-g-6">
+                                    <div class="ui-g-4">
+                                        <h:outputText value="Date LP"/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:calendar showOn="button" readonlyInput="true">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </p:calendar>  </div> 
+                                </div>
+
+
+
+                                <div class="ui-g-10">
+                                </div>
+                                <div class="ui-g-2">
+                                    <p:commandButton class="Fs16 OrangeButton" value="Valider" style="display:inline-block;margin-top:5px"/>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </p:panel>
+            </div>
+        </center>
+    </p:tab>
+</ui:composition>

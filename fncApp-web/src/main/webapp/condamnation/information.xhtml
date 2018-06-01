@@ -1,0 +1,82 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:tab id="information" title="Informations">
+        <center>
+            <div class="ui-g-12 ui-md-12 ui-lg-12 ui-fluid contact-form"> 
+                <p:panel style="width: 100%" id="infoPanel">
+                    <div class="ui-g">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="ui-g-6">
+                                    <div class="ui-g-4">
+                                        <h:outputText value="Tribunal"/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:selectOneMenu  value="#{utilisateurBean.juridiction}" 
+                                                          required="true" filter="true" filterMatchMode="startsWith"
+                                                          converter="omnifaces.SelectItemsIndexConverter">
+                                            <f:selectItem itemLabel="Choisir la jurudiction" noSelectionOption="true"/>
+                                            <f:selectItems var="juri" value="#{utilisateurBean.juridictions}"  itemLabel="#{juri.libellecourt}" itemValue="#{juri}" />
+                                        </p:selectOneMenu> 
+                                    </div>
+                                </div>
+                                <div class="ui-g-6">
+                                    <div class="ui-g-4">
+                                        <h:outputText value="Date Jugement"/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:calendar showOn="button" readonlyInput="true">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </p:calendar>  
+                                    </div> 
+                                </div>
+                                <div class="ui-g-6">
+                                    <div class="ui-g-4">
+                                        <h:outputText value="Nature des délits"/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:selectOneMenu value="#{utilisateurBean.juridiction}" 
+                                                         required="true" filter="true" filterMatchMode="startsWith"
+                                                         converter="omnifaces.SelectItemsIndexConverter">
+                                            <f:selectItem itemLabel="Choisir la jurudiction" noSelectionOption="true"/>
+                                            <f:selectItems var="juri" value="#{utilisateurBean.juridictions}"  itemLabel="#{juri.libellecourt}" itemValue="#{juri}" />
+                                        </p:selectOneMenu>       </div>
+                                </div>
+                                <div class="ui-g-6">
+                                    <div class="ui-g-4">
+                                        <h:outputText value="Peine prononcée"/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="Peine prononcée"/>
+                                    </div> 
+                                </div>
+                                <div class="ui-g-6">
+                                    <div class="ui-g-4">
+                                        <h:outputText value="Amende"/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="Amende"/>
+                                    </div>
+                                </div>
+                                <div class="ui-g-6">
+                                    <div class="ui-g-4">
+                                        <h:outputText value="IS"/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="IS"/>
+                                    </div> 
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </p:panel>
+            </div>
+        </center>
+    </p:tab>
+</ui:composition>

@@ -5,46 +5,46 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
 
-    <ui:define name="title">Dashboard</ui:define>
+    <ui:define name="title">Tableau de bord</ui:define>
 
-    <ui:define name="viewname">Dashboard</ui:define>
+    <ui:define name="viewname">Tableau de bord</ui:define>
 
     <ui:define name="head">
-           <script type="text/javascript">
-               //<![CDATA[
-               function skinChart() {
-                   this.cfg.shadow = false;
-                   this.cfg.title = '';
-                   this.cfg.seriesColors = ['#00acac', '#3e96e7'];
-                   this.cfg.grid = {
-                       background: '#ffffff',
-                       borderColor: '#ffffff',
-                       gridLineColor: '#EEEEEE',
-                       shadow: false
-                   };
-                   this.cfg.axesDefaults = {
-                       rendererOptions: {
-                           textColor: '#212121'
-                       }
-                   };
-                   this.cfg.seriesDefaults = {
-                       shadow: false,
-                       lineWidth: 1,
-                       markerOptions: {
-                           shadow: false,
-                           size: 7,
-                           style: 'circle'
-                       }
-                   }
-               }
-               //]]>  
-           </script>
-           <style type="text/css">
-               .main-content {
-                   padding: 0;
-               }
-           </style>
-       </ui:define>
+        <script type="text/javascript">
+            //<![CDATA[
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#00acac', '#3e96e7'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#EEEEEE',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#212121'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+            //]]>  
+        </script>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+        </style>
+    </ui:define>
 
     <ui:define name="content">
         <div class="ui-g dashboard">            
@@ -92,107 +92,139 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="ui-g-12 ui-md-6 ui-lg-4 task-list">
-                <p:panel header="Tasks" style="min-height:360px">
-                    <ul>
-                        <li>
-                            <p:selectBooleanCheckbox />
-                            <span class="task-name">Sales Reports</span>
-                            <i class="fa fa-briefcase"></i>
-                        </li>
-                        <li>
-                            <p:selectBooleanCheckbox />
-                            <span class="task-name">Pay Invoices</span>
-                            <i class="fa fa-credit-card"></i>
-                        </li>
-                        <li>
-                            <p:selectBooleanCheckbox />
-                            <span class="task-name">Dinner with Tony</span>
-                            <i class="fa fa-cutlery"></i>
-                        </li>
-                        <li>
-                            <p:selectBooleanCheckbox />
-                            <span class="task-name">Client Meeting</span>
-                            <i class="fa fa-user"></i>
-                        </li>
-                        <li>
-                            <p:selectBooleanCheckbox />
-                            <span class="task-name">New Theme</span>
-                            <i class="fa fa-paint-brush"></i>
-                        </li>
-                        <li>
-                            <p:selectBooleanCheckbox />
-                            <span class="task-name">Flight Ticket</span>
-                            <i class="fa fa-fighter-jet"></i>
-                        </li>
-                        <li>
-                            <p:selectBooleanCheckbox />
-                            <span class="task-name">Generate Charts</span>
-                            <i class="fa fa-area-chart"></i>
-                        </li>
-                    </ul>
-                </p:panel>
-            </div>
-            <div class="ui-g-12 ui-md-6 ui-lg-4 ui-fluid contact-form">
-                <p:panel header="Contact Us" style="min-height:360px">
-                    <div class="ui-g">
-                        <div class="ui-g-12">
-                            <p:selectOneMenu id="console" autoWidth="false">
-                                <f:selectItem itemLabel="Select One" itemValue="" />
-                                <f:selectItem itemLabel="Xbox One" itemValue="Xbox One" />
-                                <f:selectItem itemLabel="PS4" itemValue="PS4" />
-                                <f:selectItem itemLabel="Wii U" itemValue="Wii U" />
-                            </p:selectOneMenu>
-                        </div>
-                        <div class="ui-g-12">
-                            <p:inputText placeholder="Name"/>
-                        </div>
-                        <div class="ui-g-12">
-                            <p:inputText placeholder="Age"/>
-                        </div>
-                        <div class="ui-g-12">
-                            <p:inputText placeholder="Message"/>
-                        </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+                <div class="ui-g card overview-box overview-box-1">
+                    <div class="ui-g-4">
+                        <i class="fa fa-inbox"></i>
                     </div>
-                    <p:commandButton type="button" value="Send" icon="fa fa-paper-plane-o"></p:commandButton>
-                </p:panel>
+                    <div class="ui-g-8">
+                        <span class="overview-box-count">253</span>
+                        <span class="overview-box-name">Unread Messages</span>
+                    </div>
+                </div>
             </div>
-            <div class="ui-g-12 ui-lg-4 contacts">
-                <p:panel header="Contacts" style="min-height:360px">
-                    <ul>
-                        <li>
-                            <a href="#">
-                                <p:graphicImage name="images/avatar1.png" library="poseidon-layout" width="45"/>
-                                <span class="name">Joshua Williams</span>
-                                <span class="email">joshua@pf-poseidon.com</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <p:graphicImage name="images/avatar2.png" library="poseidon-layout" width="45"/>
-                                <span class="name">Emily Clark</span>
-                                <span class="email">emily@pf-poseidon.com</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <p:graphicImage name="images/avatar3.png" library="poseidon-layout" width="45"/>
-                                <span class="name">Susan Johnson</span>
-                                <span class="email">susan@pf-poseidon.com</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <p:graphicImage name="images/avatar4.png" library="poseidon-layout" width="45"/>
-                                <span class="name">Kelly Stark</span>
-                                <span class="email">kelly@pf-poseidon.com</span>
-                            </a>
-                        </li>
-                    </ul>
-                </p:panel>
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+                <div class="ui-g card overview-box overview-box-2">
+                    <div class="ui-g-4">
+                        <i class="fa fa-map-marker"></i>
+                    </div>
+                    <div class="ui-g-8">
+                        <span class="overview-box-count">3216</span>
+                        <span class="overview-box-name">Check-ins</span>
+                    </div>
+                </div>
             </div>
-            
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+                <div class="ui-g card overview-box overview-box-3">
+                    <div class="ui-g-4">
+                        <i class="fa fa-cloud"></i>
+                    </div>
+                    <div class="ui-g-8">
+                        <span class="overview-box-count">428</span>
+                        <span class="overview-box-name">Files Synced</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+                <div class="ui-g card overview-box overview-box-4">
+                    <div class="ui-g-4">
+                        <i class="fa fa-key"></i>
+                    </div>
+                    <div class="ui-g-8">
+                        <span class="overview-box-count">4</span>
+                        <span class="overview-box-name">Login Attempts</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+                <div class="ui-g card overview-box overview-box-1">
+                    <div class="ui-g-4">
+                        <i class="fa fa-inbox"></i>
+                    </div>
+                    <div class="ui-g-8">
+                        <span class="overview-box-count">253</span>
+                        <span class="overview-box-name">Unread Messages</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+                <div class="ui-g card overview-box overview-box-2">
+                    <div class="ui-g-4">
+                        <i class="fa fa-map-marker"></i>
+                    </div>
+                    <div class="ui-g-8">
+                        <span class="overview-box-count">3216</span>
+                        <span class="overview-box-name">Check-ins</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+                <div class="ui-g card overview-box overview-box-3">
+                    <div class="ui-g-4">
+                        <i class="fa fa-cloud"></i>
+                    </div>
+                    <div class="ui-g-8">
+                        <span class="overview-box-count">428</span>
+                        <span class="overview-box-name">Files Synced</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+                <div class="ui-g card overview-box overview-box-4">
+                    <div class="ui-g-4">
+                        <i class="fa fa-key"></i>
+                    </div>
+                    <div class="ui-g-8">
+                        <span class="overview-box-count">4</span>
+                        <span class="overview-box-name">Login Attempts</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+                <div class="ui-g card overview-box overview-box-1">
+                    <div class="ui-g-4">
+                        <i class="fa fa-inbox"></i>
+                    </div>
+                    <div class="ui-g-8">
+                        <span class="overview-box-count">253</span>
+                        <span class="overview-box-name">Unread Messages</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+                <div class="ui-g card overview-box overview-box-2">
+                    <div class="ui-g-4">
+                        <i class="fa fa-map-marker"></i>
+                    </div>
+                    <div class="ui-g-8">
+                        <span class="overview-box-count">3216</span>
+                        <span class="overview-box-name">Check-ins</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+                <div class="ui-g card overview-box overview-box-3">
+                    <div class="ui-g-4">
+                        <i class="fa fa-cloud"></i>
+                    </div>
+                    <div class="ui-g-8">
+                        <span class="overview-box-count">428</span>
+                        <span class="overview-box-name">Files Synced</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+                <div class="ui-g card overview-box overview-box-4">
+                    <div class="ui-g-4">
+                        <i class="fa fa-key"></i>
+                    </div>
+                    <div class="ui-g-8">
+                        <span class="overview-box-count">4</span>
+                        <span class="overview-box-name">Login Attempts</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </ui:define>
 

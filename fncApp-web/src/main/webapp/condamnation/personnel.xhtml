@@ -1,0 +1,95 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:tab id="personal" title="Informations">
+        <center>
+            <div class="ui-g-12 ui-md-12 ui-lg-12 ui-fluid contact-form"> 
+                <p:panel style="width: 100%" id="userPanel">
+                    <div class="ui-g">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h:inputHidden value="#{utilisateurBean.utilisateur.id}"/>
+                                <div class="ui-g-6">
+                                    <div class="ui-g-4">
+                                        <h:outputText value="Numéro R.P"/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="Numéro R.P"/>
+                                    </div>
+                                </div>
+                                <div class="ui-g-6">
+                                    <div class="ui-g-4">
+                                        <h:outputText value="Numéro d'ordre"/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="Numéro d'ordre"/>
+                                    </div> 
+                                </div>
+                                <div class="ui-g-6">
+                                    <div class="ui-g-4">
+                                        <h:outputText value="Nom"/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="Nom"/>
+                                    </div>
+                                </div>
+                                <div class="ui-g-6">
+                                    <div class="ui-g-4">
+                                        <h:outputText value="Prénom"/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="Prénom"/>
+                                    </div> 
+                                </div>
+                                <div class="ui-g-6">
+                                    <div class="ui-g-4">
+                                        <h:outputText value="Date de naissance"/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:calendar id="button" showOn="button" readonlyInput="true">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </p:calendar>
+                                    </div>
+                                </div>
+                                <div class="ui-g-6">
+                                    <div class="ui-g-4">
+                                        <h:outputText value="Lieu de naissance"/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="Lieu de naissance"/>
+                                    </div> 
+                                </div>
+                                <div class="ui-g-6">
+                                    <div class="ui-g-4">
+                                        <h:outputText value="Sexe"/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:selectOneRadio layout="responsive" columns="2" value="#{utilisateurBean.utilisateur.civilite}">
+                                            <f:selectItem itemLabel="Monsieur" itemValue="Monsieur" />
+                                            <f:selectItem itemLabel="Madame" itemValue="Madame" />
+                                        </p:selectOneRadio>
+                                    </div>
+                                </div>
+                                <div class="ui-g-6">
+                                    <div class="ui-g-4">
+                                        <h:outputText value="Adresse complète"/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="Date de naissance"/>
+
+                                    </div> 
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </p:panel>
+            </div>
+        </center>
+    </p:tab>
+
+</ui:composition>

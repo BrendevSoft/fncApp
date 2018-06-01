@@ -16,7 +16,10 @@
                     </div>
                     <pp:menu widgetVar="me">
                         <p:menuitem id="tableau_de_bord" value="Tableau de bord" icon="fa fa-fw fa-home" outcome="/tableau/tableau"/>
-                        <p:menuitem id="condamnation" value="Condamnation" icon="fa fa-fw fa-certificate" outcome="/condamnation/condamnation"/>
+                        <p:submenu id="condamnation" label="Condamnation" icon="fa fa-fw fa-life-saver">
+                            <p:menuitem id="saisi_condamnation" value="Saisie Condamnation" icon="fa fa-fw fa-square-o" outcome="/condamnation/saisie_condamnation" />
+                            <p:menuitem id="liste_condamnation" value="Liste Condamnation" icon="fa fa-fw fa-sign-in" outcome="/condamnation/liste_condamnation" />
+                        </p:submenu>
                         <p:submenu id="administration" label="Administration" icon="fa fa-fw fa-life-saver">
                             <p:menuitem id="tribunaux" value="Tribunaux" icon="fa fa-fw fa-square-o" outcome="/administration/tribunaux" />
                             <p:menuitem id="prisons" value="Prisons" icon="fa fa-fw fa-sign-in" outcome="/administration/prisons" />
