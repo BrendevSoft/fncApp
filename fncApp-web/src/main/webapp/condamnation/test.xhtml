@@ -1,0 +1,54 @@
+  <div class="ui-g-6">
+                                            <div class="ui-g-4">
+                                                <h:outputText value="Nom"/>
+
+                                            </div>
+                                            <div class="ui-g-8">
+                                                <p:inputText value="#{condamnationBean.personne.nom}"  placeholder="Nom"/>
+                                            </div>
+                                        </div>
+                                        <div class="ui-g-6">
+                                            <div class="ui-g-4">
+                                                <h:outputText value="Prénom"/>
+                                            </div>
+                                            <div class="ui-g-8">
+                                                <p:inputText value="#{condamnationBean.personne.prenom}"  placeholder="Prénom"/>
+                                            </div> 
+                                        </div>
+                                        <div class="ui-g-6">
+                                            <div class="ui-g-4">
+                                                <h:outputText value="Date de naissance"/>
+                                            </div>
+                                            <div class="ui-g-8">
+                                                <p:calendar value="#{condamnationBean.personne.datenaissance}" showOn="button" readonlyInput="true">
+                                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                                </p:calendar>
+                                            </div>
+                                        </div>
+                                        <div class="ui-g-6">
+                                            <div class="ui-g-4">
+                                                <h:outputText value="Lieu de naissance"/>
+                                            </div>
+                                            <div class="ui-g-8">
+                                                <p:inputText value="#{condamnationBean.personne.lieunaissance}"  placeholder="Lieu de naissance"/>
+                                            </div> 
+                                        </div>
+                                        <div class="ui-g-6">
+                                            <div class="ui-g-4">
+                                                <h:outputText value="Sexe"/>
+                                            </div>
+                                            <div class="ui-g-8">
+                                                <p:selectOneRadio layout="responsive" columns="2" value="#{condamnationBean.personne.sexe}">
+                                                    <f:selectItem itemLabel="Masculin" itemValue="Masculin" />
+                                                    <f:selectItem itemLabel="Féminin" itemValue="Féminin" />
+                                                </p:selectOneRadio>
+                                            </div>
+                                        </div>
+                                        <div class="ui-g-6">
+                                            <div class="ui-g-4">
+                                                <h:outputText value="Adresse complète"/>
+                                            </div>
+                                            <div class="ui-g-8">
+                                                <p:inputTextarea value="#{condamnationBean.personne.adresse}"/>
+                                            </div> 
+                                        </div>

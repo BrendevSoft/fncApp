@@ -12,13 +12,12 @@
                     <div class="ui-g">
                         <div class="row">
                             <div class="col-sm-6">
-                                <h:inputHidden value="#{utilisateurBean.utilisateur.id}"/>
                                 <div class="ui-g-6">
                                     <div class="ui-g-4">
                                         <h:outputText value="Numéro R.P"/>
                                     </div>
                                     <div class="ui-g-8">
-                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="Numéro R.P"/>
+                                        <p:inputText value="#{condamnationBean.condamnation.numeroRp}"  placeholder="Numéro R.P"/>
                                     </div>
                                 </div>
                                 <div class="ui-g-6">
@@ -26,7 +25,7 @@
                                         <h:outputText value="Numéro d'ordre"/>
                                     </div>
                                     <div class="ui-g-8">
-                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="Numéro d'ordre"/>
+                                        <p:inputText value="#{condamnationBean.condamnation.numeroOrdre}"  placeholder="Numéro d'ordre"/>
                                     </div> 
                                 </div>
                                 <div class="ui-g-6">
@@ -34,7 +33,7 @@
                                         <h:outputText value="Nom"/>
                                     </div>
                                     <div class="ui-g-8">
-                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="Nom"/>
+                                        <p:inputText value="#{condamnationBean.personne.nom}"  placeholder="Nom"/>
                                     </div>
                                 </div>
                                 <div class="ui-g-6">
@@ -42,7 +41,7 @@
                                         <h:outputText value="Prénom"/>
                                     </div>
                                     <div class="ui-g-8">
-                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="Prénom"/>
+                                        <p:inputText value="#{condamnationBean.personne.prenom}"  placeholder="Prénom"/>
                                     </div> 
                                 </div>
                                 <div class="ui-g-6">
@@ -50,7 +49,7 @@
                                         <h:outputText value="Date de naissance"/>
                                     </div>
                                     <div class="ui-g-8">
-                                        <p:calendar id="button" showOn="button" readonlyInput="true">
+                                        <p:calendar value="#{condamnationBean.personne.datenaissance}" showOn="button" readonlyInput="true">
                                             <f:convertDateTime pattern="dd/MM/yyyy" />
                                         </p:calendar>
                                     </div>
@@ -60,7 +59,7 @@
                                         <h:outputText value="Lieu de naissance"/>
                                     </div>
                                     <div class="ui-g-8">
-                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="Lieu de naissance"/>
+                                        <p:inputText value="#{condamnationBean.personne.lieunaissance}"  placeholder="Lieu de naissance"/>
                                     </div> 
                                 </div>
                                 <div class="ui-g-6">
@@ -68,9 +67,9 @@
                                         <h:outputText value="Sexe"/>
                                     </div>
                                     <div class="ui-g-8">
-                                        <p:selectOneRadio layout="responsive" columns="2" value="#{utilisateurBean.utilisateur.civilite}">
-                                            <f:selectItem itemLabel="Monsieur" itemValue="Monsieur" />
-                                            <f:selectItem itemLabel="Madame" itemValue="Madame" />
+                                        <p:selectOneRadio layout="responsive" columns="2" value="#{condamnationBean.personne.sexe}">
+                                            <f:selectItem itemLabel="Masculin" itemValue="Masculin" />
+                                            <f:selectItem itemLabel="Féminin" itemValue="Féminin" />
                                         </p:selectOneRadio>
                                     </div>
                                 </div>
@@ -79,8 +78,7 @@
                                         <h:outputText value="Adresse complète"/>
                                     </div>
                                     <div class="ui-g-8">
-                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="Date de naissance"/>
-
+                                        <p:inputTextarea value="#{condamnationBean.personne.adresse}"/>
                                     </div> 
                                 </div>
 

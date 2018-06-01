@@ -60,9 +60,9 @@ public class CondamnationBean implements Serializable {
     private Peine peine;
     private Statistique statistique;
     private String typeSituation = "";
-    private boolean det;
-    private boolean lib;
-    private boolean fuit;
+    private Boolean det = false;
+    private Boolean lib = false;
+    private Boolean fuit = false;
 
     private List<Condamnation> condamnations;
     private List<Condamnation> condamnationsFilter;
@@ -114,6 +114,13 @@ public class CondamnationBean implements Serializable {
 
         this.peine = new Peine();
         this.peines = new ArrayList<>();
+        
+        this.journalisation = new MethodeJournalisation();
+    }
+
+    @PostConstruct
+    public void init() {
+        visible();
     }
 
     public void cancel(ActionEvent actionEvent) {
@@ -127,13 +134,12 @@ public class CondamnationBean implements Serializable {
         this.statistique = new Statistique();
     }
 
-    @PostConstruct
-    public void init() {
-        this.det = true;
+    public void visible() {
+        this.det = false;
         this.lib = false;
         this.fuit = false;
 
-        if (this.typeSituation.equals("En détention")) {
+        if (this.typeSituation.equals("En Détention")) {
             this.det = true;
             this.lib = false;
             this.fuit = false;
@@ -141,10 +147,14 @@ public class CondamnationBean implements Serializable {
             this.det = false;
             this.lib = true;
             this.fuit = false;
-        } else if (this.typeSituation.equals("En fuite")) {
+        } else if (this.typeSituation.equals("En Fuite")) {
             this.det = false;
             this.lib = false;
             this.fuit = true;
+        } else if (this.typeSituation.isEmpty()) {
+            this.det = false;
+            this.lib = false;
+            this.fuit = false;
         }
     }
 
@@ -153,64 +163,42 @@ public class CondamnationBean implements Serializable {
         UserTransaction tx = TransactionManager.getUserTransaction();
         try {
             tx.begin();
-            if (this.condamnation.getId() == null) {
 
-                this.peine.setInfraction(infraction);
-                this.peine.setDatecreation(new Date());
-                this.peine.setRowvers(new Date());
-                this.psbl2.saveOne(peine);
+            this.peine.setInfraction(infraction);
+            this.peine.setDatecreation(new Date());
+            this.peine.setRowvers(new Date());
+            this.psbl2.saveOne(peine);
 
-                journalisation.saveLog4j(CondamnationBean.class.getName(), Level.INFO, "Enregistrement d'une peine :" + peine.getLibelle());
+            journalisation.saveLog4j(CondamnationBean.class.getName(), Level.INFO, "Enregistrement d'une peine :" + peine.getLibelle());
 
-                this.personne.setDatecreation(new Date());
-                this.personne.setRowvers(new Date());
-                this.psbl.saveOne(personne);
+            this.personne.setDatecreation(new Date());
+            this.personne.setRowvers(new Date());
+            this.psbl.saveOne(personne);
 
-                journalisation.saveLog4j(CondamnationBean.class.getName(), Level.INFO, "Enregistrement d'une personne :" + personne.getNom() + " " + personne.getPrenom());
+            journalisation.saveLog4j(CondamnationBean.class.getName(), Level.INFO, "Enregistrement d'une personne :" + personne.getNom() + " " + personne.getPrenom());
 
-                this.condamnation.setJuridiction(juridiction);
-                this.condamnation.setPeine(peine);
-                this.condamnation.setPersonne(personne);
-                this.csbl.saveOne(condamnation);
+            this.condamnation.setJuridiction(juridiction);
+            this.condamnation.setPeine(peine);
+            this.condamnation.setPersonne(personne);
+            this.csbl.saveOne(condamnation);
 
-                journalisation.saveLog4j(CondamnationBean.class.getName(), Level.INFO, "Enregistrement d'une condamnation :" + condamnation.getId());
+            journalisation.saveLog4j(CondamnationBean.class.getName(), Level.INFO, "Enregistrement d'une condamnation :" + condamnation.getId());
 
-                this.situation.setDatecreation(new Date());
-                this.situation.setRowvers(new Date());
-                this.situation.setTypesituation(typeSituation);
-                this.situation.setPrison(prison);
-                this.situation.setCondamnation(condamnation);
-                this.ssbl.saveOne(situation);
-                journalisation.saveLog4j(CondamnationBean.class.getName(), Level.INFO, "Enregistrement d'une situation :" + situation.getId());
+            this.situation.setDatecreation(new Date());
+            this.situation.setRowvers(new Date());
+            this.situation.setTypesituation(typeSituation);
+            this.situation.setPrison(prison);
+            this.situation.setCondamnation(condamnation);
+            this.ssbl.saveOne(situation);
+            journalisation.saveLog4j(CondamnationBean.class.getName(), Level.INFO, "Enregistrement d'une situation :" + situation.getId());
 
-                /*  this.statistique.setDatecreation(new Date());
-                this.statistique.setRowvers(new Date());
-
-                Integer nbre = 0;
-                List<Statistique> statistiques = this.ssbl1.getBy("juridiction", juridiction);
-                if (!statistiques.isEmpty()) {
-                    for (Statistique statistique1 : statistiques) {
-                        nbre++;
-                    }
-                }
-                this.statistique.setNombreSaisi(+1);
-                Integer nbreT = 0;
-                List<Statistique> statistiques1 = this.ssbl1.getAll();
-                if (!statistiques1.isEmpty()) {
-                    nbreT++;
-                }
-                this.statistique.setNombreSaisiTotal(nbreT + nbre);
-                this.ssbl1.saveOne(statistique);
-                journalisation.saveLog4j(CondamnationBean.class.getName(), Level.INFO, "Enregistrement d'une statistique :" + statistique.getJuridiction().getLibellecourt());
-                 */
-                context.addMessage(null, new FacesMessage(Constante.ENREGISTREMENT_REUSSIT));
-            } else {
-                this.juridiction.setRowvers(new Date());
-                this.jsbl.updateOne(juridiction);
-                journalisation.saveLog4j(UtilisateurBean.class.getName(), Level.INFO, "Modification d'un tribunal :" + juridiction.getLibellecourt());
-                context.addMessage(null, new FacesMessage(Constante.MODIFICATION_REUSSIT));
-            }
+            this.condamnation = new Condamnation();
             this.juridiction = new Juridiction();
+            this.personne = new Personne();
+            this.situation = new Situation();
+            this.infraction = new Infraction();
+            this.prison = new Prison();
+            this.peine = new Peine();
             tx.commit();
         } catch (Exception e) {
             e.getMessage();
@@ -218,11 +206,11 @@ public class CondamnationBean implements Serializable {
             try {
                 tx.rollback();
             } catch (IllegalStateException ex) {
-                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+                Logger.getLogger(CondamnationBean.class.getName()).log(Level.FATAL, null, ex);
             } catch (SecurityException ex) {
-                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+                Logger.getLogger(CondamnationBean.class.getName()).log(Level.FATAL, null, ex);
             } catch (SystemException ex) {
-                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+                Logger.getLogger(CondamnationBean.class.getName()).log(Level.FATAL, null, ex);
             }
         }
 
@@ -356,6 +344,38 @@ public class CondamnationBean implements Serializable {
 
     public void setPeines(List<Peine> peines) {
         this.peines = peines;
+    }
+
+    public String getTypeSituation() {
+        return typeSituation;
+    }
+
+    public void setTypeSituation(String typeSituation) {
+        this.typeSituation = typeSituation;
+    }
+
+    public Boolean getDet() {
+        return det;
+    }
+
+    public void setDet(Boolean det) {
+        this.det = det;
+    }
+
+    public Boolean getLib() {
+        return lib;
+    }
+
+    public void setLib(Boolean lib) {
+        this.lib = lib;
+    }
+
+    public Boolean getFuit() {
+        return fuit;
+    }
+
+    public void setFuit(Boolean fuit) {
+        this.fuit = fuit;
     }
 
 }

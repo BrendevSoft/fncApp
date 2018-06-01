@@ -7,7 +7,7 @@ package com.fncapp.fncapp.web.web;
 
 import javax.inject.Named;
 import java.io.Serializable;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import org.primefaces.event.FlowEvent;
 
 /**
@@ -15,7 +15,7 @@ import org.primefaces.event.FlowEvent;
  * @author NOAMESSI
  */
 @Named(value = "GesNiveau")
-@SessionScoped
+@ViewScoped
 public class GesNiveau implements Serializable {
 
     private boolean skip;

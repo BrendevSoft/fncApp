@@ -6,108 +6,110 @@
                 xmlns:p="http://primefaces.org/ui">
 
 
-    <p:tab id="situation" title="Informations">
+    <p:tab id="situation" title="Situation du detenu">
         <center>
             <div class="ui-g-12 ui-md-12 ui-lg-12 ui-fluid contact-form"> 
                 <p:panel style="width: 100%" id="situaPanel">
                     <div class="ui-g">
-                        <div class="row">
-                            <div class="col-sm-6">
-
-                                <div class="ui-g-12">
-                                    <div class="ui-g-4">
-                                        <h:outputText value="Situation au moment du jugement"/>
-                                    </div>
-                                    <div class="ui-g-8">
-                                        <p:selectOneMenu  value="#{utilisateurBean.juridiction}" 
-                                                          required="true" filter="true" filterMatchMode="startsWith"
-                                                          converter="omnifaces.SelectItemsIndexConverter">
-                                            <f:selectItem itemLabel="Choisir la jurudiction" noSelectionOption="true"/>
-                                            <f:selectItem itemLabel="En détention"/>
-                                            <f:selectItem itemLabel="En fuite"/>
-                                            <f:selectItem itemLabel="En Liberté" />
-                                        </p:selectOneMenu>   
-                                    </div>
-                                </div>
-                                <div class="ui-g-6">
-                                    <div class="ui-g-4">
-                                        <h:outputText value="Numéro mandat de dépôt"/>
-                                    </div>
-                                    <div class="ui-g-8">
-                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="Numéro mandat de dépôt"/>
-                                    </div> 
-                                </div>
-                                <div class="ui-g-6">
-                                    <div class="ui-g-4">
-                                       <h:outputText value="Date mandat de dépôt"/>
-                                    </div>
-                                    <div class="ui-g-8">
-                                    <p:calendar showOn="button" readonlyInput="true">
-                                            <f:convertDateTime pattern="dd/MM/yyyy" />
-                                        </p:calendar>  </div>
-                                </div>
-                                <div class="ui-g-6">
-                                    <div class="ui-g-4">
-                                        <h:outputText value="Numéro Ecrou"/>
-                                    </div>
-                                    <div class="ui-g-8">
-                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="Numéro Ecrou"/>
-                                    </div> 
-                                </div>
-                                <div class="ui-g-6">
-                                    <div class="ui-g-4">
-                                        <h:outputText value="Prsion"/>
-                                    </div>
-                                    <div class="ui-g-8">
-                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="Prison"/>
-                                    </div>
-                                </div>
-
-                                <div class="ui-g-6">
-                                    <div class="ui-g-4">
-                                        <h:outputText value="Numéro mandat d'arrêt"/>
-                                    </div>
-                                    <div class="ui-g-8">
-                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="Numéro mandat d'arrêt"/>
-                                    </div> 
-                                </div>
-                                <div class="ui-g-6">
-                                    <div class="ui-g-4">
-                                       <h:outputText value="Date mandat d'arrêt"/>
-                                    </div>
-                                    <div class="ui-g-8">
-                                  <p:calendar showOn="button" readonlyInput="true">
-                                            <f:convertDateTime pattern="dd/MM/yyyy" />
-                                        </p:calendar>    </div> 
-                                </div>
-                                <div class="ui-g-6">
-                                    <div class="ui-g-4">
-                                        <h:outputText value="Numéro décision LP"/>
-                                    </div>
-                                    <div class="ui-g-8">
-                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="Numéro décision LP"/>
-                                    </div> 
-                                </div>
-                                <div class="ui-g-6">
-                                    <div class="ui-g-4">
-                                        <h:outputText value="Date LP"/>
-                                    </div>
-                                    <div class="ui-g-8">
-                                        <p:calendar showOn="button" readonlyInput="true">
-                                            <f:convertDateTime pattern="dd/MM/yyyy" />
-                                        </p:calendar>  </div> 
-                                </div>
-
-
-
-                                <div class="ui-g-10">
-                                </div>
-                                <div class="ui-g-2">
-                                    <p:commandButton class="Fs16 OrangeButton" value="Valider" style="display:inline-block;margin-top:5px"/>
-
-                                </div>
+                        <div class="ui-g-12">
+                            <div class="ui-g-4">
+                                <h:outputText value="Situation au moment du jugement"/>
+                            </div>
+                            <div class="ui-g-8">
+                                <p:selectOneMenu  value="#{condamnationBean.typeSituation}" 
+                                                  required="true">
+                                    <f:selectItem itemLabel="Choisir le type de situatio" noSelectionOption="true"/>
+                                    <f:selectItem itemLabel="En détention" itemValue="En Détention"/>
+                                    <f:selectItem itemLabel="En fuite" itemValue="En Fuite"/>
+                                    <f:selectItem itemLabel="En Liberté" itemValue="En liberté"/>
+                                    <p:ajax event="change" process="@this" listener="#{condamnationBean.visible()}"
+                                            update=":users:userForm:detention,:users:userForm:liberte,:users:userForm:fuite"/>
+                                </p:selectOneMenu>   
                             </div>
                         </div>
+
+                        <p:panel style="width: 100%" id="detention" visible="#{condamnationBean.det}">
+                            <div class="ui-g-6">
+                                <div class="ui-g-4">
+                                    <h:outputText value="Numéro mandat de dépôt"/>
+                                </div>
+                                <div class="ui-g-8">
+                                    <p:inputText value="#{condamnationBean.situation.numMandatDepot}"  placeholder="Numéro mandat de dépôt"/>
+                                </div> 
+                            </div>
+                            <div class="ui-g-6">
+                                <div class="ui-g-4">
+                                    <h:outputText value="Date mandat de dépôt"/>
+                                </div>
+                                <div class="ui-g-8">
+                                    <p:calendar showOn="button" value="#{condamnationBean.situation.dateMandatDepot}" readonlyInput="true">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </p:calendar>  </div>
+                            </div>
+                            <div class="ui-g-6">
+                                <div class="ui-g-4">
+                                    <h:outputText value="Numéro Ecrou"/>
+                                </div>
+                                <div class="ui-g-8">
+                                    <p:inputText value="#{condamnationBean.situation.numEcrou}"  placeholder="Numéro Ecrou"/>
+                                </div> 
+                            </div>
+                            <div class="ui-g-6">
+                                <div class="ui-g-4">
+                                    <h:outputText value="Prsion"/>
+                                </div>
+                                <div class="ui-g-8">
+                                    <p:selectOneMenu  value="#{condamnationBean.prison}" 
+                                                      filter="true" filterMatchMode="startsWith"
+                                                      converter="omnifaces.SelectItemsIndexConverter">
+                                        <f:selectItem itemLabel="Choisir la prison" noSelectionOption="true"/>
+                                        <f:selectItems var="pris" value="#{condamnationBean.prisons}" itemLabel="#{pris.libellecourt}" itemValue="#{pris}"/>
+                                    </p:selectOneMenu>    </div>
+                            </div>
+                        </p:panel> 
+                        <p:panel style="width: 100%" id="liberte" visible="#{condamnationBean.lib}">
+                            <div class="ui-g-6">
+
+                                <div class="ui-g-4">
+                                    <h:outputText value="Numéro mandat d'arrêt"/>
+                                </div>
+                                <div class="ui-g-8">
+                                    <p:inputText value="#{condamnationBean.situation.numMandatArret}"  placeholder="Numéro mandat d'arrêt"/>
+                                </div> 
+                            </div>
+                            <div class="ui-g-6">
+                                <div class="ui-g-4">
+                                    <h:outputText value="Date mandat d'arrêt"/>
+                                </div>
+                                <div class="ui-g-8">
+                                    <p:calendar value="#{condamnationBean.situation.dateMandatArret}" showOn="button" readonlyInput="true">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </p:calendar>    
+                                </div> 
+                            </div>
+                        </p:panel>
+
+                        <p:panel style="width: 100%" id="fuite" visible="#{condamnationBean.fuit}">
+                            <div class="ui-g-6">
+                                <div class="ui-g-4">
+                                    <h:outputText value="Numéro décision LP"/>
+                                </div>
+                                <div class="ui-g-8">
+                                    <p:inputText value="#{condamnationBean.situation.numDecisionLp}"  placeholder="Numéro décision LP"/>
+                                </div> 
+                            </div>
+                            <div class="ui-g-6">
+                                <div class="ui-g-4">
+                                    <h:outputText value="Date LP"/>
+                                </div>
+                                <div class="ui-g-8">
+                                    <p:calendar value="#{condamnationBean.situation.dateDecisionLp}" showOn="button" readonlyInput="true">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </p:calendar>  
+                                </div> 
+                            </div>
+                        </p:panel>
+
                     </div>
                 </p:panel>
             </div>

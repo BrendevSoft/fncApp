@@ -5,7 +5,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
 
-    <p:tab id="information" title="Informations">
+    <p:tab id="information" title="Jugement">
         <center>
             <div class="ui-g-12 ui-md-12 ui-lg-12 ui-fluid contact-form"> 
                 <p:panel style="width: 100%" id="infoPanel">
@@ -17,11 +17,11 @@
                                         <h:outputText value="Tribunal"/>
                                     </div>
                                     <div class="ui-g-8">
-                                        <p:selectOneMenu  value="#{utilisateurBean.juridiction}" 
-                                                          required="true" filter="true" filterMatchMode="startsWith"
+                                        <p:selectOneMenu  value="#{condamnationBean.juridiction}" 
+                                                          filter="true" filterMatchMode="startsWith"
                                                           converter="omnifaces.SelectItemsIndexConverter">
                                             <f:selectItem itemLabel="Choisir la jurudiction" noSelectionOption="true"/>
-                                            <f:selectItems var="juri" value="#{utilisateurBean.juridictions}"  itemLabel="#{juri.libellecourt}" itemValue="#{juri}" />
+                                            <f:selectItems var="jur" value="#{condamnationBean.juridictions}" itemLabel="#{jur.libellecourt}" itemValue="#{jur}" />
                                         </p:selectOneMenu> 
                                     </div>
                                 </div>
@@ -30,7 +30,7 @@
                                         <h:outputText value="Date Jugement"/>
                                     </div>
                                     <div class="ui-g-8">
-                                        <p:calendar showOn="button" readonlyInput="true">
+                                        <p:calendar value="#{condamnationBean.condamnation.datejugement}" showOn="button" readonlyInput="true">
                                             <f:convertDateTime pattern="dd/MM/yyyy" />
                                         </p:calendar>  
                                     </div> 
@@ -40,11 +40,11 @@
                                         <h:outputText value="Nature des délits"/>
                                     </div>
                                     <div class="ui-g-8">
-                                        <p:selectOneMenu value="#{utilisateurBean.juridiction}" 
-                                                         required="true" filter="true" filterMatchMode="startsWith"
+                                        <p:selectOneMenu value="#{condamnationBean.infraction}" 
+                                                         filter="true" filterMatchMode="startsWith"
                                                          converter="omnifaces.SelectItemsIndexConverter">
                                             <f:selectItem itemLabel="Choisir la jurudiction" noSelectionOption="true"/>
-                                            <f:selectItems var="juri" value="#{utilisateurBean.juridictions}"  itemLabel="#{juri.libellecourt}" itemValue="#{juri}" />
+                                            <f:selectItems var="inf" value="#{condamnationBean.infractions}"  itemLabel="#{inf.libelle}" itemValue="#{inf}" />
                                         </p:selectOneMenu>       </div>
                                 </div>
                                 <div class="ui-g-6">
@@ -52,7 +52,7 @@
                                         <h:outputText value="Peine prononcée"/>
                                     </div>
                                     <div class="ui-g-8">
-                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="Peine prononcée"/>
+                                        <p:inputText value="#{condamnationBean.peine.libelle}"  placeholder="Peine prononcée"/>
                                     </div> 
                                 </div>
                                 <div class="ui-g-6">
@@ -60,7 +60,7 @@
                                         <h:outputText value="Amende"/>
                                     </div>
                                     <div class="ui-g-8">
-                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="Amende"/>
+                                        <p:inputText value="#{condamnationBean.peine.amande}"  placeholder="Amende"/>
                                     </div>
                                 </div>
                                 <div class="ui-g-6">
@@ -68,10 +68,14 @@
                                         <h:outputText value="IS"/>
                                     </div>
                                     <div class="ui-g-8">
-                                        <p:inputText value="#{utilisateurBean.utilisateur.nom}"  placeholder="IS"/>
+                                        <p:inputText value="#{condamnationBean.peine.peineIs}"  placeholder="IS"/>
                                     </div> 
                                 </div>
-
+                                <div class="ui-g-10">
+                                </div>
+                                <div class="ui-g-2">
+                                    <p:commandButton process="@form" class="Fs16 OrangeButton" update=":users:userForm,:users:message" action="#{condamnationBean.save(actionEvent)}" value="Valider" style="display:inline-block;margin-top:5px"/>
+                                </div>
                             </div>
                         </div>
                     </div>
