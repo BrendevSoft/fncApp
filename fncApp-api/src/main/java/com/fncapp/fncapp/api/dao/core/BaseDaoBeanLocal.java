@@ -6,7 +6,7 @@
 package com.fncapp.fncapp.api.dao.core;
 
 import java.util.List;
-import javax.ejb.Remote;
+import javax.ejb.Local;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -16,7 +16,7 @@ import javax.persistence.Query;
  * @param <T> type de sort value
  * @param <PK> type de sort value
  */
-@Remote
+@Local
 public interface BaseDaoBeanLocal<T, PK extends java.io.Serializable> {
     
     T getOne(final PK id);

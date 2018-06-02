@@ -7,13 +7,13 @@ package com.fncapp.fncapp.api.dao;
 
 import com.fncapp.fncapp.api.dao.core.BaseDaoBeanLocal;
 import com.fncapp.fncapp.api.entities.Condamnation;
-import javax.ejb.Remote;
+import javax.ejb.Local;
 
 /**
  *
  * @author Edson PAKOU
  */
-@Remote
+@Local
 public interface CondamnationDaoBeanLocal extends BaseDaoBeanLocal<Condamnation, Long>{
     
 }

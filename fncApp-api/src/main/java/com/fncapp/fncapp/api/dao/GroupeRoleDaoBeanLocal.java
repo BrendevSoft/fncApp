@@ -11,13 +11,13 @@ import com.fncapp.fncapp.api.entities.GroupeRole;
 import com.fncapp.fncapp.api.entities.GroupeRoleId;
 import com.fncapp.fncapp.api.entities.Rolee;
 import java.util.List;
-import javax.ejb.Remote;
+import javax.ejb.Local;
 
 /**
  *
  * @author Brendev
  */
-@Remote
+@Local
 public interface GroupeRoleDaoBeanLocal extends BaseDaoBeanLocal<GroupeRole, GroupeRoleId> {
 
     public List<Rolee> getGroupeRoles(Groupe groupe);

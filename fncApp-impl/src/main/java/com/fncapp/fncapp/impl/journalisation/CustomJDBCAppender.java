@@ -13,7 +13,6 @@ import com.fncapp.fncapp.api.api.utils.Convertiseur;
 import com.fncapp.fncapp.api.api.utils.IpAdressUtils;
 import com.fncapp.fncapp.impl.shiro.EntityRealm;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -6,12 +6,15 @@
                 xmlns:p="http://primefaces.org/ui">
 
     <p:tab id="information" title="Jugement">
+        <h:inputHidden value="#{condamnationBean.condamnation.id}"/>
+        <h:inputHidden value="#{condamnationBean.peine.id}"/>
         <center>
             <div class="ui-g-12 ui-md-12 ui-lg-12 ui-fluid contact-form"> 
                 <p:panel style="width: 100%" id="infoPanel">
                     <div class="ui-g">
                         <div class="row">
                             <div class="col-sm-6">
+
                                 <div class="ui-g-6">
                                     <div class="ui-g-4">
                                         <h:outputText value="Tribunal"/>

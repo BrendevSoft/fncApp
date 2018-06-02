@@ -11,13 +11,13 @@ import com.fncapp.fncapp.api.entities.GroupeRoleId;
 import com.fncapp.fncapp.api.entities.Rolee;
 import com.fncapp.fncapp.api.service.core.BaseServiceBeanLocal;
 import java.util.List;
-import javax.ejb.Remote;
+import javax.ejb.Local;
 
 /**
  *
  * @author Brendev
  */
-@Remote
+@Local
 public interface GroupeRoleServiceBeanLocal extends BaseServiceBeanLocal<GroupeRole, GroupeRoleId> {
 
     public List<Rolee> getProfilRoles(Groupe groupe);

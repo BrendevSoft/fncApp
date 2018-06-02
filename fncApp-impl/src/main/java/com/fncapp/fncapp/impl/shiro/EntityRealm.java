@@ -26,8 +26,6 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
-import javax.enterprise.inject.Produces;
 
 public class EntityRealm extends AuthorizingRealm {
 
@@ -130,7 +128,6 @@ public class EntityRealm extends AuthorizingRealm {
         return null;
     }
 
-    @Produces @SessionScoped
     public static Subject getSubject() {
         return SecurityUtils.getSubject();
 

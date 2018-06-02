@@ -107,42 +107,37 @@ public class LoginBean implements Serializable {
             this.rsl.saveOne(new Rolee("Désactiver compte"));
         }
 
-        List<Groupe> alle = psbl.getAll();
-        if (alle.isEmpty()) {
-            this.psbl.saveOne(new Groupe("Administrateur", "administrer"));
-        }
-
-        List<Groupe> profils = psbl.getBy("nom", "super");
+        List<Groupe> profils = psbl.getBy("nom", "Admin");
 
         UserTransaction tx = TransactionManager.getUserTransaction();
         try {
             tx.begin();
             if (profils.isEmpty()) {
-                this.psbl.saveOne(new Groupe("super", "superviser"));
+                this.psbl.saveOne(new Groupe("Admin", "Administrateur du système"));
                 GroupeRole pr;
                 List<Rolee> roles = this.rsl.getAll();
                 for (Rolee rolee : roles) {
                     pr = new GroupeRole();
                     pr.setRole(rolee);
-                    pr.setGroupe(psbl.getBy("nom", "super").get(0));
+                    pr.setGroupe(psbl.getBy("nom", "Admin").get(0));
                     prsbl.saveOne(pr);
                 }
 
                 Utilisateur u = new Utilisateur();
-                u.setLogin("FncApp");
-                u.setQuestion("fncapp");
-                u.setReponse("fncapp");
-                u.setNom("FNC");
-                u.setPrenom("FNC");
+                u.setLogin("AdminFNC");
+                u.setQuestion("AdminFNC");
+                u.setReponse("AdminFNC");
+                u.setNom("AdminFNC");
+                u.setPrenom("AdminFNC");
                 u.setMail("fnc@fnc.com");
                 u.setPasswd(new Sha256Hash("@fnc2018").toHex());
                 u.setProfilactif(true);
                 usbl.saveOne(u);
 
                 Groupeutilisateur pu = new Groupeutilisateur();
-                pu.setUtilisateur(usbl.getBy("login", "FncApp").get(0));
+                pu.setUtilisateur(usbl.getBy("login", "AdminFNC").get(0));
                 pu.setDateAffectation(date);
-                pu.setGroupe(psbl.getBy("nom", "super").get(0));
+                pu.setGroupe(psbl.getBy("nom", "Admin").get(0));
                 pusbl.saveOne(pu);
                 tx.commit();
             }

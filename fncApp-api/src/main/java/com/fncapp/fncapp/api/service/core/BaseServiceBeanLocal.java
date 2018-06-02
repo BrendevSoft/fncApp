@@ -8,6 +8,7 @@ package com.fncapp.fncapp.api.service.core;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import javax.ejb.Local;
 import javax.ejb.Remote;
 
 /**
@@ -16,7 +17,7 @@ import javax.ejb.Remote;
  * @param <T>
  * @param <PK>
  */
-@Remote
+@Local
 public interface BaseServiceBeanLocal<T, PK extends java.io.Serializable>{
     T getOne(PK id);
     

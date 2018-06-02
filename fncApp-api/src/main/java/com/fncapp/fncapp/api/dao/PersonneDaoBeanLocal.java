@@ -7,13 +7,13 @@ package com.fncapp.fncapp.api.dao;
 
 import com.fncapp.fncapp.api.dao.core.BaseDaoBeanLocal;
 import com.fncapp.fncapp.api.entities.Personne;
-import javax.ejb.Remote;
+import javax.ejb.Local;
 
 /**
  *
  * @author Brendev
  */
-@Remote
+@Local
 public interface PersonneDaoBeanLocal extends BaseDaoBeanLocal<Personne, Long>{
     
 }

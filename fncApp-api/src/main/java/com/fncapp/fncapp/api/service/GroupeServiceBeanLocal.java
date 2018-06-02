@@ -7,13 +7,13 @@ package com.fncapp.fncapp.api.service;
 
 import com.fncapp.fncapp.api.entities.Groupe;
 import com.fncapp.fncapp.api.service.core.BaseServiceBeanLocal;
-import javax.ejb.Remote;
+import javax.ejb.Local;
 
 /**
  *
  * @author Brendev
  */
-@Remote
+@Local
 public interface GroupeServiceBeanLocal extends BaseServiceBeanLocal<Groupe, Long>{
     
 }

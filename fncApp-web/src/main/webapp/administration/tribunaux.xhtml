@@ -14,7 +14,6 @@
 
 
         <h:form id="tribunal">
-            <p:autoUpdate/>
             <p:growl id="message" life="4000" showSummary="true"/>
             <p:fieldset legend="Gestion des tribunaux">
                 <h:form id="tribunalForm" styleClass="personne">
@@ -26,7 +25,31 @@
                                     </div>
                                     <div class="ui-g-6">
                                         <h:inputHidden value="#{juridictionBean.juridiction.id}"/>
+                                        <p:selectOneMenu id="juridiction" value="#{utilisateurBean.juridiction}" 
+                                                         required="true" filter="true" filterMatchMode="startsWith"
+                                                         converter="omnifaces.SelectItemsIndexConverter">
+                                            <f:selectItem itemLabel="Choisir la jurudiction" noSelectionOption="true"/>
+                                            <f:selectItems var="juri" value="#{utilisateurBean.juridictions}"  itemLabel="#{juri.libellecourt}" itemValue="#{juri}" />
+                                        </p:selectOneMenu>  </div>
+                                    <div class="ui-g-3">
+                                    </div>
+                                </div>
+                                <div class="ui-g-12">
+                                    <div class="ui-g-3">
+                                    </div>
+                                    <div class="ui-g-6">
+                                        <h:inputHidden value="#{juridictionBean.juridiction.id}"/>
                                         <p:inputText id="nomJuri" value="#{juridictionBean.juridiction.libellecourt}" required="true" placeholder="Libellé"/>
+                                    </div>
+                                    <div class="ui-g-3">
+                                    </div>
+                                </div>
+                                <div class="ui-g-12">
+                                    <div class="ui-g-3">
+                                    </div>
+                                    <div class="ui-g-6">
+                                        <h:inputHidden value="#{juridictionBean.juridiction.id}"/>
+                                        <p:inputText id="villeJuri" value="#{juridictionBean.juridiction.libellecourt}" required="true" placeholder="Ville"/>
                                     </div>
                                     <div class="ui-g-3">
                                     </div>
@@ -61,7 +84,7 @@
                 <h:form id="tribunauxTab">
 
                     <p:dataTable var="juri" id="tribunalTab" widgetVar="tribunalTable" value="#{juridictionBean.juridictions}"
-                                 emptyMessage="Profil non trouvé"
+                                 emptyMessage="Tribunal non trouvé"
                                  style="border-color: #00AEEF" filteredValue="#{juridictionBean.juridictionsFilter}" 
                                  rows="5" scrollable="true"  paginator="true" paginatorPosition="top" 
                                  rowsPerPageTemplate="2,5,10,15">

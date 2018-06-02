@@ -10,13 +10,13 @@ import com.fncapp.fncapp.api.entities.GroupeUtilisateurId;
 import com.fncapp.fncapp.api.entities.Utilisateur;
 import com.fncapp.fncapp.api.service.core.BaseServiceBeanLocal;
 import java.util.List;
-import javax.ejb.Remote;
+import javax.ejb.Local;
 
 /**
  *
  * @author Brendev
  */
-@Remote
+@Local
 public interface GroupeUtilisateurServiceBeanLocal extends BaseServiceBeanLocal<Groupeutilisateur,GroupeUtilisateurId> {
 
     public List<Utilisateur> getUtilisateursGroupe();

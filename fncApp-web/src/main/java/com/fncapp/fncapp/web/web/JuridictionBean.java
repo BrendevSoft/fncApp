@@ -33,6 +33,8 @@ import org.apache.log4j.Logger;
 @ViewScoped
 public class JuridictionBean implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private Juridiction juridiction;
     private List<Juridiction> juridictions;
     private List<Juridiction> juridictionsFilter;
@@ -54,7 +56,7 @@ public class JuridictionBean implements Serializable {
         this.juridiction = new Juridiction();
     }
 
-    public void save(ActionEvent actionEvent) throws SystemException {
+    public void save(ActionEvent actionEvent) {
         FacesContext context = FacesContext.getCurrentInstance();
         UserTransaction tx = TransactionManager.getUserTransaction();
         try {
@@ -63,12 +65,13 @@ public class JuridictionBean implements Serializable {
                 this.juridiction.setDatecreation(new Date());
                 this.juridiction.setRowvers(new Date());
                 this.jsbl.saveOne(juridiction);
-                journalisation.saveLog4j(UtilisateurBean.class.getName(), Level.INFO, "Enregistrement d'un tribunal :" + juridiction.getLibellecourt());
+                System.out.println(juridiction);
+                journalisation.saveLog4j(LoginBean.class.getName(), Level.INFO, "Enregistrement d'un tribunal :" + juridiction.getLibellecourt());
                 context.addMessage(null, new FacesMessage(Constante.ENREGISTREMENT_REUSSIT));
             } else {
                 this.juridiction.setRowvers(new Date());
                 this.jsbl.updateOne(juridiction);
-                journalisation.saveLog4j(UtilisateurBean.class.getName(), Level.INFO, "Modification d'un tribunal :" + juridiction.getLibellecourt());
+                journalisation.saveLog4j(LoginBean.class.getName(), Level.INFO, "Modification d'un tribunal :" + juridiction.getLibellecourt());
                 context.addMessage(null, new FacesMessage(Constante.MODIFICATION_REUSSIT));
             }
             this.juridiction = new Juridiction();
@@ -95,6 +98,7 @@ public class JuridictionBean implements Serializable {
 
     public Juridiction getJuridiction() {
         return juridiction;
+
     }
 
     public void setJuridiction(Juridiction juridiction) {
@@ -124,6 +128,14 @@ public class JuridictionBean implements Serializable {
 
     public void setJsbl(JuridictionServiceBeanLocal jsbl) {
         this.jsbl = jsbl;
+    }
+
+    public MethodeJournalisation getJournalisation() {
+        return journalisation;
+    }
+
+    public void setJournalisation(MethodeJournalisation journalisation) {
+        this.journalisation = journalisation;
     }
 
 }

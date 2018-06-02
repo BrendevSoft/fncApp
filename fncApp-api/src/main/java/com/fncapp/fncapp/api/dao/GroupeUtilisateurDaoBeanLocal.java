@@ -10,13 +10,13 @@ import com.fncapp.fncapp.api.entities.GroupeUtilisateurId;
 import com.fncapp.fncapp.api.entities.Groupeutilisateur;
 import com.fncapp.fncapp.api.entities.Utilisateur;
 import java.util.List;
-import javax.ejb.Remote;
+import javax.ejb.Local;
 
 /**
  *
  * @author Brendev
  */
-@Remote
+@Local
 public interface GroupeUtilisateurDaoBeanLocal extends BaseDaoBeanLocal<Groupeutilisateur, GroupeUtilisateurId> {
 
     public List<Utilisateur> getUtilisateursGroupe();
