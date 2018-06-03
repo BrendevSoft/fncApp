@@ -25,11 +25,11 @@
                                     </div>
                                     <div class="ui-g-6">
                                         <h:inputHidden value="#{juridictionBean.juridiction.id}"/>
-                                        <p:selectOneMenu id="juridiction" value="#{utilisateurBean.juridiction}" 
-                                                         required="true" filter="true" filterMatchMode="startsWith"
+                                        <p:selectOneMenu id="juridiction" value="#{juridictionBean.courtAppel}" 
+                                                         required="true" requiredMessage="Séléctionner la Court d'Appel" filter="true" filterMatchMode="startsWith"
                                                          converter="omnifaces.SelectItemsIndexConverter">
-                                            <f:selectItem itemLabel="Choisir la jurudiction" noSelectionOption="true"/>
-                                            <f:selectItems var="juri" value="#{utilisateurBean.juridictions}"  itemLabel="#{juri.libellecourt}" itemValue="#{juri}" />
+                                            <f:selectItem itemLabel="Choisir la Court d'Appel" noSelectionOption="true"/>
+                                            <f:selectItems var="ca" value="#{juridictionBean.courtAppels}"  itemLabel="#{ca.libelle}" itemValue="#{ca}" />
                                         </p:selectOneMenu>  </div>
                                     <div class="ui-g-3">
                                     </div>
@@ -38,8 +38,16 @@
                                     <div class="ui-g-3">
                                     </div>
                                     <div class="ui-g-6">
-                                        <h:inputHidden value="#{juridictionBean.juridiction.id}"/>
-                                        <p:inputText id="nomJuri" value="#{juridictionBean.juridiction.libellecourt}" required="true" placeholder="Libellé"/>
+                                        <p:inputText id="nomJuri" value="#{juridictionBean.juridiction.libellecourt}" required="true" requiredMessage="Saisir le libellé du tribunal" placeholder="Libellé"/>
+                                    </div>
+                                    <div class="ui-g-3">
+                                    </div>
+                                </div>
+                                <div class="ui-g-12">
+                                    <div class="ui-g-3">
+                                    </div>
+                                    <div class="ui-g-6">                     
+                                        <p:inputText id="villeJuri" value="#{juridictionBean.juridiction.ville}" required="true" requiredMessage="Saisir la ville du tribunal" placeholder="Ville"/>
                                     </div>
                                     <div class="ui-g-3">
                                     </div>
@@ -48,17 +56,7 @@
                                     <div class="ui-g-3">
                                     </div>
                                     <div class="ui-g-6">
-                                        <h:inputHidden value="#{juridictionBean.juridiction.id}"/>
-                                        <p:inputText id="villeJuri" value="#{juridictionBean.juridiction.libellecourt}" required="true" placeholder="Ville"/>
-                                    </div>
-                                    <div class="ui-g-3">
-                                    </div>
-                                </div>
-                                <div class="ui-g-12">
-                                    <div class="ui-g-3">
-                                    </div>
-                                    <div class="ui-g-6">
-                                        <p:inputText value="#{juridictionBean.juridiction.adresse}" required="true" placeholder="Adresse"/>
+                                        <p:inputText value="#{juridictionBean.juridiction.adresse}" placeholder="Adresse"/>
                                     </div>
                                     <div class="ui-g-3">
                                     </div>
@@ -96,11 +94,14 @@
                                 <p:inputText id="globalFilter" onkeyup="PF('tribunalTable').filter()" style="width:150px" placeholder="entrer la valeur"/>
                             </p:outputPanel>
                         </f:facet>
-                        <p:column style="width: 45%" filterBy="#{juri.libellecourt}" filterMatchMode="contains" id="nomJuri"  headerText="Nom">
+                        <p:column style="width: 30%" filterBy="#{juri.courtAppel.libelle}" filterMatchMode="contains" headerText="Court d'Appel">
+                            <h:outputText value="#{juri.courtAppel.libelle}" />
+                        </p:column>
+                        <p:column style="width: 30%" filterBy="#{juri.libellecourt}" filterMatchMode="contains"  headerText="Nom">
                             <h:outputText value="#{juri.libellecourt}" />
                         </p:column>
-                        <p:column style="width: 45%" id="adressJuri" headerText="Adresse"  filterBy="#{juri.adresse}" filterMatchMode="contains">
-                            <h:outputText value="#{juri.adresse}" />
+                        <p:column style="width: 30%" id="villeJuri" headerText="Ville"  filterBy="#{juri.ville}" filterMatchMode="contains">
+                            <h:outputText value="#{juri.ville}" />
                         </p:column>
                         <p:column style="width: 10%">
                             <p:commandButton style="width: 100%" process="@form" update=":tribunal:tribunalForm:tribunalPanel" value="Editer" actionListener="#{juridictionBean.getObject(juri.id)}"/>

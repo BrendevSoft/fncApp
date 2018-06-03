@@ -5,10 +5,8 @@
  */
 package com.fncapp.fncapp.api.entities;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -45,10 +43,10 @@ public class Statistique extends BaseEntity {
     private Integer nombreInfraction;
 
     @Column(name = "nombre_saisi_total")
-    private Integer nombreSaisiTotal;
+    private Long nombreSaisiTotal;
 
     @Column(name = "nombre_infraction_total")
-    private Integer nombreInfractionTotal;
+    private Long nombreInfractionTotal;
 
     @Column(name = "datecreation")
     @Temporal(TemporalType.TIMESTAMP)
@@ -97,19 +95,19 @@ public class Statistique extends BaseEntity {
         this.nombreInfraction = nombreInfraction;
     }
 
-    public Integer getNombreSaisiTotal() {
+    public Long getNombreSaisiTotal() {
         return nombreSaisiTotal;
     }
 
-    public void setNombreSaisiTotal(Integer nombreSaisiTotal) {
+    public void setNombreSaisiTotal(Long nombreSaisiTotal) {
         this.nombreSaisiTotal = nombreSaisiTotal;
     }
 
-    public Integer getNombreInfractionTotal() {
+    public Long getNombreInfractionTotal() {
         return nombreInfractionTotal;
     }
 
-    public void setNombreInfractionTotal(Integer nombreInfractionTotal) {
+    public void setNombreInfractionTotal(Long nombreInfractionTotal) {
         this.nombreInfractionTotal = nombreInfractionTotal;
     }
 

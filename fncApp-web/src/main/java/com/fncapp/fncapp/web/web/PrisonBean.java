@@ -59,17 +59,23 @@ public class PrisonBean implements Serializable {
         UserTransaction tx = TransactionManager.getUserTransaction();
         try {
             tx.begin();
+            List<Prison> prisons1 = this.psbl.getBy("libellecourt", this.prison.getLibellecourt());
+
             if (this.prison.getId() == null) {
-                this.prison.setDatecreation(new Date());
-                this.prison.setRowvers(new Date());
-                this.psbl.saveOne(prison);
-                journalisation.saveLog4j(UtilisateurBean.class.getName(), Level.INFO, "Enregistrement d'une prison :" + prison.getLibellecourt());
-                context.addMessage(null, new FacesMessage(Constante.ENREGISTREMENT_REUSSIT));
+                if (prisons1.isEmpty()) {
+                    this.prison.setRowvers(new Date());
+                    this.prison.setDatecreation(new Date());
+                    this.psbl.saveOne(prison);
+                    journalisation.saveLog4j(PrisonBean.class.getName(), Level.INFO, "Enregistrement d'une prison :" + prison.getLibellecourt());
+                    context.addMessage(null, new FacesMessage(Constante.ENREGISTREMENT_REUSSIT));
+                } else {
+                    context.addMessage(null, new FacesMessage(Constante.ENREGISTREMENT_ECHOUE + ", Le libellé saisi existe déja dans la base"));
+                }
+
             } else {
                 this.prison.setRowvers(new Date());
                 this.psbl.updateOne(prison);
-                journalisation.saveLog4j(UtilisateurBean.class.getName(), Level.INFO, "Modification d'une prison :" + prison.getLibellecourt());
-
+                journalisation.saveLog4j(PrisonBean.class.getName(), Level.INFO, "Modification d'une prison :" + prison.getLibellecourt());
                 context.addMessage(null, new FacesMessage(Constante.MODIFICATION_REUSSIT));
             }
             this.prison = new Prison();
@@ -80,11 +86,11 @@ public class PrisonBean implements Serializable {
             try {
                 tx.rollback();
             } catch (IllegalStateException ex) {
-                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+                Logger.getLogger(PrisonBean.class.getName()).log(Level.FATAL, null, ex);
             } catch (SecurityException ex) {
-                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+                Logger.getLogger(PrisonBean.class.getName()).log(Level.FATAL, null, ex);
             } catch (SystemException ex) {
-                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+                Logger.getLogger(PrisonBean.class.getName()).log(Level.FATAL, null, ex);
             }
         }
 

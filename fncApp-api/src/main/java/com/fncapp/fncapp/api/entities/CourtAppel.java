@@ -13,10 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -27,38 +23,29 @@ import javax.persistence.TemporalType;
  * @author Brendev
  */
 @Entity
-@Table(name = "peine")
-@NamedQueries({
-    @NamedQuery(name = "Peine.findAll", query = "SELECT p FROM Peine p")})
-public class Peine extends BaseEntity {
+@Table(name = "courtappel")
+public class CourtAppel extends BaseEntity {
 
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "libelle")
-    private String libelle;
-
-    @Column(name = "amande")
-    private String amande;
-
-    @Column(name = "peine_is")
-    private String peineIs;
-
     @Column(name = "datecreation")
     @Temporal(TemporalType.TIMESTAMP)
     private Date datecreation;
+
+    @Column(name = "libelle")
+    private String libelle;
 
     @Column(name = "rowvers")
     @Temporal(TemporalType.TIMESTAMP)
     private Date rowvers;
 
-    @OneToMany(mappedBy = "peine")
-    private Collection<Condamnation> condamnationCollection;
+    @OneToMany(mappedBy = "courtAppel")
+    private Collection<Juridiction> juridictionCollection;
 
-    public Peine() {
+    public CourtAppel() {
     }
 
     public Long getId() {
@@ -69,36 +56,20 @@ public class Peine extends BaseEntity {
         this.id = id;
     }
 
-    public String getLibelle() {
-        return libelle;
-    }
-
-    public void setLibelle(String libelle) {
-        this.libelle = libelle;
-    }
-
-    public String getAmande() {
-        return amande;
-    }
-
-    public void setAmande(String amande) {
-        this.amande = amande;
-    }
-
-    public String getPeineIs() {
-        return peineIs;
-    }
-
-    public void setPeineIs(String peineIs) {
-        this.peineIs = peineIs;
-    }
-
     public Date getDatecreation() {
         return datecreation;
     }
 
     public void setDatecreation(Date datecreation) {
         this.datecreation = datecreation;
+    }
+
+    public String getLibelle() {
+        return libelle;
+    }
+
+    public void setLibelle(String libelle) {
+        this.libelle = libelle;
     }
 
     public Date getRowvers() {
@@ -109,12 +80,12 @@ public class Peine extends BaseEntity {
         this.rowvers = rowvers;
     }
 
-    public Collection<Condamnation> getCondamnationCollection() {
-        return condamnationCollection;
+    public Collection<Juridiction> getJuridictionCollection() {
+        return juridictionCollection;
     }
 
-    public void setCondamnationCollection(Collection<Condamnation> condamnationCollection) {
-        this.condamnationCollection = condamnationCollection;
+    public void setJuridictionCollection(Collection<Juridiction> juridictionCollection) {
+        this.juridictionCollection = juridictionCollection;
     }
 
     public Integer getVersion() {
@@ -128,7 +99,7 @@ public class Peine extends BaseEntity {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 83 * hash + Objects.hashCode(this.id);
+        hash = 73 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -143,7 +114,7 @@ public class Peine extends BaseEntity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Peine other = (Peine) obj;
+        final CourtAppel other = (CourtAppel) obj;
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
@@ -152,7 +123,7 @@ public class Peine extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Peine{" + "id=" + id + ", libelle=" + libelle + ", amande=" + amande + ", peineIs=" + peineIs + ", datecreation=" + datecreation + ", rowvers=" + rowvers + ", condamnationCollection=" + condamnationCollection + '}';
+        return "CourtAppel{" + "id=" + id + ", datecreation=" + datecreation + ", libelle=" + libelle + ", rowvers=" + rowvers + '}';
     }
 
 }

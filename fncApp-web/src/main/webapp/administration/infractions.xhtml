@@ -23,7 +23,7 @@
                                     </div>
                                     <div class="ui-g-6">
                                         <h:inputHidden value="#{infractionBean.infraction.id}"/>
-                                        <p:inputText value="#{infractionBean.infraction.libelle}" required="true" placeholder="Libellé"/>
+                                        <p:inputText value="#{infractionBean.infraction.libelle}" required="true" requiredMessage="Saisir le libellé de l'infraction" placeholder="Libellé"/>
                                     </div>
                                     <div class="ui-g-3">
                                     </div>
@@ -32,7 +32,7 @@
                                     <div class="ui-g-3">
                                     </div>
                                     <div class="ui-g-6">
-                                        <p:inputText value="#{infractionBean.infraction.infradeveloppe}" required="true" placeholder="Description"/>
+                                        <p:inputText value="#{infractionBean.infraction.infradeveloppe}" requiredMessage="Saisir la description de l'infraction" required="true" placeholder="Description"/>
                                     </div>
                                     <div class="ui-g-3">
                                     </div>
@@ -41,7 +41,7 @@
                                     <div class="ui-g-3">
                                     </div>
                                     <div class="ui-g-6">
-                                        <p:inputText value="#{infractionBean.infraction.qualification}" required="true" placeholder="Qualification"/>
+                                        <p:inputText value="#{infractionBean.infraction.qualification}" requiredMessage="Saisir la qualification de l'infraction" required="true" placeholder="Qualification"/>
                                     </div>
                                     <div class="ui-g-3">
                                     </div>
@@ -50,7 +50,7 @@
                                     <div class="ui-g-3">
                                     </div>
                                     <div class="ui-g-6">
-                                        <p:inputText value="#{infractionBean.infraction.disposition}" required="true" placeholder="Disposition"/>
+                                        <p:inputText value="#{infractionBean.infraction.disposition}" requiredMessage="Saisir la disposition de l'infraction" required="true" placeholder="Disposition"/>
                                     </div>
                                     <div class="ui-g-3">
                                     </div>
@@ -95,7 +95,7 @@
                             <h:outputText value="#{infras.qualification}" />
                         </p:column>
                         <p:column style="width: 30%" headerText="Qualification"  filterBy="#{infras.disposition}" filterMatchMode="contains">
-                              <h:outputText value="#{infras.disposition}" />
+                            <h:outputText value="#{infras.disposition}" />
                         </p:column>
                         <p:column style="width: 10%">
                             <p:commandButton style="width: 100%" process="@form" update=":infraction:infractionForm:infractionPanel" value="Editer" actionListener="#{infractionBean.getObject(infras.id)}"/>

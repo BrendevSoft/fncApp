@@ -8,6 +8,7 @@
     <class>com.fncapp.fncapp.api.entities.Compteur</class>
     <class>com.fncapp.fncapp.api.entities.Condamnation</class>
     <class>com.fncapp.fncapp.api.entities.Corps</class>
+    <class>com.fncapp.fncapp.api.entities.CourtAppel</class>
     <class>com.fncapp.fncapp.api.entities.Groupe</class>
     <class>com.fncapp.fncapp.api.entities.GroupeRole</class>
     <class>com.fncapp.fncapp.api.entities.Groupeutilisateur</class>

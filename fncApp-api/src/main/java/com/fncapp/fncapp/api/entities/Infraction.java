@@ -64,9 +64,6 @@ public class Infraction extends BaseEntity {
     @Column(name = "qualification")
     private String qualification;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "infraction")
-    private Collection<Peine> peineCollection;
-
     @JoinColumn(name = "categorie")
     @ManyToOne
     private Categorie categorie;
@@ -139,14 +136,6 @@ public class Infraction extends BaseEntity {
 
     public void setQualification(String qualification) {
         this.qualification = qualification;
-    }
-
-    public Collection<Peine> getPeineCollection() {
-        return peineCollection;
-    }
-
-    public void setPeineCollection(Collection<Peine> peineCollection) {
-        this.peineCollection = peineCollection;
     }
 
     public Categorie getCategorie() {

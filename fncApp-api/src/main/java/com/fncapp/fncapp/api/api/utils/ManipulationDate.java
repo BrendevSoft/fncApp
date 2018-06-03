@@ -84,6 +84,19 @@ public class ManipulationDate {
         cal.add(Calendar.YEAR, nbAnnee);
         return cal.getTime();
     }
+    
+     /**
+     * 
+     *
+     * @param date la date a lakel on veut recuperer l'année
+     * @return un objet de type Date
+     */
+    public static int RecupererAnnee(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int year = cal.get(Calendar.YEAR);
+        return year;
+    }
 
     /**
      * pour le retrait il faut ajouter un nombre négatif

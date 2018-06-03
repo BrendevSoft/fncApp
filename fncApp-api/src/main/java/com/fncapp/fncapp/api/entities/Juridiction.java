@@ -64,6 +64,9 @@ public class Juridiction extends BaseEntity {
     @Column(name = "type")
     private String type;
 
+    @Column(name = "ville")
+    private String ville;
+
     @Column(name = "rowvers")
     @Temporal(TemporalType.TIMESTAMP)
     private Date rowvers;
@@ -74,6 +77,10 @@ public class Juridiction extends BaseEntity {
     @JoinColumn(name = "juridiction")
     @ManyToOne
     private Juridiction juridiction;
+
+    @JoinColumn(name = "courtAppel")
+    @ManyToOne
+    private CourtAppel courtAppel;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "juridiction")
     private Collection<Condamnation> condamnationCollection;
@@ -186,7 +193,6 @@ public class Juridiction extends BaseEntity {
         this.juridiction = juridiction;
     }
 
-
     public Collection<Condamnation> getCondamnationCollection() {
         return condamnationCollection;
     }
@@ -217,6 +223,22 @@ public class Juridiction extends BaseEntity {
 
     public void setStatistiqueCollection(Collection<Statistique> statistiqueCollection) {
         this.statistiqueCollection = statistiqueCollection;
+    }
+
+    public CourtAppel getCourtAppel() {
+        return courtAppel;
+    }
+
+    public void setCourtAppel(CourtAppel courtAppel) {
+        this.courtAppel = courtAppel;
+    }
+
+    public String getVille() {
+        return ville;
+    }
+
+    public void setVille(String ville) {
+        this.ville = ville;
     }
 
     public Integer getVersion() {
@@ -254,8 +276,7 @@ public class Juridiction extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Juridiction{" + "id=" + id + ", code=" + code + ", adresse=" + adresse + ", coderg=" + coderg + ", datecreation=" + datecreation + ", libellecourt=" + libellecourt + ", libellelong=" + libellelong + ", precleprimaire=" + precleprimaire + ", type=" + type + ", rowvers=" + rowvers + ", juridiction=" + juridiction + '}';
+        return "Juridiction{" + "id=" + id + ", code=" + code + ", adresse=" + adresse + ", coderg=" + coderg + ", datecreation=" + datecreation + ", libellecourt=" + libellecourt + ", libellelong=" + libellelong + ", precleprimaire=" + precleprimaire + ", type=" + type + ", ville=" + ville + ", rowvers=" + rowvers + ", juridiction=" + juridiction + ", courtAppel=" + courtAppel + '}';
     }
 
-  
 }

@@ -20,7 +20,7 @@
                                         <h:outputText value="Tribunal"/>
                                     </div>
                                     <div class="ui-g-8">
-                                        <p:selectOneMenu  value="#{condamnationBean.juridiction}" 
+                                        <p:selectOneMenu required="true" requiredMessage="Choisir le tribunal" value="#{condamnationBean.juridiction}" 
                                                           filter="true" filterMatchMode="startsWith"
                                                           converter="omnifaces.SelectItemsIndexConverter">
                                             <f:selectItem itemLabel="Choisir la jurudiction" noSelectionOption="true"/>
@@ -33,7 +33,7 @@
                                         <h:outputText value="Date Jugement"/>
                                     </div>
                                     <div class="ui-g-8">
-                                        <p:calendar value="#{condamnationBean.condamnation.datejugement}" showOn="button" readonlyInput="true">
+                                        <p:calendar required="true" requiredMessage="Choisir la dâte du jugement" value="#{condamnationBean.condamnation.datejugement}" locale="fr" pattern="dd/MM/yyyy" mask="true" showOn="button" readonlyInput="true">
                                             <f:convertDateTime pattern="dd/MM/yyyy" />
                                         </p:calendar>  
                                     </div> 
@@ -43,7 +43,7 @@
                                         <h:outputText value="Nature des délits"/>
                                     </div>
                                     <div class="ui-g-8">
-                                        <p:selectOneMenu value="#{condamnationBean.infraction}" 
+                                        <p:selectOneMenu required="true" requiredMessage="Chosir les infractions" value="#{condamnationBean.infraction}" 
                                                          filter="true" filterMatchMode="startsWith"
                                                          converter="omnifaces.SelectItemsIndexConverter">
                                             <f:selectItem itemLabel="Choisir la jurudiction" noSelectionOption="true"/>
@@ -55,7 +55,7 @@
                                         <h:outputText value="Peine prononcée"/>
                                     </div>
                                     <div class="ui-g-8">
-                                        <p:inputText value="#{condamnationBean.peine.libelle}"  placeholder="Peine prononcée"/>
+                                        <p:inputText required="true" requiredMessage="Saisir la peine prononcée" value="#{condamnationBean.peine.libelle}"  placeholder="Peine prononcée"/>
                                     </div> 
                                 </div>
                                 <div class="ui-g-6">
@@ -63,7 +63,7 @@
                                         <h:outputText value="Amende"/>
                                     </div>
                                     <div class="ui-g-8">
-                                        <p:inputText value="#{condamnationBean.peine.amande}"  placeholder="Amende"/>
+                                        <p:inputText required="true" requiredMessage="Saisir l'amande de la peine" value="#{condamnationBean.peine.amande}"  placeholder="Amende"/>
                                     </div>
                                 </div>
                                 <div class="ui-g-6">
@@ -71,13 +71,13 @@
                                         <h:outputText value="IS"/>
                                     </div>
                                     <div class="ui-g-8">
-                                        <p:inputText value="#{condamnationBean.peine.peineIs}"  placeholder="IS"/>
+                                        <p:inputText required="true" requiredMessage="Saisir l'IS" value="#{condamnationBean.peine.peineIs}"  placeholder="IS"/>
                                     </div> 
                                 </div>
                                 <div class="ui-g-10">
                                 </div>
                                 <div class="ui-g-2">
-                                    <p:commandButton process="@form" class="Fs16 OrangeButton" update=":users:userForm,:users:message" action="#{condamnationBean.save(actionEvent)}" value="Valider" style="display:inline-block;margin-top:5px"/>
+                                    <p:commandButton process="@form" class="Fs16 OrangeButton" update=":users:userForm:infoPanel,:users:userForm:userPanel,:users:userForm:situaPanel,:users:message" action="#{condamnationBean.save(actionEvent)}" value="Valider" style="display:inline-block;margin-top:5px"/>
                                 </div>
                             </div>
                         </div>

@@ -7,10 +7,8 @@ package com.fncapp.fncapp.web.web;
 
 import com.fncapp.fncapp.api.api.utils.Constante;
 import com.fncapp.fncapp.api.api.utils.MethodeJournalisation;
-import com.fncapp.fncapp.api.dao.CourtAppelDaoBeanLocal;
 import com.fncapp.fncapp.api.entities.CourtAppel;
-import com.fncapp.fncapp.api.entities.Juridiction;
-import com.fncapp.fncapp.api.service.JuridictionServiceBeanLocal;
+import com.fncapp.fncapp.api.service.CourtAppelServiceBeanlocal;
 import com.fncapp.fncapp.impl.transaction.TransactionManager;
 import java.awt.event.ActionEvent;
 import java.io.Serializable;
@@ -31,37 +29,29 @@ import org.apache.log4j.Logger;
  *
  * @author Brendev
  */
-@Named(value = "juridictionBean")
+@Named(value = "courtAppelBean")
 @ViewScoped
-public class JuridictionBean implements Serializable {
+public class CourtAppelBean implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    private Juridiction juridiction;
-    private CourtAppel courtAppel;
-    private List<Juridiction> juridictions;
-    private List<Juridiction> juridictionsFilter;
-    private List<CourtAppel> courtAppels;
     private MethodeJournalisation journalisation;
+    private CourtAppel courtAppel;
+    private List<CourtAppel> courtAppels;
+    private List<CourtAppel> courtAppelsFilter;
 
     @EJB
-    private JuridictionServiceBeanLocal jsbl;
-    @EJB
-    private CourtAppelDaoBeanLocal cadbl;
+    private CourtAppelServiceBeanlocal casb;
 
     /**
-     * Creates a new instance of JuridictionBean
+     * Creates a new instance of CourtAppelBean
      */
-    public JuridictionBean() {
-        this.juridiction = new Juridiction();
-        this.juridictions = new ArrayList<>();
+    public CourtAppelBean() {
         this.courtAppel = new CourtAppel();
         this.courtAppels = new ArrayList<>();
         this.journalisation = new MethodeJournalisation();
     }
 
     public void cancel(ActionEvent actionEvent) {
-        this.juridiction = new Juridiction();
+        this.courtAppel = new CourtAppel();
     }
 
     public void save(ActionEvent actionEvent) {
@@ -69,31 +59,27 @@ public class JuridictionBean implements Serializable {
         UserTransaction tx = TransactionManager.getUserTransaction();
         try {
             tx.begin();
-            List<Juridiction> juridictions1 = this.jsbl.getBy("libellecourt", this.juridiction.getLibellecourt());
-            if (this.juridiction.getId() == null) {
-                if (juridictions1.isEmpty()) {
-                    this.juridiction.setDatecreation(new Date());
-                    this.juridiction.setRowvers(new Date());
-                    this.juridiction.setCourtAppel(courtAppel);
-                    this.jsbl.saveOne(juridiction);
-                    System.out.println(juridiction);
-                    journalisation.saveLog4j(CourtAppelBean.class.getName(), Level.INFO, "Enregistrement d'un tribunal :" + juridiction.getLibellecourt());
+            List<CourtAppel> courtAppel1 = this.casb.getBy("libelle", this.courtAppel.getLibelle());
+            if (this.courtAppel.getId() == null) {
+                if (courtAppel1.isEmpty()) {
+                    this.courtAppel.setDatecreation(new Date());
+                    this.courtAppel.setRowvers(new Date());
+                    this.casb.saveOne(courtAppel);
+                    journalisation.saveLog4j(CourtAppelBean.class.getName(), Level.INFO, "Enregistrement d'une Court d'Appel :" + courtAppel.getLibelle());
                     context.addMessage(null, new FacesMessage(Constante.ENREGISTREMENT_REUSSIT));
 
                 } else {
                     context.addMessage(null, new FacesMessage(Constante.ENREGISTREMENT_ECHOUE + ", Le libellé saisi existe déja dans la base"));
+
                 }
             } else {
+                this.courtAppel.setRowvers(new Date());
+                this.casb.updateOne(courtAppel);
+                journalisation.saveLog4j(CourtAppelBean.class.getName(), Level.INFO, "Modification d'une Court d'Appel :" + courtAppel.getLibelle());
 
-                this.juridiction.setRowvers(new Date());
-                this.juridiction.setCourtAppel(courtAppel);
-                this.jsbl.updateOne(juridiction);
-                journalisation.saveLog4j(CourtAppelBean.class.getName(), Level.INFO, "Modification d'un tribunal :" + juridiction.getLibellecourt());
                 context.addMessage(null, new FacesMessage(Constante.MODIFICATION_REUSSIT));
-
             }
             this.courtAppel = new CourtAppel();
-            this.juridiction = new Juridiction();
             tx.commit();
         } catch (Exception e) {
             e.getMessage();
@@ -112,44 +98,8 @@ public class JuridictionBean implements Serializable {
     }
 
     public void getObject(Long id) {
-        this.juridiction = this.jsbl.find(id);
-        if (this.juridiction.getCourtAppel() != null) {
-            this.courtAppel = this.juridiction.getCourtAppel();
-        }
-    }
-
-    public Juridiction getJuridiction() {
-        return juridiction;
-
-    }
-
-    public void setJuridiction(Juridiction juridiction) {
-        this.juridiction = juridiction;
-    }
-
-    public List<Juridiction> getJuridictions() {
-        this.juridictions = this.jsbl.getAll();
-        return juridictions;
-    }
-
-    public void setJuridictions(List<Juridiction> juridictions) {
-        this.juridictions = juridictions;
-    }
-
-    public List<Juridiction> getJuridictionsFilter() {
-        return juridictionsFilter;
-    }
-
-    public void setJuridictionsFilter(List<Juridiction> juridictionsFilter) {
-        this.juridictionsFilter = juridictionsFilter;
-    }
-
-    public JuridictionServiceBeanLocal getJsbl() {
-        return jsbl;
-    }
-
-    public void setJsbl(JuridictionServiceBeanLocal jsbl) {
-        this.jsbl = jsbl;
+        this.courtAppel = this.casb.find(id);
+        System.out.println(this.courtAppel.getId());
     }
 
     public MethodeJournalisation getJournalisation() {
@@ -169,7 +119,7 @@ public class JuridictionBean implements Serializable {
     }
 
     public List<CourtAppel> getCourtAppels() {
-        this.courtAppels = this.cadbl.getAll();
+        this.courtAppels = this.casb.getAll();
         return courtAppels;
     }
 
@@ -177,12 +127,20 @@ public class JuridictionBean implements Serializable {
         this.courtAppels = courtAppels;
     }
 
-    public CourtAppelDaoBeanLocal getCadbl() {
-        return cadbl;
+    public List<CourtAppel> getCourtAppelsFilter() {
+        return courtAppelsFilter;
     }
 
-    public void setCadbl(CourtAppelDaoBeanLocal cadbl) {
-        this.cadbl = cadbl;
+    public void setCourtAppelsFilter(List<CourtAppel> courtAppelsFilter) {
+        this.courtAppelsFilter = courtAppelsFilter;
+    }
+
+    public CourtAppelServiceBeanlocal getCasb() {
+        return casb;
+    }
+
+    public void setCasb(CourtAppelServiceBeanlocal casb) {
+        this.casb = casb;
     }
 
 }

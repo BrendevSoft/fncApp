@@ -6,6 +6,7 @@
 package com.fncapp.fncapp.web.web;
 
 import com.fncapp.fncapp.api.api.utils.Constante;
+import com.fncapp.fncapp.api.api.utils.ManipulationDate;
 import com.fncapp.fncapp.api.api.utils.MethodeJournalisation;
 import com.fncapp.fncapp.api.entities.Groupe;
 import com.fncapp.fncapp.api.service.GroupeServiceBeanLocal;
@@ -13,6 +14,8 @@ import com.fncapp.fncapp.impl.transaction.TransactionManager;
 import java.awt.event.ActionEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -57,13 +60,19 @@ public class GroupeBean implements Serializable {
         UserTransaction tx = TransactionManager.getUserTransaction();
         try {
             tx.begin();
+            List<Groupe> groupes1 = this.psbl.getBy("nom", this.profil.getNom());
             if (this.profil.getId() == null) {
-                this.psbl.saveOne(profil);
-                journalisation.saveLog4j(UtilisateurBean.class.getName(), Level.INFO, "Enregistrement d'un profil :" + profil.getNom());
-                context.addMessage(null, new FacesMessage(Constante.ENREGISTREMENT_REUSSIT));
+                if (groupes1.isEmpty()) {
+                    this.profil.setDatecreation(new Date());
+                    this.psbl.saveOne(profil);
+                    journalisation.saveLog4j(GroupeBean.class.getName(), Level.INFO, "Enregistrement d'un profil :" + profil.getNom());
+                    context.addMessage(null, new FacesMessage(Constante.ENREGISTREMENT_REUSSIT));
+                } else {
+                    context.addMessage(null, new FacesMessage(Constante.ENREGISTREMENT_ECHOUE + ", Le libellé saisi existe déja dans la base"));
+                }
             } else {
                 this.psbl.updateOne(profil);
-                journalisation.saveLog4j(UtilisateurBean.class.getName(), Level.INFO, "Modification d'un profil :" + profil.getNom());
+                journalisation.saveLog4j(GroupeBean.class.getName(), Level.INFO, "Modification d'un profil :" + profil.getNom());
 
                 context.addMessage(null, new FacesMessage(Constante.MODIFICATION_REUSSIT));
             }
@@ -75,11 +84,11 @@ public class GroupeBean implements Serializable {
             try {
                 tx.rollback();
             } catch (IllegalStateException ex) {
-                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+                Logger.getLogger(GroupeBean.class.getName()).log(Level.FATAL, null, ex);
             } catch (SecurityException ex) {
-                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+                Logger.getLogger(GroupeBean.class.getName()).log(Level.FATAL, null, ex);
             } catch (SystemException ex) {
-                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+                Logger.getLogger(GroupeBean.class.getName()).log(Level.FATAL, null, ex);
             }
         }
 

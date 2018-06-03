@@ -82,6 +82,7 @@ public class LoginBean implements Serializable {
     private Utilisateur perse;
     private boolean remember = false;
     private boolean admin;
+    
 
     /**
      * Creates a new instance of LoginBean

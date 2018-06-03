@@ -25,7 +25,7 @@
                                     </div>
                                     <div class="ui-g-6">
                                         <h:inputHidden value="#{prisonBean.prison.id}"/>
-                                        <p:inputText id="libPrison" value="#{prisonBean.prison.libellecourt}" required="true" placeholder="Libellé"/>
+                                        <p:inputText id="libPrison" value="#{prisonBean.prison.libellecourt}" requiredMessage="Saisir le nom de la prison" required="true" placeholder="Nom"/>
                                     </div>
                                     <div class="ui-g-3">
                                     </div>
@@ -34,7 +34,7 @@
                                     <div class="ui-g-3">
                                     </div>
                                     <div class="ui-g-6">
-                                        <p:inputText value="#{prisonBean.prison.adresse}" required="true" placeholder="Adresse"/>
+                                        <p:inputText value="#{prisonBean.prison.adresse}" requiredMessage="Saisir l'adresse de la prison" required="true" placeholder="Adresse"/>
                                     </div>
                                     <div class="ui-g-3">
                                     </div>

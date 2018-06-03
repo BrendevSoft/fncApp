@@ -18,8 +18,8 @@
                             </div>
                             <div class="ui-g-8">
                                 <p:selectOneMenu  value="#{condamnationBean.typeSituation}" 
-                                                  required="true">
-                                    <f:selectItem itemLabel="Choisir le type de situatio" noSelectionOption="true"/>
+                                                  required="true" requiredMessage="Choisir la situation au moment du jugement">
+                                    <f:selectItem itemLabel="Choisir le type de situation au moment du jugement" noSelectionOption="true"/>
                                     <f:selectItem itemLabel="En détention" itemValue="En Détention"/>
                                     <f:selectItem itemLabel="En fuite" itemValue="En Fuite"/>
                                     <f:selectItem itemLabel="En Liberté" itemValue="En liberté"/>
@@ -35,7 +35,7 @@
                                     <h:outputText value="Numéro mandat de dépôt"/>
                                 </div>
                                 <div class="ui-g-8">
-                                    <p:inputText value="#{condamnationBean.situation.numMandatDepot}"  placeholder="Numéro mandat de dépôt"/>
+                                    <p:inputText required="true" requiredMessage="Saisir le numéro du mandat de dépot" value="#{condamnationBean.situation.numMandatDepot}"  placeholder="Numéro mandat de dépôt"/>
                                 </div> 
                             </div>
                             <div class="ui-g-6">
@@ -43,7 +43,7 @@
                                     <h:outputText value="Date mandat de dépôt"/>
                                 </div>
                                 <div class="ui-g-8">
-                                    <p:calendar showOn="button" value="#{condamnationBean.situation.dateMandatDepot}" readonlyInput="true">
+                                    <p:calendar required="true" requiredMessage="choisir la date du mandat de dépot" showOn="button" locale="fr" pattern="dd/MM/yyyy" mask="true" value="#{condamnationBean.situation.dateMandatDepot}" readonlyInput="true">
                                         <f:convertDateTime pattern="dd/MM/yyyy" />
                                     </p:calendar>  </div>
                             </div>
@@ -52,15 +52,15 @@
                                     <h:outputText value="Numéro Ecrou"/>
                                 </div>
                                 <div class="ui-g-8">
-                                    <p:inputText value="#{condamnationBean.situation.numEcrou}"  placeholder="Numéro Ecrou"/>
+                                    <p:inputText required="true" requiredMessage="Saisir le numéro Ecrou" value="#{condamnationBean.situation.numEcrou}"  placeholder="Numéro Ecrou"/>
                                 </div> 
                             </div>
                             <div class="ui-g-6">
                                 <div class="ui-g-4">
-                                    <h:outputText value="Prsion"/>
+                                    <h:outputText value="Prison"/>
                                 </div>
                                 <div class="ui-g-8">
-                                    <p:selectOneMenu  value="#{condamnationBean.prison}" 
+                                    <p:selectOneMenu required="true" requiredMessage="Choisir la prison"  value="#{condamnationBean.prison}" 
                                                       filter="true" filterMatchMode="startsWith"
                                                       converter="omnifaces.SelectItemsIndexConverter">
                                         <f:selectItem itemLabel="Choisir la prison" noSelectionOption="true"/>
@@ -75,7 +75,7 @@
                                     <h:outputText value="Numéro mandat d'arrêt"/>
                                 </div>
                                 <div class="ui-g-8">
-                                    <p:inputText value="#{condamnationBean.situation.numMandatArret}"  placeholder="Numéro mandat d'arrêt"/>
+                                    <p:inputText required="true" requiredMessage="Saisir le numéro du mandat d'arrêt" value="#{condamnationBean.situation.numMandatArret}"  placeholder="Numéro mandat d'arrêt"/>
                                 </div> 
                             </div>
                             <div class="ui-g-6">
@@ -83,7 +83,7 @@
                                     <h:outputText value="Date mandat d'arrêt"/>
                                 </div>
                                 <div class="ui-g-8">
-                                    <p:calendar value="#{condamnationBean.situation.dateMandatArret}" showOn="button" readonlyInput="true">
+                                    <p:calendar required="true" requiredMessage="Choisir la dâte du mandat d'arrêt" locale="fr" pattern="dd/MM/yyyy" mask="true" value="#{condamnationBean.situation.dateMandatArret}" showOn="button" readonlyInput="true">
                                         <f:convertDateTime pattern="dd/MM/yyyy" />
                                     </p:calendar>    
                                 </div> 
@@ -96,15 +96,15 @@
                                     <h:outputText value="Numéro décision LP"/>
                                 </div>
                                 <div class="ui-g-8">
-                                    <p:inputText value="#{condamnationBean.situation.numDecisionLp}"  placeholder="Numéro décision LP"/>
+                                    <p:inputText required="true" requiredMessage="Saisir le numéro de la décison LP" value="#{condamnationBean.situation.numDecisionLp}"  placeholder="Numéro décision LP"/>
                                 </div> 
                             </div>
                             <div class="ui-g-6">
                                 <div class="ui-g-4">
-                                    <h:outputText value="Date LP"/>
+                                    <h:outputText value="Date décison LP"/>
                                 </div>
                                 <div class="ui-g-8">
-                                    <p:calendar value="#{condamnationBean.situation.dateDecisionLp}" showOn="button" readonlyInput="true">
+                                    <p:calendar required="true" requiredMessage="Choisir la date de la décision LP" locale="fr" pattern="dd/MM/yyyy" mask="true" value="#{condamnationBean.situation.dateDecisionLp}" showOn="button" readonlyInput="true">
                                         <f:convertDateTime pattern="dd/MM/yyyy" />
                                     </p:calendar>  
                                 </div> 

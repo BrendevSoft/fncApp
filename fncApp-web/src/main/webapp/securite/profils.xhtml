@@ -23,7 +23,7 @@
                                     </div>
                                     <div class="ui-g-6">
                                         <p:selectOneMenu  id="profi" value="#{utilisateurBean.profil}" effect="fade"
-                                                          filter="true" filterMatchMode="startsWith"
+                                                          filter="true" required="true" requiredMessage="séléctionner le profil" filterMatchMode="startsWith"
                                                           converter="omnifaces.SelectItemsIndexConverter">
                                             <f:selectItem itemLabel="Choisir le profil" noSelectionOption="true"/>
                                             <f:selectItems value="#{utilisateurBean.profils}" var="prof" itemLabel="#{prof.nom}" itemValue="#{prof}"/>
@@ -38,7 +38,7 @@
                                     <div class="ui-g-6">
                                         <p:selectCheckboxMenu id="utilisateur" value="#{utilisateurBean.utilisateurs1}" panelStyleClass="without-selectall"
                                                               converter="omnifaces.SelectItemsIndexConverter"  
-                                                              label="Groupe" filter="true" filterMatchMode="contains">
+                                                              label="Groupe" filter="true" filterMatchMode="contains" required="true" requiredMessage="Selectionner l'(es) utilisateur(s)">
                                             <f:selectItems value="#{utilisateurBean.utilisateursNonProfil()}" itemLabel="#{num.nom}#{utilisateurBean.space}#{num.prenom}" itemValue="#{num}" var="num"/>
                                         </p:selectCheckboxMenu>   </div>
                                     <div class="ui-g-3">

@@ -6,7 +6,9 @@
 package com.fncapp.fncapp.web.web;
 
 import com.fncapp.fncapp.api.api.utils.Constante;
+import com.fncapp.fncapp.api.api.utils.ManipulationDate;
 import com.fncapp.fncapp.api.api.utils.MethodeJournalisation;
+import com.fncapp.fncapp.api.entities.Annee;
 import com.fncapp.fncapp.api.entities.Condamnation;
 import com.fncapp.fncapp.api.entities.Infraction;
 import com.fncapp.fncapp.api.entities.Juridiction;
@@ -15,6 +17,7 @@ import com.fncapp.fncapp.api.entities.Personne;
 import com.fncapp.fncapp.api.entities.Prison;
 import com.fncapp.fncapp.api.entities.Situation;
 import com.fncapp.fncapp.api.entities.Statistique;
+import com.fncapp.fncapp.api.service.AnneServiceBeanLocal;
 import com.fncapp.fncapp.api.service.CondamnationServiceBeanLocal;
 import com.fncapp.fncapp.api.service.InfractionServiceBeanLocal;
 import com.fncapp.fncapp.api.service.JuridictionServiceBeanLocal;
@@ -22,6 +25,7 @@ import com.fncapp.fncapp.api.service.PeineServiceBeanLocal;
 import com.fncapp.fncapp.api.service.PersonneServiceBeanLocal;
 import com.fncapp.fncapp.api.service.PrisonServiceBeanLocal;
 import com.fncapp.fncapp.api.service.SituationServiceBeanLocal;
+import com.fncapp.fncapp.api.service.StatistiqueServiceBeanLocal;
 import com.fncapp.fncapp.impl.transaction.TransactionManager;
 import java.awt.event.ActionEvent;
 import java.io.Serializable;
@@ -38,9 +42,6 @@ import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.shiro.web.util.SavedRequest;
-import org.apache.shiro.web.util.WebUtils;
-import org.omnifaces.util.Faces;
 
 /**
  *
@@ -60,7 +61,7 @@ public class CondamnationBean implements Serializable {
     private Infraction infraction;
     private Prison prison;
     private Peine peine;
-    private Peine peine1;
+    private Annee annee;
     private Statistique statistique;
     private String typeSituation = "";
     private Boolean det = false;
@@ -76,6 +77,7 @@ public class CondamnationBean implements Serializable {
     private List<Infraction> infractions;
     private List<Prison> prisons;
     private List<Peine> peines;
+    private List<Annee> annees;
 
     @EJB
     private CondamnationServiceBeanLocal csbl;
@@ -91,6 +93,10 @@ public class CondamnationBean implements Serializable {
     private PrisonServiceBeanLocal psbl1;
     @EJB
     private PeineServiceBeanLocal psbl2;
+    @EJB
+    private AnneServiceBeanLocal asbl;
+    @EJB
+    private StatistiqueServiceBeanLocal ssbl1;
 
     /**
      * Creates a new instance of CondamnationBean
@@ -115,8 +121,12 @@ public class CondamnationBean implements Serializable {
         this.prisons = new ArrayList<>();
 
         this.peine = new Peine();
-        this.peine = new Peine();
         this.peines = new ArrayList<>();
+
+        this.annee = new Annee();
+        this.annees = new ArrayList<>();
+
+        this.statistique = new Statistique();
 
         this.journalisation = new MethodeJournalisation();
     }
@@ -166,6 +176,7 @@ public class CondamnationBean implements Serializable {
         UserTransaction tx = TransactionManager.getUserTransaction();
         try {
             tx.begin();
+            Annee anneeCondam = new Annee();
 
             this.personne.setDatecreation(new Date());
             this.personne.setRowvers(new Date());
@@ -173,18 +184,31 @@ public class CondamnationBean implements Serializable {
             journalisation.saveLog4j(CondamnationBean.class.getName(), Level.INFO, "Enregistrement d'une personne :" + this.personne.getNom().concat(this.personne.getPrenom()));
             this.journalisation = new MethodeJournalisation();
 
-            this.peine.setInfraction(infraction);
+            //this.peine.setInfraction(infraction);
             this.peine.setDatecreation(new Date());
             this.peine.setRowvers(new Date());
-            this.peine1 = this.psbl2.saveOne(peine);
+            this.psbl2.saveOne(peine);
             journalisation.saveLog4j(CondamnationBean.class.getName(), Level.INFO, "Enregistrement d'une peine :" + this.peine.getPeineIs());
             this.journalisation = new MethodeJournalisation();
+
+            List<Annee> annee1 = this.asbl.getBy("code", String.valueOf(ManipulationDate.RecupererAnnee(this.condamnation.getDatejugement())));
+            if (annee1.isEmpty()) {
+                this.annee.setCode(String.valueOf(ManipulationDate.RecupererAnnee(this.condamnation.getDatejugement())));
+                this.annee.setDatecreation(new Date());
+                this.annee.setRowvers(new Date());
+                anneeCondam = this.asbl.saveOne(annee);
+                journalisation.saveLog4j(CondamnationBean.class.getName(), Level.INFO, "Enregistrement d'une année :" + this.annee.getCode());
+                this.journalisation = new MethodeJournalisation();
+            } else {
+                anneeCondam = annee1.get(0);
+            }
 
             this.condamnation.setDatecreation(new Date());
             this.condamnation.setRowvers(new Date());
             this.condamnation.setJuridiction(juridiction);
-            this.condamnation.setPeine(peine);//ici
+            this.condamnation.setPeine(peine);
             this.condamnation.setPersonne(personne);
+            this.condamnation.setAnnee(anneeCondam);
             this.csbl.saveOne(condamnation);
             journalisation.saveLog4j(CondamnationBean.class.getName(), Level.INFO, "Enregistrement d'une condamnation :" + this.condamnation.getNumeroOrdre().concat(this.condamnation.getNumeroRp()));
             this.journalisation = new MethodeJournalisation();
@@ -196,6 +220,26 @@ public class CondamnationBean implements Serializable {
             this.situation.setCondamnation(this.condamnation);
             this.ssbl.saveOne(situation);
             journalisation.saveLog4j(CondamnationBean.class.getName(), Level.INFO, "Enregistrement d'une situation :" + this.situation.getTypesituation());
+            this.journalisation = new MethodeJournalisation();
+
+            List<Statistique> statistiques = this.ssbl1.getBy("juridiction", "annee", this.juridiction, anneeCondam);
+            if (statistiques.isEmpty()) {
+                this.statistique.setJuridiction(this.juridiction);
+                this.statistique.setAnnee(anneeCondam);
+                this.statistique.setDatecreation(new Date());
+                this.statistique.setRowvers(new Date());
+                this.statistique.setNombreSaisiTotal(1L);
+                this.ssbl1.saveOne(statistique);
+                journalisation.saveLog4j(CondamnationBean.class.getName(), Level.INFO, "Enregistrement d'une statistique :" + this.statistique.getJuridiction().getLibellecourt() + " " + this.statistique.getAnnee().getCode());
+
+            } else {
+                Statistique stat = statistiques.get(0);
+                stat.setRowvers(new Date());
+                stat.setNombreSaisiTotal(stat.getNombreSaisiTotal()+1L);
+                this.ssbl1.updateOne(stat);
+                journalisation.saveLog4j(CondamnationBean.class.getName(), Level.INFO, "Mise à jour d'une statistqiue :" + stat.getJuridiction().getLibellecourt() + " " + stat.getAnnee().getCode());
+
+            }
 
             this.journalisation = new MethodeJournalisation();
             this.condamnation = new Condamnation();
@@ -205,6 +249,7 @@ public class CondamnationBean implements Serializable {
             this.infraction = new Infraction();
             this.prison = new Prison();
             this.peine = new Peine();
+            this.statistique = new Statistique();
 
             //  SavedRequest savedRequest = WebUtils.getAndClearSavedRequest(Faces.getRequest());
             // Faces.redirect(savedRequest != null ? savedRequest.getRequestUrl() : "condamnation/saisie_condamnation.xhtml");
@@ -467,6 +512,31 @@ public class CondamnationBean implements Serializable {
 
     public void setSituationsFileter(List<Situation> situationsFileter) {
         this.situationsFileter = situationsFileter;
+    }
+
+    public Annee getAnnee() {
+        return annee;
+    }
+
+    public void setAnnee(Annee annee) {
+        this.annee = annee;
+    }
+
+    public List<Annee> getAnnees() {
+        this.annees = this.asbl.getAll();
+        return annees;
+    }
+
+    public void setAnnees(List<Annee> annees) {
+        this.annees = annees;
+    }
+
+    public AnneServiceBeanLocal getAsbl() {
+        return asbl;
+    }
+
+    public void setAsbl(AnneServiceBeanLocal asbl) {
+        this.asbl = asbl;
     }
 
 }

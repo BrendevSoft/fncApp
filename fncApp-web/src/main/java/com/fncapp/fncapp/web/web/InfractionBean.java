@@ -59,17 +59,22 @@ public class InfractionBean implements Serializable {
         UserTransaction tx = TransactionManager.getUserTransaction();
         try {
             tx.begin();
+            List<Infraction> infractions1 = this.isbl.getBy("libelle", this.infraction.getLibelle());
             if (this.infraction.getId() == null) {
-                this.infraction.setDatecreation(new Date());
-                this.infraction.setRowvers(new Date());
-                this.isbl.saveOne(infraction);
-                journalisation.saveLog4j(UtilisateurBean.class.getName(), Level.INFO, "Enrégistrement d'une infraction :" + infraction.getLibelle());
+                if (infractions1.isEmpty()) {
+                    this.infraction.setDatecreation(new Date());
+                    this.infraction.setRowvers(new Date());
+                    this.isbl.saveOne(infraction);
+                    journalisation.saveLog4j(InfractionBean.class.getName(), Level.INFO, "Enrégistrement d'une infraction :" + infraction.getLibelle());
+                    context.addMessage(null, new FacesMessage(Constante.ENREGISTREMENT_REUSSIT));
+                } else {
+                    context.addMessage(null, new FacesMessage(Constante.ENREGISTREMENT_ECHOUE + ", Le libellé saisi existe déja dans la base"));
 
-                context.addMessage(null, new FacesMessage(Constante.ENREGISTREMENT_REUSSIT));
+                }
             } else {
                 this.infraction.setRowvers(new Date());
                 this.isbl.updateOne(infraction);
-                journalisation.saveLog4j(UtilisateurBean.class.getName(), Level.INFO, "Modification d'une infraction :" + infraction.getLibelle());
+                journalisation.saveLog4j(InfractionBean.class.getName(), Level.INFO, "Modification d'une infraction :" + infraction.getLibelle());
 
                 context.addMessage(null, new FacesMessage(Constante.MODIFICATION_REUSSIT));
             }
@@ -81,11 +86,11 @@ public class InfractionBean implements Serializable {
             try {
                 tx.rollback();
             } catch (IllegalStateException ex) {
-                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+                Logger.getLogger(InfractionBean.class.getName()).log(Level.FATAL, null, ex);
             } catch (SecurityException ex) {
-                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+                Logger.getLogger(InfractionBean.class.getName()).log(Level.FATAL, null, ex);
             } catch (SystemException ex) {
-                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+                Logger.getLogger(InfractionBean.class.getName()).log(Level.FATAL, null, ex);
             }
         }
 
