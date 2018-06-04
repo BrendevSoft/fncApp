@@ -10,28 +10,25 @@
         <div class="layout-menu-container">
             <div class="nano">
                 <div class="nano-content menu-scroll-content">
-                    <div class="search-input">
-                        <input type="text" placeholder="Search"/>
-                        <i class="fa fa-search"></i>
-                    </div>
+
                     <pp:menu widgetVar="me">
-                        <p:menuitem id="tableau_de_bord" value="Tableau de bord" icon="fa fa-fw fa-home" outcome="/index"/>
-                        <p:submenu id="condamnation" label="Condamnation" icon="fa fa-fw fa-life-saver">
-                            <p:menuitem id="saisi_condamnation" value="Saisie Condamnation" icon="fa fa-fw fa-square-o" outcome="/condamnation/saisie_condamnation" />
-                            <p:menuitem id="liste_condamnation" value="Liste Condamnation" icon="fa fa-fw fa-sign-in" outcome="/condamnation/liste_condamnation" />
+                        <p:menuitem rendered="#{loginBean.consulterTableauBord}" id="tableau_de_bord" value="Tableau de bord" icon="fa fa-fw fa-home" outcome="/index"/>
+                        <p:submenu rendered="#{loginBean.condamnation}" id="condamnation" label="Condamnation" icon="fa fa-fw fa-life-saver">
+                            <p:menuitem rendered="#{loginBean.ajouterCondamnation}" id="saisi_condamnation" value="Saisie Condamnation" icon="fa fa-fw fa-square-o" outcome="/condamnation/saisie_condamnation" />
+                            <p:menuitem rendered="#{loginBean.consulterCondamnation}" id="liste_condamnation" value="Liste Condamnation" icon="fa fa-fw fa-sign-in" outcome="/condamnation/liste_condamnation" />
                         </p:submenu>
-                        <p:submenu id="administration" label="Administration" icon="fa fa-fw fa-life-saver">
-                            <p:menuitem id="courtAppel" value="Court d'Appel" icon="fa fa-fw fa-square-o" outcome="/administration/courtAppel" />
-                            <p:menuitem id="tribunaux" value="Tribunaux" icon="fa fa-fw fa-square-o" outcome="/administration/tribunaux" />
-                            <p:menuitem id="prisons" value="Prisons" icon="fa fa-fw fa-sign-in" outcome="/administration/prisons" />
-                            <p:menuitem id="infractions" value="Infractions" icon="fa fa-fw fa-exclamation-circle" outcome="/administration/infractions" />
+                        <p:submenu rendered="#{loginBean.consulterAdministration}" id="administration" label="Administration" icon="fa fa-fw fa-life-saver">
+                            <p:menuitem rendered="#{loginBean.consulterAcourtAppel}" id="courtAppel" value="Court d'Appel" icon="fa fa-fw fa-square-o" outcome="/administration/courtAppel" />
+                            <p:menuitem rendered="#{loginBean.consulterTribunaux}" id="tribunaux" value="Tribunaux" icon="fa fa-fw fa-square-o" outcome="/administration/tribunaux" />
+                            <p:menuitem rendered="#{loginBean.consulterPrison}" id="prisons" value="Prisons" icon="fa fa-fw fa-sign-in" outcome="/administration/prisons" />
+                            <p:menuitem rendered="#{loginBean.consulterInfraction}" id="infractions" value="Infractions" icon="fa fa-fw fa-exclamation-circle" outcome="/administration/infractions" />
                         </p:submenu>
-                        <p:submenu id="securite" label="Sécurité" icon="fa fa-fw fa-life-saver">
-                            <p:menuitem id="profils" value="Profils" icon="fa fa-fw fa-square-o" outcome="/securite/profil" />
-                            <p:menuitem id="groupeRoles" value="Associer Roles" icon="fa fa-fw fa-sign-in" outcome="/securite/roles" />
-                            <p:menuitem id="utilisateurs" value="Utilisateurs" icon="fa fa-fw fa-exclamation-circle" outcome="/securite/utilisateurs" />
-                            <p:menuitem id="utilisateursProfils" value="Associer Profils" icon="fa fa-fw fa-exclamation-circle" outcome="/securite/profils" />
-                            <p:menuitem id="activation" value="Activation des comptes" icon="fa fa-fw fa-exclamation-circle" outcome="/securite/compte" />
+                        <p:submenu rendered="#{loginBean.consulterSecurite}" id="securite" label="Sécurité" icon="fa fa-fw fa-life-saver">
+                            <p:menuitem rendered="#{loginBean.consulterProfil}" id="profils" value="Profils" icon="fa fa-fw fa-square-o" outcome="/securite/profil" />
+                            <p:menuitem rendered="#{loginBean.consulterRole}" id="groupeRoles" value="Associer Roles" icon="fa fa-fw fa-sign-in" outcome="/securite/roles" />
+                            <p:menuitem rendered="#{loginBean.consulterUtilisateur}" id="utilisateurs" value="Utilisateurs" icon="fa fa-fw fa-exclamation-circle" outcome="/securite/utilisateurs" />
+                            <p:menuitem rendered="#{loginBean.consulterAssocierProfil}" id="utilisateursProfils" value="Associer Profils" icon="fa fa-fw fa-exclamation-circle" outcome="/securite/profils" />
+                            <p:menuitem rendered="#{loginBean.consulterCompte}" id="activation" value="Activation des comptes" icon="fa fa-fw fa-exclamation-circle" outcome="/securite/compte" />
                         </p:submenu>
                     </pp:menu>
 

@@ -11,7 +11,7 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
             <meta name="apple-mobile-web-app-capable" content="yes" />
         </f:facet>
-        <title>Page de connexion</title>
+        <title>Réinitialisation du mot de passe</title>
     </h:head>
 
     <h:body styleClass="login-body">
@@ -26,28 +26,30 @@
                             <div class="ui-g-4">
                             </div>
                             <div class="ui-g-4">
-                                <p:inputText required="true" requiredMessage="Veillez saisir votre login" value="#{loginBean.username}" id="identifiant" placeholder="Username" />
+                                <p:inputText id="question" value="#{loginBean.recupQuestion}" disabled="true"/>
                             </div>
                             <div class="ui-g-4">
                             </div>
                             <div class="ui-g-4">
                             </div>
                             <div class="ui-g-4">
-                                <p:password id="motdepasse" value="#{loginBean.password}" placeholder="Password" feedback="false"/>
-                            </div>
-                            <div class="ui-g-4">
-                            </div>
-                            <div class="ui-g-4">
-                            </div>
-                            <div class="ui-g-4 button-container">
-                                <p:commandButton process="@form" icon="fa fa-user"  value="Se connecter" styleClass="turquoise-btn" update="message" actionListener="#{loginBean.login()}"/>
+                                <p:password id="reponse" placeholder="Saisir la réponse à la question" requiredMessage="Veillez entrer une réponse" required="true" value="#{loginBean.reponse}"/>
                             </div>
                             <div class="ui-g-4">
                             </div>
                             <div class="ui-g-4">
                             </div>
                             <div class="ui-g-4 button-container">
-                                <p:button outcome="/loginVerif" value="Mot de passe oublié" icon="fa fa-key" styleClass="blue-btn" />
+                                <p:commandButton value="Valider" style="padding: 5px" update="message"
+                                                 action="#{loginBean.reinitialiserPasse()}"
+                                                 process="@form"/> 
+                            </div>
+                            <div class="ui-g-4">
+                            </div>
+                            <div class="ui-g-4">
+                            </div>
+                            <div class="ui-g-4">
+                                <p:button outcome="/login" value="Annuler" icon="fa fa-key" styleClass="blue-btn" />
                             </div>
                         </div>
                     </div>

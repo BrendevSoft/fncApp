@@ -5,7 +5,7 @@
  */
 package com.fncapp.fncapp.web.web;
 
-import com.fncapp.fncapp.api.api.utils.Constante;
+import com.fncapp.fncapp.impl.shiro.Constante;
 import com.fncapp.fncapp.api.api.utils.MethodeJournalisation;
 import com.fncapp.fncapp.api.entities.CourtAppel;
 import com.fncapp.fncapp.api.service.CourtAppelServiceBeanlocal;

@@ -5,6 +5,43 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
 
+    <ui:define name="head">
+        <style type="text/css">
+            .cars-datalist .text-column p:last-child{
+                color:#757575;
+            }
+
+            .cars-datalist .car-item {
+                padding: 8px 14px;
+            }
+
+            .cars-datalist .car-item img, .cars-datalist .car-item .car-details {
+                display: inline-block;
+                vertical-align: middle;
+                margin-right: 14px;
+            }
+
+            .cars-datalist .car-item button {
+                float: right;
+            }
+
+            .cars-datalist ul {
+                margin: 0;
+                padding: 0;
+            }
+
+            .ui-car-display td:last-child {
+                font-weight: 700;
+            }
+
+            @media (max-width:640px) {
+                .cars-datalist .text-column {
+                    text-align: center;
+                }
+            }
+        </style>
+    </ui:define>
+
     <ui:define name="title">Profils</ui:define>
 
     <ui:define name="viewname">Profils</ui:define>
@@ -44,7 +81,7 @@
                                         <p:commandButton process="@form" update=":profil:profilForm:profilPanel" action="#{profilBean.cancel(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
                                     </div>
                                     <div class="ui-g-3">
-                                        <p:commandButton process="@form" update=":profil:profilForm:profilPanel,:profil:message,:profil:profilsTab:profilTab" action ="#{profilBean.save(actionEvent)}" value="Valider" icon="fa fa-paper-plane-o"></p:commandButton>
+                                        <p:commandButton rendered="#{loginBean.ajouterProfil}" process="@form" update=":profil:profilForm:profilPanel,:profil:message,:profil:profilsTab:profilTab" action ="#{profilBean.save(actionEvent)}" value="Valider" icon="fa fa-paper-plane-o"></p:commandButton>
                                     </div>
                                     <div class="ui-g-3">
                                     </div>
@@ -56,30 +93,31 @@
                 </h:form>
 
                 <h:form id="profilsTab">
-
-                    <p:dataTable var="profil" id="profilTab" widgetVar="profilsTable" value="#{profilBean.profils}"
-                                 emptyMessage="Profil non trouvé"
-                                 style="border-color: #00AEEF" filteredValue="#{profilBean.profilsFilter}" 
-                                 rows="5" scrollable="true"  paginator="true" paginatorPosition="top" 
-                                 rowsPerPageTemplate="2,5,10,15">
-                        <f:facet name="header">
-                            <p:outputPanel>
-                                <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
-                                <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
-                                <h:outputText value="Rechercher toutes les valeurs :" />
-                                <p:inputText id="globalFilter" onkeyup="PF('profilsTable').filter()" style="width:150px" placeholder="entrer la valeur"/>
-                            </p:outputPanel>
-                        </f:facet>
-                        <p:column style="width: 45%" filterBy="#{profil.nom}" filterMatchMode="contains" id="libProfil"  headerText="Libellé">
-                            <h:outputText value="#{profil.nom}" />
-                        </p:column>
-                        <p:column style="width: 45%" id="descProfil" headerText="Description"  filterBy="#{profil.description}" filterMatchMode="contains">
-                            <h:outputText value="#{profil.description}" />
-                        </p:column>
-                        <p:column style="width: 10%">
-                            <p:commandButton style="width: 100%" process="@form" update=":profil:profilForm:profilPanel" value="Editer" actionListener="#{profilBean.getObject(profil.id)}"/>
-                        </p:column>
-                    </p:dataTable>
+                    <div class="card card-w-title">
+                        <p:dataTable var="profil" id="profilTab" widgetVar="profilsTable" value="#{profilBean.profils}"
+                                     emptyMessage="Profil non trouvé" reflow="true"
+                                     style="border-color: #00AEEF" filteredValue="#{profilBean.profilsFilter}" 
+                                     rows="5" scrollable="true"  paginator="true" paginatorPosition="top" 
+                                     rowsPerPageTemplate="2,5,10,15">
+                            <f:facet name="header">
+                                <p:outputPanel>
+                                    <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
+                                    <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
+                                    <h:outputText value="Rechercher toutes les valeurs :" />
+                                    <p:inputText id="globalFilter" onkeyup="PF('profilsTable').filter()" style="width:150px" placeholder="entrer la valeur"/>
+                                </p:outputPanel>
+                            </f:facet>
+                            <p:column style="width: 45%" filterBy="#{profil.nom}" filterMatchMode="contains" id="libProfil"  headerText="Libellé">
+                                <h:outputText value="#{profil.nom}" />
+                            </p:column>
+                            <p:column style="width: 45%" id="descProfil" headerText="Description"  filterBy="#{profil.description}" filterMatchMode="contains">
+                                <h:outputText value="#{profil.description}" />
+                            </p:column>
+                            <p:column style="width: 10%" rendered="#{loginBean.modifierProfil}">
+                                <p:commandButton style="width: 100%" process="@form" update=":profil:profilForm:profilPanel" value="Editer" actionListener="#{profilBean.getObject(profil.id)}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
                 </h:form>
             </p:fieldset>
         </h:form>

@@ -3,10 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fncapp.fncapp.api.api.utils;
+package com.fncapp.fncapp.impl.shiro;
 
 import java.io.IOException;
 import java.io.Serializable;
+import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.util.SavedRequest;
+import org.apache.shiro.web.util.WebUtils;
+import org.omnifaces.util.Faces;
 
 /**
  *
@@ -50,6 +54,13 @@ public abstract class Constante implements Serializable {
     public static final String MOT_DE_PASSE_DEFAUT = "admin";
 
     public Constante() {
+    }
+
+    public static void bloqueLien(String role) {
+        Subject subject = EntityRealm.getSubject();
+        if (!subject.hasRole(role)) {
+            subject.logout();
+        }
     }
 
 }

@@ -293,23 +293,32 @@
     padding-bottom: 20px; }
 .dashboard .timeline > .ui-g .ui-g-9 .event-content img {
     width: 100%; }
+.login-body .logo {
+    display: inline-block;
+    vertical-align: middle;
+    width: 125px;
+    height: 175px;
+    background: url("#{resource['poseidon-layout:images/landing/togo.png']}") top left no-repeat;
+    background-size: 125px 175px; }
+
+.login-body .logo1 {
+    float: right;
+    display: inline-block;
+    vertical-align: middle;
+    width: 175px;
+    height: 125px;
+    background: url("#{resource['poseidon-layout:images/landing/justice.png']}") top right no-repeat;
+    background-size: 175px 125px; }
 
 .login-body .login-panel {
-    height: 100%;
+    top: 75%;
+    text-align: center;
     width: 350px;
-    position: absolute;
-    right: 0;
-    top: 0;
-    padding: 100px 50px;
-    -webkit-box-shadow: 0 5px 7px 5px rgba(0, 0, 0, 0.1);
-    -moz-box-shadow: 0 5px 7px 5px rgba(0, 0, 0, 0.1);
-    box-shadow: 0 5px 7px 5px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
-    background-color: #ffffff;
-    overflow: auto; }
+    min-height: 440px;
+    padding: 50px 20px;
+    margin: 100px auto 0 auto; }
 .login-body .login-panel .ui-g-12 {
-    padding: 16px 0;
-    text-align: center; }
+    padding: 25px 40px; }
 .login-body .login-panel .ui-g-12.logo-container img {
     margin-bottom: 20px; }
 .login-body .login-panel .ui-g-12.chkbox-container {
@@ -323,7 +332,10 @@
 
 @media (min-width: 641px) {
     .login-body {
-        background: url("#{resource['poseidon-layout:images/login/login-background.png']}") top left no-repeat;
+        max-width: 100%;
+        height: auto;
+        object-fit: cover;
+        background: url("#{resource['poseidon-layout:images/login/back.jpeg']}") top left no-repeat;
         background-size: cover; } }
 @media (max-width: 640px) {
     .login-body {
@@ -385,21 +397,26 @@ body.exception-body.notfound-page .exception-top {
     body.exception-body .exception-bottom .exception-wrapper {
         width: 100%; } }
 .landing-wrapper #header {
-    width: 100%;
-    min-height: 500px;
-    background: url("#{resource['poseidon-layout:images/landing/landing-bg.png']}") top left no-repeat #f7f7f7;
     background-size: cover; }
 .landing-wrapper #header .header-top {
-    width: 960px;
-    margin: 0 auto;
-    padding: 30px 0px; }
+    width: 100%;
+    margin: 0 auto;}
 .landing-wrapper #header .header-top .logo {
     display: inline-block;
     vertical-align: middle;
+    width: 125px;
+    height: 175px;
+    background: url("#{resource['poseidon-layout:images/landing/togo.png']}") top left no-repeat;
+    background-size: 125px 175px; }
+
+.landing-wrapper #header .header-top .logo1 {
+    float: right;
+    display: inline-block;
+    vertical-align: middle;
     width: 175px;
-    height: 49px;
-    background: url("#{resource['poseidon-layout:images/logo-white.png']}") top left no-repeat;
-    background-size: 175px 49px; }
+    height: 125px;
+    background: url("#{resource['poseidon-layout:images/landing/justice.png']}") top right no-repeat;
+    background-size: 175px 125px; }
 .landing-wrapper #header .header-top #menu {
     float: right;
     list-style: none;
@@ -432,20 +449,21 @@ body.exception-body.notfound-page .exception-top {
     color: #ffffff;
     display: none; }
 .landing-wrapper #header .header-content {
+    text-align: center; 
     width: 960px;
     margin: 0 auto; }
 .landing-wrapper #header .header-content h1 {
     margin: 80px 0 0 0;
     font-weight: 400;
-    font-size: 24px;
+    font-size: 35px;
     color: #ffffff; }
 .landing-wrapper #header .header-content h2 {
     margin: 10px 0 40px 0;
     font-weight: 300;
-    font-size: 20px;
+    font-size: 25px;
     color: #ffffff; }
 .landing-wrapper #header .header-content button .ui-button-text {
-    padding: 10px 20px; }
+    padding: 15px 30px; }
 .landing-wrapper #features {
     width: 960px;
     margin: 0 auto;

@@ -68,7 +68,7 @@
                                         <p:commandButton process="@form" update=":tribunal:tribunalForm:tribunalPanel" action="#{juridictionBean.cancel(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
                                     </div>
                                     <div class="ui-g-3">
-                                        <p:commandButton process="@form" update=":tribunal:tribunalForm:tribunalPanel,:tribunal:message,:tribunal:tribunauxTab:tribunalTab" action ="#{juridictionBean.save(actionEvent)}" value="Valider" icon="fa fa-paper-plane-o"></p:commandButton>
+                                        <p:commandButton rendered="#{loginBean.ajouterTribunaux}" process="@form" update=":tribunal:tribunalForm:tribunalPanel,:tribunal:message,:tribunal:tribunauxTab:tribunalTab" action ="#{juridictionBean.save(actionEvent)}" value="Valider" icon="fa fa-paper-plane-o"></p:commandButton>
                                     </div>
                                     <div class="ui-g-3">
                                     </div>
@@ -81,7 +81,7 @@
 
                 <h:form id="tribunauxTab">
 
-                    <p:dataTable var="juri" id="tribunalTab" widgetVar="tribunalTable" value="#{juridictionBean.juridictions}"
+                    <p:dataTable reflow="true"  var="juri" id="tribunalTab" widgetVar="tribunalTable" value="#{juridictionBean.juridictions}"
                                  emptyMessage="Tribunal non trouvé"
                                  style="border-color: #00AEEF" filteredValue="#{juridictionBean.juridictionsFilter}" 
                                  rows="5" scrollable="true"  paginator="true" paginatorPosition="top" 
@@ -103,7 +103,7 @@
                         <p:column style="width: 30%" id="villeJuri" headerText="Ville"  filterBy="#{juri.ville}" filterMatchMode="contains">
                             <h:outputText value="#{juri.ville}" />
                         </p:column>
-                        <p:column style="width: 10%">
+                        <p:column style="width: 10%" rendered="#{loginBean.modifierTribunaux}">
                             <p:commandButton style="width: 100%" process="@form" update=":tribunal:tribunalForm:tribunalPanel" value="Editer" actionListener="#{juridictionBean.getObject(juri.id)}"/>
                         </p:column>
                     </p:dataTable>

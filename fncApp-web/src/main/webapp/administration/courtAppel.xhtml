@@ -37,7 +37,7 @@
                                         <p:commandButton process="@form" update=":courtAppel:courtAppelForm:courtAppelPanel" action="#{courtAppelBean.cancel(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
                                     </div>
                                     <div class="ui-g-3">
-                                        <p:commandButton process="@form" update=":courtAppel:courtAppelForm:courtAppelPanel,:courtAppel:message,:courtAppel:courtAppelsTab:courtAppelTab" action ="#{courtAppelBean.save(actionEvent)}" value="Valider" icon="fa fa-paper-plane-o"></p:commandButton>
+                                        <p:commandButton rendered="#{loginBean.ajouterCourtAppel}" process="@form" update=":courtAppel:courtAppelForm:courtAppelPanel,:courtAppel:message,:courtAppel:courtAppelsTab:courtAppelTab" action ="#{courtAppelBean.save(actionEvent)}" value="Valider" icon="fa fa-paper-plane-o"></p:commandButton>
                                     </div>
                                     <div class="ui-g-3">
                                     </div>
@@ -50,7 +50,7 @@
 
                 <h:form id="courtAppelsTab">
 
-                    <p:dataTable var="ca" id="courtAppelTab" widgetVar="courtAppelTable" value="#{courtAppelBean.courtAppels}"
+                    <p:dataTable reflow="true" var="ca" id="courtAppelTab" widgetVar="courtAppelTable" value="#{courtAppelBean.courtAppels}"
                                  emptyMessage="court d'Appel non trouvée"
                                  style="border-color: #00AEEF" filteredValue="#{courtAppelBean.courtAppelsFilter}" 
                                  rows="5" scrollable="true"  paginator="true" paginatorPosition="top" 
@@ -66,7 +66,7 @@
                         <p:column style="width: 70%" filterBy="#{ca.libelle}" filterMatchMode="contains" headerText="Libellé">
                             <h:outputText value="#{ca.libelle}" />
                         </p:column>
-                        <p:column style="width: 30%">
+                        <p:column style="width: 30%" rendered="#{loginBean.modifierCourtAppel}">
                             <p:commandButton style="width: 100%" process="@form" update=":courtAppel:courtAppelForm:courtAppelPanel" value="Editer" actionListener="#{courtAppelBean.getObject(ca.id)}"/>
                         </p:column>
                     </p:dataTable>

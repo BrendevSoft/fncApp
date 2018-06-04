@@ -16,6 +16,7 @@
     <class>com.fncapp.fncapp.api.entities.Juridiction</class>
     <class>com.fncapp.fncapp.api.entities.Logs</class>
     <class>com.fncapp.fncapp.api.entities.Peine</class>
+    <class>com.fncapp.fncapp.api.entities.PeineInfraction</class>
     <class>com.fncapp.fncapp.api.entities.Personne</class>
     <class>com.fncapp.fncapp.api.entities.Prison</class>
     <class>com.fncapp.fncapp.api.entities.Rolee</class>

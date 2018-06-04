@@ -39,7 +39,7 @@
                                     </p:selectManyCheckbox>
                                 <br/>
                                 <center>
-                                    <p:commandButton update=":role:message" value="Modifier" process="@form"  action="#{roleBean.modifierRole()}"/>  
+                                    <p:commandButton rendered="#{loginBean.associerRole}" update=":role:message" value="Modifier" process="@form"  action="#{roleBean.modifierRole()}"/>  
                                 </center>
                             </div>
                         </p:panel>

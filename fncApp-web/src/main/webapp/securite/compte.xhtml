@@ -16,7 +16,7 @@
             <p:fieldset legend="Gestion des comptes">
                 <h:form id="comptesTab">
 
-                    <p:dataTable  value="#{utilisateurBean.utilisateurInactif()}" widgetVar="usersInactifs" var="user" id="compteTab"
+                    <p:dataTable reflow="true"  value="#{utilisateurBean.utilisateurInactif()}" widgetVar="usersInactifs" var="user" id="compteTab"
                                   emptyMessage="Personnel non trouvé" paginator="true" rows="5"
                                   rowsPerPageTemplate="2,5,10,15" style="border-color: #00AEEF" filteredValue="#{utilisateurBean.utilisateursFilter}">
                         <f:facet name="header">
@@ -34,11 +34,11 @@
                             <h:outputText value="#{user.prenom}"/>
                         </p:column>
                         <p:column style="width: 10%">
-                            <p:commandButton process="@this" update=":comptes:message,:comptes:comptesTab:compteTab1,:comptes:comptesTab:compteTab" value="activer" action="#{utilisateurBean.activerUtilisateur(user.id)}"/>
+                            <p:commandButton rendered="#{loginBean.activerCompte}" process="@this" update=":comptes:message,:comptes:comptesTab:compteTab1,:comptes:comptesTab:compteTab" value="activer" action="#{utilisateurBean.activerUtilisateur(user.id)}"/>
                         </p:column>
                     </p:dataTable>
 
-                    <p:dataTable  value="#{utilisateurBean.utilisateurActif()}" widgetVar="usersActifs" var="user" id="compteTab1"
+                    <p:dataTable reflow="true"  value="#{utilisateurBean.utilisateurActif()}" widgetVar="usersActifs" var="user" id="compteTab1"
                                   emptyMessage="Personnel non trouvé" paginator="true" rows="5"
                                   rowsPerPageTemplate="2,5,10,15" style="border-color: #00AEEF" filteredValue="#{utilisateurBean.utilisateursFilter}">
                         <f:facet name="header">
@@ -56,7 +56,7 @@
                             <h:outputText value="#{user.prenom}"/>
                         </p:column>
                         <p:column style="width: 10%">
-                            <p:commandButton value="desactiver" process="@this" update=":comptes:message,:comptes:comptesTab:compteTab1,:comptes:comptesTab:compteTab" action="#{utilisateurBean.desactiverUtilisateur(user.id)}"/>
+                            <p:commandButton rendered="#{loginBean.desactiverCompte}" value="desactiver" process="@this" update=":comptes:message,:comptes:comptesTab:compteTab1,:comptes:comptesTab:compteTab" action="#{utilisateurBean.desactiverUtilisateur(user.id)}"/>
                         </p:column>
                     </p:dataTable>
                 </h:form>

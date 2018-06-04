@@ -46,7 +46,7 @@
                                         <p:commandButton process="@form" update=":prison:prisonForm:prisonPanel" action="#{prisonBean.cancel(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
                                     </div>
                                     <div class="ui-g-3">
-                                        <p:commandButton process="@form" update=":prison:prisonForm:prisonPanel,:prison:message,:prison:prisonsTab:prisonTab" action ="#{prisonBean.save(actionEvent)}" value="Valider" icon="fa fa-paper-plane-o"></p:commandButton>
+                                        <p:commandButton rendered="#{loginBean.ajouterPrison}" process="@form" update=":prison:prisonForm:prisonPanel,:prison:message,:prison:prisonsTab:prisonTab" action ="#{prisonBean.save(actionEvent)}" value="Valider" icon="fa fa-paper-plane-o"></p:commandButton>
                                     </div>
                                     <div class="ui-g-3">
                                     </div>
@@ -59,7 +59,7 @@
 
                 <h:form id="prisonsTab">
 
-                    <p:dataTable var="pris" id="prisonTab" widgetVar="prisonsTable" value="#{prisonBean.prisons}"
+                    <p:dataTable reflow="true" var="pris" id="prisonTab" widgetVar="prisonsTable" value="#{prisonBean.prisons}"
                                  emptyMessage="Prison non trouvé"
                                  style="border-color: #00AEEF" filteredValue="#{prisonBean.prisonsFilter}" 
                                  rows="5" scrollable="true"  paginator="true" paginatorPosition="top" 
@@ -78,7 +78,7 @@
                         <p:column style="width: 45%" id="descProfil" headerText="Adresse"  filterBy="#{pris.adresse}" filterMatchMode="contains">
                             <h:outputText value="#{pris.adresse}" />
                         </p:column>
-                        <p:column style="width: 10%">
+                        <p:column style="width: 10%" rendered="#{loginBean.modifierPrison}">
                             <p:commandButton style="width: 100%" process="@form" update=":prison:prisonForm:prisonPanel" value="Editer" actionListener="#{prisonBean.getObject(pris.id)}"/>
                         </p:column>
                     </p:dataTable>

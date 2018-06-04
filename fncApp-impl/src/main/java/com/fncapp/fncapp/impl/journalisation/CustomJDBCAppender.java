@@ -132,8 +132,8 @@ public class CustomJDBCAppender extends AppenderSkeleton {
             }
 
         } catch (Exception e) {
-            System.out.println("Test log4j echoue");
-            e.printStackTrace();
+           // System.out.println("Test log4j echoue");
+            //e.printStackTrace();
         }
     }
 }

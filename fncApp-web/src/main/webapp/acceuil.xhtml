@@ -12,16 +12,24 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
             <meta name="apple-mobile-web-app-capable" content="yes" />
         </f:facet>
-        <title>PrimeFaces Poseidon - Error</title>
+        <title>Page d'Acceuil du Fichier National des Condamnations</title>
     </h:head>
 
-    <h:body styleClass="exception-body error-page">
-        <div class="exception-bottom">
-            <div class="exception-wrapper">
-                <span class="exception-summary">Exception levée</span>
-                <span class="exception-detail">Vous n'avez pas accès à cette ressource,Contacter l'administrateur du système</span>
-                <p:button outcome="/acceuil" value="Acceuil" icon="fa fa-home" styleClass="black-btn"/>
-                <span class="exception-footer">Fichier National des Condamnation</span>
+    <h:body styleClass="login-body">
+        <div class="landing-wrapper">
+            <div id="header">
+                <div class="header-top clearfix">
+                    <span class="logo">                     
+                    </span>
+                    <span class="logo1">                     
+                    </span>
+                </div>
+
+                <div class="header-content clearfix">
+                    <h1>Bienvenue</h1>
+                    <h2>Sur la plateforme du fichier national des condamnation</h2>
+                    <p:button outcome="/login" value="Se connecter" styleClass="secondary"/>
+                </div>
             </div>
         </div>
         <h:outputStylesheet name="css/layout-fnc-app.css" library="poseidon-layout" />

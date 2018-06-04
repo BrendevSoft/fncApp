@@ -5,7 +5,7 @@
  */
 package com.fncapp.fncapp.web.web;
 
-import com.fncapp.fncapp.api.api.utils.Constante;
+import com.fncapp.fncapp.impl.shiro.Constante;
 import com.fncapp.fncapp.api.api.utils.MethodeJournalisation;
 import com.fncapp.fncapp.api.entities.Groupe;
 import com.fncapp.fncapp.api.entities.Groupeutilisateur;
@@ -16,6 +16,7 @@ import com.fncapp.fncapp.api.service.GroupeServiceBeanLocal;
 import com.fncapp.fncapp.api.service.GroupeUtilisateurServiceBeanLocal;
 import com.fncapp.fncapp.api.service.JuridictionServiceBeanLocal;
 import com.fncapp.fncapp.api.service.UtilisateurServiceBeanLocal;
+import com.fncapp.fncapp.impl.shiro.EntityRealm;
 import com.fncapp.fncapp.impl.transaction.TransactionManager;
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.inject.Named;
@@ -41,6 +43,8 @@ import javax.transaction.UserTransaction;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.shiro.crypto.hash.Sha256Hash;
+import org.apache.shiro.subject.Subject;
+import org.omnifaces.util.Faces;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.FlowEvent;
 

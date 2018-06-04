@@ -38,9 +38,10 @@
                                     <div class="ui-g-6">
                                         <p:selectCheckboxMenu id="utilisateur" value="#{utilisateurBean.utilisateurs1}" panelStyleClass="without-selectall"
                                                               converter="omnifaces.SelectItemsIndexConverter"  
-                                                              label="Groupe" filter="true" filterMatchMode="contains" required="true" requiredMessage="Selectionner l'(es) utilisateur(s)">
+                                                              label="Choisir les infractions" filter="true" filterMatchMode="contains" required="true" requiredMessage="Selectionner l'(es) utilisateur(s)">
                                             <f:selectItems value="#{utilisateurBean.utilisateursNonProfil()}" itemLabel="#{num.nom}#{utilisateurBean.space}#{num.prenom}" itemValue="#{num}" var="num"/>
-                                        </p:selectCheckboxMenu>   </div>
+                                        </p:selectCheckboxMenu>  
+                                    </div>
                                     <div class="ui-g-3">
                                     </div>
                                 </div>
@@ -51,7 +52,7 @@
                                         <p:commandButton process="@form" update=":profil:profilForm:profilPanel" action="#{utilisateurBean.cancelProfil(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
                                     </div>
                                     <div class="ui-g-3">
-                                        <p:commandButton update=":profil:profilForm:profilPanel,:profil:message,:profil:profilsTab:profilTab" class="Fs16 GreenButton" id="ajouter1" value="Ajouter" actionListener="#{utilisateurBean.associerProfil()}" process="@form" style="left: 35%"/>
+                                        <p:commandButton rendered="#{loginBean.associerProfil}" update=":profil:profilForm:profilPanel,:profil:message,:profil:profilsTab:profilTab" class="Fs16 GreenButton" id="ajouter1" value="Ajouter" actionListener="#{utilisateurBean.associerProfil()}" process="@form" style="left: 35%"/>
                                     </div>
                                     <div class="ui-g-3">
                                     </div>
@@ -85,9 +86,6 @@
                         </p:column>
                         <p:column style="width: 45%" headerText="Date affectation"  filterBy="#{profil.dateAffectation}" filterMatchMode="contains">
                             <h:outputText value="#{profil.dateAffectation}" />
-                        </p:column>
-                        <p:column style="width: 10%">
-                            <p:commandButton style="width: 100%" process="@form" update=":profil:profilForm:profilPanel" value="Editer" actionListener="#{utilisateurBean.getObject(profil.id)}"/>
                         </p:column>
                     </p:dataTable>
                 </h:form>

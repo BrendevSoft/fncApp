@@ -57,7 +57,7 @@
                                             <p:commandButton process="@form" update=":users:userForm:userPanel" action="#{utilisateurBean.cancel(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
                                         </div>
                                         <div class="ui-g-6">
-                                            <p:commandButton process="@form" update=":users:userForm:userPanel,:users:message,:users:usersTab:userTab" action ="#{utilisateurBean.save(actionEvent)}" value="Valider" icon="fa fa-paper-plane-o"></p:commandButton>
+                                            <p:commandButton rendered="#{loginBean.ajouterUtilisateur}" process="@form" update=":users:userForm:userPanel,:users:message,:users:usersTab:userTab" action ="#{utilisateurBean.save(actionEvent)}" value="Valider" icon="fa fa-paper-plane-o"></p:commandButton>
                                         </div>
                                     </div>
                                 </div>
@@ -70,7 +70,7 @@
 
                 <h:form id="usersTab">
 
-                    <p:dataTable var="use" id="userTab" widgetVar="usersTable" value="#{utilisateurBean.utilisateursTotal}"
+                    <p:dataTable reflow="true" var="use" id="userTab" widgetVar="usersTable" value="#{utilisateurBean.utilisateursTotal}"
                                  emptyMessage="Utilisateur non trouvé"
                                  style="border-color: #00AEEF" filteredValue="#{utilisateurBean.utilisateursFilter}" 
                                  rows="5" scrollable="true"  paginator="true" paginatorPosition="top" 
@@ -98,7 +98,7 @@
                         <p:column style="width: 18%" headerText="Téléphone"  filterBy="#{use.telephone}" filterMatchMode="contains">
                             <h:outputText value="#{use.telephone}" />
                         </p:column>
-                        <p:column style="width: 10%">
+                        <p:column style="width: 10%" rendered="#{loginBean.modifierUtilisateur}">
                             <p:commandButton style="width: 100%" update=":users:userForm:userPanel" process="@form" value="Editer" actionListener="#{utilisateurBean.getUsersObject(use.id)}"/>
                         </p:column>
                     </p:dataTable>

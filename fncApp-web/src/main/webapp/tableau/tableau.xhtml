@@ -5,227 +5,92 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
 
-    <ui:define name="title">Tableau de bord</ui:define>
-
-    <ui:define name="viewname">Tableau de bord</ui:define>
-
     <ui:define name="head">
-        <script type="text/javascript">
-            //<![CDATA[
-            function skinChart() {
-                this.cfg.shadow = false;
-                this.cfg.title = '';
-                this.cfg.seriesColors = ['#00acac', '#3e96e7'];
-                this.cfg.grid = {
-                    background: '#ffffff',
-                    borderColor: '#ffffff',
-                    gridLineColor: '#EEEEEE',
-                    shadow: false
-                };
-                this.cfg.axesDefaults = {
-                    rendererOptions: {
-                        textColor: '#212121'
-                    }
-                };
-                this.cfg.seriesDefaults = {
-                    shadow: false,
-                    lineWidth: 1,
-                    markerOptions: {
-                        shadow: false,
-                        size: 7,
-                        style: 'circle'
-                    }
-                }
-            }
-            //]]>  
-        </script>
         <style type="text/css">
-            .main-content {
+            .cars-datalist .text-column p:last-child{
+                color:#757575;
+            }
+
+            .cars-datalist .car-item {
+                padding: 8px 14px;
+            }
+
+            .cars-datalist .car-item img, .cars-datalist .car-item .car-details {
+                display: inline-block;
+                vertical-align: middle;
+                margin-right: 14px;
+            }
+
+            .cars-datalist .car-item button {
+                float: right;
+            }
+
+            .cars-datalist ul {
+                margin: 0;
                 padding: 0;
+            }
+
+            .ui-car-display td:last-child {
+                font-weight: 700;
+            }
+
+            @media (max-width:640px) {
+                .cars-datalist .text-column {
+                    text-align: center;
+                }
             }
         </style>
     </ui:define>
 
-    <ui:define name="content">
-        <div class="ui-g dashboard">            
-            <div class="ui-g-12 ui-md-6 ui-lg-3">
-                <div class="ui-g card overview-box overview-box-1">
-                    <div class="ui-g-4">
-                        <i class="fa fa-inbox"></i>
-                    </div>
-                    <div class="ui-g-8">
-                        <span class="overview-box-count">253</span>
-                        <span class="overview-box-name">Unread Messages</span>
-                    </div>
-                </div>
-            </div>
-            <div class="ui-g-12 ui-md-6 ui-lg-3">
-                <div class="ui-g card overview-box overview-box-2">
-                    <div class="ui-g-4">
-                        <i class="fa fa-map-marker"></i>
-                    </div>
-                    <div class="ui-g-8">
-                        <span class="overview-box-count">3216</span>
-                        <span class="overview-box-name">Check-ins</span>
-                    </div>
-                </div>
-            </div>
-            <div class="ui-g-12 ui-md-6 ui-lg-3">
-                <div class="ui-g card overview-box overview-box-3">
-                    <div class="ui-g-4">
-                        <i class="fa fa-cloud"></i>
-                    </div>
-                    <div class="ui-g-8">
-                        <span class="overview-box-count">428</span>
-                        <span class="overview-box-name">Files Synced</span>
-                    </div>
-                </div>
-            </div>
-            <div class="ui-g-12 ui-md-6 ui-lg-3">
-                <div class="ui-g card overview-box overview-box-4">
-                    <div class="ui-g-4">
-                        <i class="fa fa-key"></i>
-                    </div>
-                    <div class="ui-g-8">
-                        <span class="overview-box-count">4</span>
-                        <span class="overview-box-name">Login Attempts</span>
-                    </div>
-                </div>
-            </div>
-            <div class="ui-g-12 ui-md-6 ui-lg-3">
-                <div class="ui-g card overview-box overview-box-1">
-                    <div class="ui-g-4">
-                        <i class="fa fa-inbox"></i>
-                    </div>
-                    <div class="ui-g-8">
-                        <span class="overview-box-count">253</span>
-                        <span class="overview-box-name">Unread Messages</span>
-                    </div>
-                </div>
-            </div>
-            <div class="ui-g-12 ui-md-6 ui-lg-3">
-                <div class="ui-g card overview-box overview-box-2">
-                    <div class="ui-g-4">
-                        <i class="fa fa-map-marker"></i>
-                    </div>
-                    <div class="ui-g-8">
-                        <span class="overview-box-count">3216</span>
-                        <span class="overview-box-name">Check-ins</span>
-                    </div>
-                </div>
-            </div>
-            <div class="ui-g-12 ui-md-6 ui-lg-3">
-                <div class="ui-g card overview-box overview-box-3">
-                    <div class="ui-g-4">
-                        <i class="fa fa-cloud"></i>
-                    </div>
-                    <div class="ui-g-8">
-                        <span class="overview-box-count">428</span>
-                        <span class="overview-box-name">Files Synced</span>
-                    </div>
-                </div>
-            </div>
-            <div class="ui-g-12 ui-md-6 ui-lg-3">
-                <div class="ui-g card overview-box overview-box-4">
-                    <div class="ui-g-4">
-                        <i class="fa fa-key"></i>
-                    </div>
-                    <div class="ui-g-8">
-                        <span class="overview-box-count">4</span>
-                        <span class="overview-box-name">Login Attempts</span>
-                    </div>
-                </div>
-            </div>
-            <div class="ui-g-12 ui-md-6 ui-lg-3">
-                <div class="ui-g card overview-box overview-box-1">
-                    <div class="ui-g-4">
-                        <i class="fa fa-inbox"></i>
-                    </div>
-                    <div class="ui-g-8">
-                        <span class="overview-box-count">253</span>
-                        <span class="overview-box-name">Unread Messages</span>
-                    </div>
-                </div>
-            </div>
-            <div class="ui-g-12 ui-md-6 ui-lg-3">
-                <div class="ui-g card overview-box overview-box-2">
-                    <div class="ui-g-4">
-                        <i class="fa fa-map-marker"></i>
-                    </div>
-                    <div class="ui-g-8">
-                        <span class="overview-box-count">3216</span>
-                        <span class="overview-box-name">Check-ins</span>
-                    </div>
-                </div>
-            </div>
-            <div class="ui-g-12 ui-md-6 ui-lg-3">
-                <div class="ui-g card overview-box overview-box-3">
-                    <div class="ui-g-4">
-                        <i class="fa fa-cloud"></i>
-                    </div>
-                    <div class="ui-g-8">
-                        <span class="overview-box-count">428</span>
-                        <span class="overview-box-name">Files Synced</span>
-                    </div>
-                </div>
-            </div>
-            <div class="ui-g-12 ui-md-6 ui-lg-3">
-                <div class="ui-g card overview-box overview-box-4">
-                    <div class="ui-g-4">
-                        <i class="fa fa-key"></i>
-                    </div>
-                    <div class="ui-g-8">
-                        <span class="overview-box-count">4</span>
-                        <span class="overview-box-name">Login Attempts</span>
-                    </div>
-                </div>
-            </div>
-            <div class="ui-g-12 ui-md-6 ui-lg-3">
-                <div class="ui-g card overview-box overview-box-1">
-                    <div class="ui-g-4">
-                        <i class="fa fa-inbox"></i>
-                    </div>
-                    <div class="ui-g-8">
-                        <span class="overview-box-count">253</span>
-                        <span class="overview-box-name">Unread Messages</span>
-                    </div>
-                </div>
-            </div>
-            <div class="ui-g-12 ui-md-6 ui-lg-3">
-                <div class="ui-g card overview-box overview-box-2">
-                    <div class="ui-g-4">
-                        <i class="fa fa-map-marker"></i>
-                    </div>
-                    <div class="ui-g-8">
-                        <span class="overview-box-count">3216</span>
-                        <span class="overview-box-name">Check-ins</span>
-                    </div>
-                </div>
-            </div>
-            <div class="ui-g-12 ui-md-6 ui-lg-3">
-                <div class="ui-g card overview-box overview-box-3">
-                    <div class="ui-g-4">
-                        <i class="fa fa-cloud"></i>
-                    </div>
-                    <div class="ui-g-8">
-                        <span class="overview-box-count">428</span>
-                        <span class="overview-box-name">Files Synced</span>
-                    </div>
-                </div>
-            </div>
-            <div class="ui-g-12 ui-md-6 ui-lg-3">
-                <div class="ui-g card overview-box overview-box-4">
-                    <div class="ui-g-4">
-                        <i class="fa fa-key"></i>
-                    </div>
-                    <div class="ui-g-8">
-                        <span class="overview-box-count">4</span>
-                        <span class="overview-box-name">Login Attempts</span>
-                    </div>
-                </div>
-            </div>
+    <ui:define name="title">Data</ui:define>
 
-        </div>
+    <ui:define name="viewname">Data</ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <div class="ui-g">
+
+                <div class="ui-g-12">
+                    <!-- Left Side -->
+                    <div class="card card-w-title">
+                        <h1>DataGrid</h1>
+                        <p:dataGrid var="stat" value="#{condamnationBean.statistiques}" columns="3" layout="grid"
+                                    rows="6" paginator="true" id="cars"
+                                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                    rowsPerPageTemplate="3,6,9,12,16">
+
+                            <f:facet name="header">
+                                Cars For Sale
+                            </f:facet>
+
+                            <p:panel header="#{stat.juridiction.libellecourt}" style="text-align:center">
+                                <div class="ui-g-12 ui-md-6 ui-lg-3">
+                                    <div class="ui-g card overview-box overview-box-1">
+                                        <div class="ui-g-4">
+                                            <span class="overview-box-count">
+                                                <h:outputText value="#{stat.annee.code}" styleClass="Fs14 FontDosisMedium"/>
+                                            </span>
+                                        </div>
+                                        <div class="ui-g-8">
+                                            <span class="overview-box-count">253</span>
+                                            <span class="overview-box-name">Unread Messages</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h:panelGrid columns="2" style="width:100%">
+                                    <h:outputText value="Année" styleClass="Fs14 FontDosisMedium"/>
+                                    <h:outputText value="#{stat.annee.code}" styleClass="Fs14 FontDosisMedium"/>
+                                    <h:outputText value="Nombre de saisie" styleClass="Fs14 FontDosisMedium"/>
+                                    <h:outputText value="#{stat.nombreSaisiTotal}" />
+                                </h:panelGrid>
+                            </p:panel>
+
+                        </p:dataGrid>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
     </ui:define>
 
 </ui:composition>

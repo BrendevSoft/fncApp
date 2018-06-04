@@ -62,7 +62,7 @@
                                         <p:commandButton process="@form" update=":infraction:infractionForm:infractionPanel" action="#{infractionBean.cancel(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
                                     </div>
                                     <div class="ui-g-3">
-                                        <p:commandButton process="@form" update=":infraction:infractionForm:infractionPanel,:infraction:message,:infraction:infractionsTab:infractionTab" action ="#{infractionBean.save(actionEvent)}" value="Valider" icon="fa fa-paper-plane-o"></p:commandButton>
+                                        <p:commandButton rendered="#{loginBean.ajouterInfraction}" process="@form" update=":infraction:infractionForm:infractionPanel,:infraction:message,:infraction:infractionsTab:infractionTab" action ="#{infractionBean.save(actionEvent)}" value="Valider" icon="fa fa-paper-plane-o"></p:commandButton>
                                     </div>
                                     <div class="ui-g-3">
                                     </div>
@@ -75,7 +75,7 @@
 
                 <h:form id="infractionsTab">
 
-                    <p:dataTable var="infras" id="infractionTab" widgetVar="infractionsTable" value="#{infractionBean.infractions}"
+                    <p:dataTable reflow="true" var="infras" id="infractionTab" widgetVar="infractionsTable" value="#{infractionBean.infractions}"
                                  emptyMessage="infraction non trouvé"
                                  style="border-color: #00AEEF" filteredValue="#{infractionBean.infractionsfilter}" 
                                  rows="5" scrollable="true"  paginator="true" paginatorPosition="top" 
@@ -97,7 +97,7 @@
                         <p:column style="width: 30%" headerText="Qualification"  filterBy="#{infras.disposition}" filterMatchMode="contains">
                             <h:outputText value="#{infras.disposition}" />
                         </p:column>
-                        <p:column style="width: 10%">
+                        <p:column style="width: 10%" rendered="#{loginBean.modifierInfraction}">
                             <p:commandButton style="width: 100%" process="@form" update=":infraction:infractionForm:infractionPanel" value="Editer" actionListener="#{infractionBean.getObject(infras.id)}"/>
                         </p:column>
                     </p:dataTable>

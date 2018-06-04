@@ -12,9 +12,9 @@
     <ui:define name="content">
 
         <h:form id="users">
-            <p:growl id="message" life="4000" showSummary="true"/>
             <p:fieldset legend="Saisie des condamnations">
                 <h:form id="userForm" styleClass="personne">
+                    <p:growl id="message" life="4000" showSummary="true"/>
                     <p:wizard flowListener="#{GesNiveau.onFlowProcess}" backLabel="Précédent" nextLabel="Suivant" >
                         <ui:include src="../condamnation/personnel.xhtml"/>            
                         <ui:include src="../condamnation/situation.xhtml"/>
