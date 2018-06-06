@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <title>Vérification du login</title>
+    </h:head>
+
+    <h:body styleClass="login-body">
+        <h:form id="login">
+            <span class="logo"></span>
+            <span class="logo1"></span>
+            <p:growl id="message" life="4000" showSummary="true" />
+            <p:outputPanel autoUpdate="true">
+                <div class="login-panel ui-fluid">
+                    <div class="ui-g">
+                        <div class="ui-g-12">
+                            <p:inputText required="true" requiredMessage="Veillez saisir votre login" value="#{loginBean.per}" id="identifiant" placeholder="Username" />
+                        </div>
+                        <div class="ui-g-12 button-container">
+                            <p:commandButton process="@form" icon="fa fa-user"  value="Vérifier" styleClass="turquoise-btn" update="message" actionListener="#{loginBean.recupererQuestion()}"/>
+                            <p:button outcome="/login" value="Retour" icon="fa fa-key" styleClass="blue-btn" />
+                        </div>
+                       
+                    </div>
+                </div>
+            </p:outputPanel>
+        </h:form>
+        <h:outputStylesheet name="css/layout-fnc-app.css" library="poseidon-layout" />
+    </h:body>
+
+</html>

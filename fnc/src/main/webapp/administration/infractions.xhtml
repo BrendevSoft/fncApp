@@ -1,0 +1,130 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="head">
+        <style type="text/css">
+            .cars-datalist .text-column p:last-child{
+                color:#757575;
+            }
+
+            .cars-datalist .car-item {
+                padding: 8px 14px;
+            }
+
+            .cars-datalist .car-item img, .cars-datalist .car-item .car-details {
+                display: inline-block;
+                vertical-align: middle;
+                margin-right: 14px;
+            }
+
+            .cars-datalist .car-item button {
+                float: right;
+            }
+
+            .cars-datalist ul {
+                margin: 0;
+                padding: 0;
+            }
+
+            .ui-car-display td:last-child {
+                font-weight: 700;
+            }
+
+            @media (max-width:640px) {
+                .cars-datalist .text-column {
+                    text-align: center;
+                }
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="title">Infractions</ui:define>
+
+    <ui:define name="viewname">Infractions</ui:define>
+
+    <ui:define name="content">    
+        <h:form id="infraction" >
+            <p:growl id="message" life="4000" showSummary="true"/>
+            <p:fieldset legend="Gestion des courts d'Appel">
+                <!-- Left Side -->
+                <p:panel  style="border-color: #171b1f;">
+                    <h:form id="infractionForm" styleClass="personne">
+                        <div class="ui-g ui-fluid">
+                            <div class="ui-g-12 ui-lg-12">
+                                <p:panel id="infractionPanel" style="border-color: #171b1f;">
+                                    <p:panelGrid columnClasses="ui-grid-col-3,ui-grid-col-6,ui-grid-col-3" columns="3" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
+                                        <h:inputHidden value="#{infractionBean.infraction.id}"/>
+                                        <p:inputText value="#{infractionBean.infraction.libelle}" required="true" requiredMessage="Saisir le libellé de l'infraction" placeholder="Libellé"/>
+                                        <h:inputHidden/>
+
+                                        <h:inputHidden/>
+                                        <p:inputText value="#{infractionBean.infraction.infradeveloppe}" requiredMessage="Saisir la description de l'infraction" required="true" placeholder="Description"/>
+                                        <h:inputHidden/>
+
+
+                                        <h:inputHidden/>
+                                        <p:inputText value="#{infractionBean.infraction.qualification}" requiredMessage="Saisir la qualification de l'infraction" required="true" placeholder="Qualification"/>
+                                        <h:inputHidden/>
+
+                                        <h:inputHidden/>
+                                        <p:inputText value="#{infractionBean.infraction.disposition}" requiredMessage="Saisir la disposition de l'infraction" required="true" placeholder="Disposition"/>
+                                        <h:inputHidden/>
+                                    </p:panelGrid>
+                                    <p:panelGrid columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3" columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
+                                        <h:inputHidden/>
+                                        <p:commandButton process="@form" update=":infraction:infractionForm:infractionPanel" action="#{infractionBean.cancel(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
+                                        <p:commandButton rendered="#{loginBean.ajouterInfraction}" process="@form" update=":infraction:infractionForm:infractionPanel,:infraction:message,:infraction:infractionsTab:infractionTab" action ="#{infractionBean.save(actionEvent)}" value="Valider" icon="fa fa-paper-plane-o"></p:commandButton>
+                                        <h:inputHidden/>
+
+                                    </p:panelGrid>
+
+                                </p:panel>
+                            </div>
+                        </div>
+                    </h:form>
+                    <h:form id="infractionsTab">
+                        <div class="card card-w-title">
+
+                            <p:dataTable reflow="true" var="infras" id="infractionTab" widgetVar="infractionsTable" value="#{infractionBean.infractions}"
+                                         emptyMessage="infraction non trouvé"
+                                         style="border-color: #00AEEF" filteredValue="#{infractionBean.infractionsfilter}" 
+                                         rows="5" scrollable="true"  paginator="true" paginatorPosition="top" 
+                                         rowsPerPageTemplate="2,5,10,15">
+                                <f:facet name="header">
+                                    <p:outputPanel>
+                                        <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
+                                        <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
+                                        <h:outputText value="Rechercher toutes les valeurs :" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('infractionsTable').filter()" style="width:150px" placeholder="entrer la valeur"/>
+                                    </p:outputPanel>
+                                </f:facet>
+                                <p:column filterBy="#{infras.libelle}" filterMatchMode="contains" id="libProfil"  headerText="Libellé">
+                                    <h:outputText value="#{infras.libelle}" />
+                                </p:column>
+                                <p:column  headerText="Qualification"  filterBy="#{infras.qualification}" filterMatchMode="contains">
+                                    <h:outputText value="#{infras.qualification}" />
+                                </p:column>
+                                <p:column headerText="Qualification"  filterBy="#{infras.disposition}" filterMatchMode="contains">
+                                    <h:outputText value="#{infras.disposition}" />
+                                </p:column>
+                                <p:column headerText="Dévéloppement"  filterBy="#{infras.infradeveloppe}" filterMatchMode="contains">
+                                    <h:outputText value="#{infras.infradeveloppe}" />
+                                </p:column>
+                                <p:column rendered="#{loginBean.modifierInfraction}">
+                                    <center>
+                                        <p:commandButton process="@form" update=":infraction:infractionForm:infractionPanel" value="Editer" actionListener="#{infractionBean.getObject(infras.id)}"/>                                  
+                                    </center>
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                    </h:form>
+                </p:panel>
+            </p:fieldset>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

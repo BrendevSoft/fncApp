@@ -1,0 +1,116 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="head">
+        <style type="text/css">
+            .cars-datalist .text-column p:last-child{
+                color:#757575;
+            }
+
+            .cars-datalist .car-item {
+                padding: 8px 14px;
+            }
+
+            .cars-datalist .car-item img, .cars-datalist .car-item .car-details {
+                display: inline-block;
+                vertical-align: middle;
+                margin-right: 14px;
+            }
+
+            .cars-datalist .car-item button {
+                float: right;
+            }
+
+            .cars-datalist ul {
+                margin: 0;
+                padding: 0;
+            }
+
+            .ui-car-display td:last-child {
+                font-weight: 700;
+            }
+
+            @media (max-width:640px) {
+                .cars-datalist .text-column {
+                    text-align: center;
+                }
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="title">Prisons</ui:define>
+
+    <ui:define name="viewname">Prisons</ui:define>
+
+    <ui:define name="content">    
+        <h:form id="prison" >
+            <p:growl id="message" life="4000" showSummary="true"/>
+            <p:fieldset legend="Gestion des courts d'Appel">
+                <!-- Left Side -->
+                <p:panel  style="border-color: #171b1f;">
+                    <h:form id="prisonForm" styleClass="personne">
+                        <div class="ui-g ui-fluid">
+                            <div class="ui-g-12 ui-lg-12">
+                                <p:panel id="prisonPanel" style="border-color: #171b1f;">
+                                    <p:panelGrid columnClasses="ui-grid-col-3,ui-grid-col-6,ui-grid-col-3" columns="3" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
+                                        <h:inputHidden value="#{prisonBean.prison.id}"/>
+                                        <p:inputText id="libPrison" value="#{prisonBean.prison.libellecourt}" requiredMessage="Saisir le nom de la prison" required="true" placeholder="Nom"/>
+                                        <h:inputHidden/>
+
+                                        <h:inputHidden/>
+                                        <p:inputText value="#{prisonBean.prison.adresse}" requiredMessage="Saisir l'adresse de la prison" required="true" placeholder="Adresse"/>
+                                        <h:inputHidden/>
+
+                                    </p:panelGrid>
+                                    <p:panelGrid columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3" columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
+                                        <h:inputHidden/>
+                                        <p:commandButton process="@form" update=":prison:prisonForm:prisonPanel" action="#{prisonBean.cancel(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
+                                        <p:commandButton rendered="#{loginBean.ajouterPrison}" process="@form" update=":prison:prisonForm:prisonPanel,:prison:message,:prison:prisonsTab:prisonTab" action ="#{prisonBean.save(actionEvent)}" value="Valider" icon="fa fa-paper-plane-o"></p:commandButton>
+                                        <h:inputHidden/>
+
+                                    </p:panelGrid>
+
+                                </p:panel>
+                            </div>
+                        </div>
+                    </h:form>
+                    <h:form id="prisonsTab">
+                        <div class="card card-w-title">
+
+                            <p:dataTable reflow="true" var="pris" id="prisonTab" widgetVar="prisonsTable" value="#{prisonBean.prisons}"
+                                         emptyMessage="Prison non trouvé"
+                                         style="border-color: #00AEEF" filteredValue="#{prisonBean.prisonsFilter}" 
+                                         rows="5" scrollable="true"  paginator="true" paginatorPosition="top" 
+                                         rowsPerPageTemplate="2,5,10,15">
+                                <f:facet name="header">
+                                    <p:outputPanel>
+                                        <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
+                                        <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
+                                        <h:outputText value="Rechercher toutes les valeurs :" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('prisonsTable').filter()" style="width:150px" placeholder="entrer la valeur"/>
+                                    </p:outputPanel>
+                                </f:facet>
+                                <p:column filterBy="#{pris.libellecourt}" filterMatchMode="contains" headerText="Libellé">
+                                    <h:outputText value="#{pris.libellecourt}" />
+                                </p:column>
+                                <p:column id="descProfil" headerText="Adresse"  filterBy="#{pris.adresse}" filterMatchMode="contains">
+                                    <h:outputText value="#{pris.adresse}" />
+                                </p:column>
+                                <p:column rendered="#{loginBean.modifierPrison}">
+                                    <center>
+                                        <p:commandButton  process="@form" update=":prison:prisonForm:prisonPanel" value="Editer" actionListener="#{prisonBean.getObject(pris.id)}"/>
+                                    </center>
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                    </h:form>
+                </p:panel>
+            </p:fieldset>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,117 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="head">
+        <style type="text/css">
+            .cars-datalist .text-column p:last-child{
+                color:#757575;
+            }
+
+            .cars-datalist .car-item {
+                padding: 8px 14px;
+            }
+
+            .cars-datalist .car-item img, .cars-datalist .car-item .car-details {
+                display: inline-block;
+                vertical-align: middle;
+                margin-right: 14px;
+            }
+
+            .cars-datalist .car-item button {
+                float: right;
+            }
+
+            .cars-datalist ul {
+                margin: 0;
+                padding: 0;
+            }
+
+            .ui-car-display td:last-child {
+                font-weight: 700;
+            }
+
+            @media (max-width:640px) {
+                .cars-datalist .text-column {
+                    text-align: center;
+                }
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="title">Associer profils</ui:define>
+
+    <ui:define name="viewname">Associers profils</ui:define>
+
+    <ui:define name="content">    
+        <h:form id="profil" >
+            <p:growl id="message" life="4000" showSummary="true"/>
+            <p:fieldset legend="Gestion des Profils">
+                <!-- Left Side -->
+                <p:panel  style="border-color: #171b1f;">
+                    <h:form id="profilForm" styleClass="personne">
+                        <div class="ui-g ui-fluid">
+                            <div class="ui-g-12 ui-lg-12">
+                                <p:panel id="profilPanel" style="border-color: #171b1f;">
+                                    <p:panelGrid columnClasses="ui-grid-col-3,ui-grid-col-6,ui-grid-col-3" columns="3" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
+                                        <h:inputHidden value="#{profilBean.profil.id}"/>
+                                        <p:selectOneMenu  id="profi" value="#{utilisateurBean.profil}" effect="fade"
+                                                          filter="true" required="true" requiredMessage="séléctionner le profil" filterMatchMode="startsWith"
+                                                          converter="omnifaces.SelectItemsIndexConverter">
+                                            <f:selectItem itemLabel="Choisir le profil" noSelectionOption="true"/>
+                                            <f:selectItems value="#{utilisateurBean.profils}" var="prof" itemLabel="#{prof.nom}" itemValue="#{prof}"/>
+
+                                        </p:selectOneMenu> 
+                                        <h:inputHidden/>
+                                        <h:inputHidden/>
+                                        <p:selectCheckboxMenu id="utilisateur" value="#{utilisateurBean.utilisateurs1}" panelStyleClass="without-selectall"
+                                                              converter="omnifaces.SelectItemsIndexConverter"  
+                                                              label="Choisir les infractions" filter="true" filterMatchMode="contains" required="true" requiredMessage="Selectionner l'(es) utilisateur(s)">
+                                            <f:selectItems value="#{utilisateurBean.utilisateursNonProfil()}" itemLabel="#{num.nom}#{utilisateurBean.space}#{num.prenom}" itemValue="#{num}" var="num"/>
+                                        </p:selectCheckboxMenu>   <h:inputHidden/>
+                                    </p:panelGrid>
+                                    <p:panelGrid columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3" columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
+                                        <h:inputHidden/>
+                                        <p:commandButton process="@form" update=":profil:profilForm:profilPanel" action="#{utilisateurBean.cancelProfil(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
+                                        <p:commandButton rendered="#{loginBean.associerProfil}" update=":profil:profilForm:profilPanel,:profil:message,:profil:profilsTab:profilTab" class="Fs16 GreenButton" id="ajouter1" value="Ajouter" actionListener="#{utilisateurBean.associerProfil()}" process="@form" style="left: 35%"/>
+                                        <h:inputHidden/>
+
+                                    </p:panelGrid>
+
+                                </p:panel>
+                            </div>
+                        </div>
+                    </h:form>
+                    <h:form id="profilsTab">
+                        <div class="card card-w-title">
+                            <p:dataTable var="profil" id="profilTab" widgetVar="profilsTable" value="#{profilBean.profils}"
+                                         emptyMessage="Profil non trouvé" reflow="true"
+                                         style="border-color: #00AEEF" filteredValue="#{profilBean.profilsFilter}" 
+                                         rows="5" scrollable="true"  paginator="true" paginatorPosition="top" 
+                                         rowsPerPageTemplate="2,5,10,15">
+                                <f:facet name="header">
+                                    <p:outputPanel>
+                                        <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
+                                        <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
+                                        <h:outputText value="Rechercher toutes les valeurs :" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('profilsTable').filter()" style="width:150px" placeholder="entrer la valeur"/>
+                                    </p:outputPanel>
+                                </f:facet>
+                                <p:column filterBy="#{profil.nom}" filterMatchMode="contains" id="libProfil"  headerText="Libellé">
+                                    <h:outputText value="#{profil.nom}" />
+                                </p:column>
+                                <p:column  id="descProfil" headerText="Description"  filterBy="#{profil.description}" filterMatchMode="contains">
+                                    <h:outputText value="#{profil.description}" />
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                    </h:form>
+                </p:panel>
+            </p:fieldset>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -8,8 +8,8 @@
     <modules>
         <module>fncApp-api</module>
         <module>fncApp-impl</module>
-    <module>fncApp-web</module>
-  </modules>
+        <module>fnc</module>
+    </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

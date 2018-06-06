@@ -1,0 +1,55 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Roles</ui:define>
+
+    <ui:define name="viewname">Roles</ui:define>
+
+    <ui:define name="content">    
+        <h:form id="role" >
+            <p:growl id="message" life="4000" showSummary="true"/>
+            <p:fieldset legend="Gestion des Roles">
+                <!-- Left Side -->
+                <p:panel  style="border-color: #171b1f;">
+                    <h:form id="roleForm" styleClass="personne">
+                        <div class="ui-g ui-fluid">
+                            <div class="ui-g-12 ui-lg-12">
+                                <p:panel id="rolePanel" style="border-color: #171b1f;">
+                                    <p:panelGrid columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3" columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
+                                        <p:outputLabel value="Profils" for="profils"/> 
+                                        <p:selectOneMenu id="profils" value="#{roleBean.selectProfil}" 
+                                                         converter="omnifaces.SelectItemsIndexConverter" required="true">  
+                                            <f:selectItem itemLabel="Choisir un Profil"  noSelectionOption="true"/>
+                                            <f:selectItems value="#{roleBean.profils}" var="profil"
+                                                           itemLabel="#{profil.nom}" itemValue="#{profil}"/>
+                                            <p:ajax event="change" process="@this" listener="#{roleBean.setProfilRole()}" update=":role:roleForm:roleGrid"/>
+                                        </p:selectOneMenu>
+                                        <p:commandButton rendered="#{loginBean.associerRole}" update=":role:message,:role:roleForm:rolePanel" value="Modifier" process="@form"  action="#{roleBean.modifierRole()}"/>  
+                                        <h:inputHidden/>
+
+                                    </p:panelGrid>
+                                    <p:panelGrid columnClasses="ui-grid-col-12" columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
+                                        <p:selectBooleanCheckbox label="Selectionner tous" value="#{roleBean.selectAll}">
+                                            <f:ajax listener="#{roleBean.onSelectAll()}" render="roleGrid" />
+                                        </p:selectBooleanCheckbox>
+                                        <p:selectManyCheckbox id="roleGrid" value="#{roleBean.selectRoles}"
+                                                              layout="grid" columns="4" 
+                                                              converter="omnifaces.SelectItemsIndexConverter" >
+                                            <f:selectItems value="#{roleBean.roles}" var="role" itemLabel="#{role.nom}" itemValue="#{role}" />
+                                        </p:selectManyCheckbox>
+                                    </p:panelGrid>
+
+                                </p:panel>
+                            </div>
+                        </div>
+                    </h:form>
+                </p:panel>
+            </p:fieldset>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

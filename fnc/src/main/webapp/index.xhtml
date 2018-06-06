@@ -1,0 +1,83 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="head">
+        <style type="text/css">
+            .cars-datalist .text-column p:last-child{
+                color:#757575;
+            }
+
+            .cars-datalist .car-item {
+                padding: 8px 14px;
+            }
+
+            .cars-datalist .car-item img, .cars-datalist .car-item .car-details {
+                display: inline-block;
+                vertical-align: middle;
+                margin-right: 14px;
+            }
+
+            .cars-datalist .car-item button {
+                float: right;
+            }
+
+            .cars-datalist ul {
+                margin: 0;
+                padding: 0;
+            }
+
+            .ui-car-display td:last-child {
+                font-weight: 700;
+            }
+
+            @media (max-width:640px) {
+                .cars-datalist .text-column {
+                    text-align: center;
+                }
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="title">Tableau de bord</ui:define>
+
+    <ui:define name="viewname">Tableau de bord</ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <!-- Left Side -->
+                    <div class="card card-w-title">
+
+                        <p:dataGrid id="table" var="stat" value="#{condamnationBean.statistiques}" columns="4" layout="grid"
+                                    rows="6" paginator="true"
+                                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                    rowsPerPageTemplate="3,6,9,12,16">
+
+                            <f:facet name="header">
+                                <h1>Saisie par Tribunal et par année</h1>
+                            </f:facet>
+
+                            <p:panel header="#{stat.juridiction.libellecourt}" style="text-align:center">
+
+                                <h:panelGrid columns="2" style="width:100%">
+                                    <h:outputText value="Année" styleClass="Fs14 FontDosisMedium"/>
+                                    <h:outputText value="#{stat.annee.code}" styleClass="Fs14 FontDosisMedium"/>
+                                    <h:outputText value="Nombre de saisie" styleClass="Fs14 FontDosisMedium"/>
+                                    <h:outputText value="#{stat.nombreSaisiTotal}" />
+                                </h:panelGrid>
+                            </p:panel>
+
+                        </p:dataGrid>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

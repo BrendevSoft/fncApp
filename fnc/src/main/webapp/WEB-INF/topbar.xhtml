@@ -1,0 +1,154 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:po="http://primefaces.org/poseidon">
+
+    <div class="topbar clearfix">
+        <div class="topbar-left">  
+            <span class="logo"></span>
+        </div>
+
+        <div class="topbar-right">
+
+            <a id="menu-button" href="#">
+                <i class="fa fa-angle-left"></i>
+            </a>  
+            <a id="topbar-menu-button" href="#">
+                <i class="fa fa-bars"></i>
+            </a>
+            <ul class="topbar-items fadeInDown animated">
+                <li class="profile-item">
+                    <a href="#">                            
+                        <div class="profile-image"></div>
+                        <span class="topbar-item-name">Jane Williams</span>
+                    </a>
+
+                    <ul class="poseidon-menu animated">
+                        <li role="menuitem">
+                            <a href="#">
+                                <i class="fa fa-fw fa-user"></i>
+                                <span>Profile</span>
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a href="#">
+                                <i class="fa fa-fw fa-user-secret"></i>
+                                <span>Privacy</span>
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a href="#">
+                                <i class="fa fa-fw fa-cog"></i>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <p:commandLink action="#{loginBean.logout()}">
+                                <i class="fa fa-fw fa-sign-out"></i>
+                                <span>Logout</span>
+                            </p:commandLink>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="topbar-icon material-icons animated swing fa fa-fw fa-envelope-o"></i>
+                        <span class="topbar-badge animated rubberBand">5</span>
+                        <span class="topbar-item-name">Messages</span>
+                    </a>
+                    <ul class="poseidon-menu animated">
+                        <li role="menuitem">
+                            <a href="#" class="topbar-message">
+                                <p:graphicImage name="images/avatar1.png" library="poseidon-layout" width="35"/>
+                                <span>Give me a call</span>
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a href="#" class="topbar-message">
+                                <p:graphicImage name="images/avatar2.png" library="poseidon-layout" width="35"/>
+                                <span>Sales reports attached</span>
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a href="#" class="topbar-message">
+                                <p:graphicImage name="images/avatar3.png" library="poseidon-layout" width="35"/>
+                                <span>About your invoice</span>
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a href="#" class="topbar-message">
+                                <p:graphicImage name="images/avatar2.png" library="poseidon-layout" width="35"/>
+                                <span>Meeting today at 10pm</span>
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a href="#" class="topbar-message">
+                                <p:graphicImage name="images/avatar4.png" library="poseidon-layout" width="35"/>
+                                <span>Out of office</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="topbar-icon material-icons fa fa-fw fa-bell-o"></i>
+                        <span class="topbar-badge animated rubberBand">4</span>
+                        <span class="topbar-item-name">Notifications</span>
+                    </a>
+                    <ul class="poseidon-menu animated">
+                        <li role="menuitem">
+                            <a href="#">
+                                <i class="fa fa-fw fa-tasks"></i>
+                                <span>Pending tasks</span>
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a href="#">
+                                <i class="fa fa-fw fa-calendar-check-o"></i>
+                                <span>Meeting today at 3pm</span>
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a href="#">
+                                <i class="fa fa-fw fa-download"></i>
+                                <span>Download documents</span>
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a href="#">
+                                <i class="fa fa-fw fa-plane"></i>
+                                <span>Book flight</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#" style="font-size: x-large;font-family: fantasy;color: #2f8ee5">
+                        <span><strong>CONDAMNATIONS</strong></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" style="font-size: x-large;font-family: fantasy;color: #2f8ee5">
+                        <span><strong>DES</strong></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" style="font-size: x-large;font-family: fantasy;color: #2f8ee5">
+                        <span><strong>NATIONAL</strong></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" style="font-size: x-large;font-family: fantasy;color: #2f8ee5">
+                        <span><strong>FICHIER</strong></span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+</ui:composition>

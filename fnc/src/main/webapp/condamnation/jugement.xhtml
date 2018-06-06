@@ -1,0 +1,50 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <p:tab id="information" title="Jugement">
+        <h:inputHidden value="#{condamnationBean.condamnation.id}"/>
+        <h:inputHidden value="#{condamnationBean.peine.id}"/>
+        <div class="ui-g-12 ui-md-12 ui-lg-12 ui-fluid contact-form">
+            <p:panel id="infoPanel" style="border-color: #171b1f;">
+                <p:growl id="messageInfo" life="4000" showSummary="true"/>
+                <p:panelGrid columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4," columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
+                    <h:outputText value="Tribunal"/>
+                    <p:selectOneMenu required="true" requiredMessage="Choisir le tribunal" value="#{condamnationBean.juridiction}" 
+                                     filter="true" filterMatchMode="startsWith"
+                                     converter="omnifaces.SelectItemsIndexConverter">
+                        <f:selectItem itemLabel="Choisir la jurudiction" noSelectionOption="true"/>
+                        <f:selectItems var="jur" value="#{condamnationBean.juridictions}" itemLabel="#{jur.libellecourt}" itemValue="#{jur}" />
+                    </p:selectOneMenu> 
+                    <h:outputText value="Date Jugement"/>
+                    <p:calendar required="true" requiredMessage="Choisir la dâte du jugement" value="#{condamnationBean.condamnation.datejugement}" locale="fr" pattern="dd/MM/yyyy" mask="true" readonlyInput="true">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </p:calendar>  
+
+                    <h:outputText value="Nature des délits"/>
+                    <p:selectCheckboxMenu panelStyleClass="without-selectall" value="#{condamnationBean.infractions1}"
+                                          converter="omnifaces.SelectItemsIndexConverter"  
+                                          label="Infractions" filter="true" filterMatchMode="contains" required="true" requiredMessage="Selectionner l'(es) infraction(s)">
+
+                        <f:selectItems var="inf" value="#{condamnationBean.infractions}"  itemLabel="#{inf.libelle}" itemValue="#{inf}" />
+                    </p:selectCheckboxMenu> 
+                    <h:outputText value="Peine prononcée"/>
+                    <p:inputText required="true" requiredMessage="Saisir la peine prononcée" value="#{condamnationBean.peine.libelle}"  placeholder="Peine prononcée"/>
+
+                    <h:outputText value="Amende"/>
+                    <p:inputText required="true" requiredMessage="Saisir l'amande de la peine" value="#{condamnationBean.peine.amande}"  placeholder="Amende"/>
+                    <h:outputText value="IS"/>
+                    <p:inputText required="true" requiredMessage="Saisir l'IS" value="#{condamnationBean.peine.peineIs}"  placeholder="IS"/>
+
+                    <h:inputHidden/>
+                    <h:inputHidden/>
+                    <h:inputHidden/>
+                    <p:commandButton process="@form" class="Fs16 OrangeButton" update=":users:userForm:infoPanel,:users:userForm:messageInfo,:users:userForm:userPanel,:users:userForm:messageUser,:users:userForm:situaPanel,:users:userForm:messageSitua,:users:userForm:message" action="#{condamnationBean.save(actionEvent)}" value="Valider" style="display:inline-block;margin-top:5px"/>
+
+                </p:panelGrid>
+            </p:panel>
+        </div>
+    </p:tab>
+</ui:composition>
