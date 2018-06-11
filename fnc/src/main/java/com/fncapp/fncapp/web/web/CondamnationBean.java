@@ -86,6 +86,7 @@ public class CondamnationBean implements Serializable {
     private List<Peine> peines;
     private List<Annee> annees;
     private List<Statistique> statistiques;
+    private List<Statistique> statistiques1;
     private List<Statistique> statistiqueFilter;
 
     @EJB
@@ -142,6 +143,7 @@ public class CondamnationBean implements Serializable {
 
         this.statistique = new Statistique();
         this.statistiques = new ArrayList<>();
+        this.statistiques1 = new ArrayList<>();
         // this.statistiqueFilter = new ArrayList<>();
 
         this.peineInfraction = new PeineInfraction();
@@ -229,11 +231,13 @@ public class CondamnationBean implements Serializable {
                 this.annee.setCode(String.valueOf(ManipulationDate.RecupererAnnee(this.condamnation.getDatejugement())));
                 this.annee.setDatecreation(new Date());
                 this.annee.setRowvers(new Date());
-                anneeCondam = this.asbl.saveOne(annee);
+                this.asbl.saveOne(annee);
+                anneeCondam = this.annee;
                 journalisation.saveLog4j(CondamnationBean.class.getName(), Level.INFO, "Enregistrement d'une année :" + this.annee.getCode());
                 this.journalisation = new MethodeJournalisation();
             } else {
                 anneeCondam = annee1.get(0);
+                journalisation.saveLog4j(CondamnationBean.class.getName(), Level.INFO, "Récupération d'une année :" + this.annee.getCode());
             }
 
             this.condamnation.setDatecreation(new Date());
@@ -255,10 +259,11 @@ public class CondamnationBean implements Serializable {
             journalisation.saveLog4j(CondamnationBean.class.getName(), Level.INFO, "Enregistrement d'une situation :" + this.situation.getTypesituation());
             this.journalisation = new MethodeJournalisation();
 
-            List<Statistique> statistiques = this.ssbl1.getBy("juridiction", "annee", this.juridiction, anneeCondam);
-            if (statistiques.isEmpty()) {
-                this.statistique.setJuridiction(this.juridiction);
-                this.statistique.setAnnee(anneeCondam);
+            statistiques1 = this.ssbl1.getBy("juridiction", juridiction);
+            if (statistiques1.isEmpty()) {
+                System.out.println("Année nouvelement crée" + this.condamnation.getAnnee());
+                this.statistique.setJuridiction(juridiction);
+                this.statistique.setAnnee(this.condamnation.getAnnee());
                 this.statistique.setDatecreation(new Date());
                 this.statistique.setRowvers(new Date());
                 this.statistique.setNombreSaisiTotal(1L);
@@ -266,12 +271,32 @@ public class CondamnationBean implements Serializable {
                 journalisation.saveLog4j(CondamnationBean.class.getName(), Level.INFO, "Enregistrement d'une statistique :" + this.statistique.getJuridiction().getLibellecourt() + " " + this.statistique.getAnnee().getCode());
 
             } else {
-                Statistique stat = statistiques.get(0);
-                stat.setRowvers(new Date());
-                stat.setNombreSaisiTotal(stat.getNombreSaisiTotal() + 1L);
-                this.ssbl1.updateOne(stat);
-                journalisation.saveLog4j(CondamnationBean.class.getName(), Level.INFO, "Mise à jour d'une statistqiue :" + stat.getJuridiction().getLibellecourt() + " " + stat.getAnnee().getCode());
+                Boolean existe = false;
+                Statistique sta = new Statistique();
+                for (Statistique stat : statistiques1) {
+                    if (stat.getAnnee().equals(this.condamnation.getAnnee())) {
+                        existe = true;
+                        sta = stat;
+                    }
+                }
 
+                if (existe == false) {
+                    System.out.println("Année nouvelement crée" + this.condamnation.getAnnee());
+                    this.statistique.setJuridiction(this.juridiction);
+                    this.statistique.setAnnee(this.condamnation.getAnnee());
+                    this.statistique.setDatecreation(new Date());
+                    this.statistique.setRowvers(new Date());
+                    this.statistique.setNombreSaisiTotal(1L);
+                    this.ssbl1.saveOne(statistique);
+                    journalisation.saveLog4j(CondamnationBean.class.getName(), Level.INFO, "Enregistrement d'une statistique :" + this.statistique.getJuridiction().getLibellecourt() + " " + this.statistique.getAnnee().getCode());
+
+                } else {
+                    System.out.println("Annee existe deja" + sta);
+                    sta.setRowvers(new Date());
+                    sta.setNombreSaisiTotal(sta.getNombreSaisiTotal() + 1L);
+                    this.ssbl1.updateOne(sta);
+                    journalisation.saveLog4j(CondamnationBean.class.getName(), Level.INFO, "Mise à jour d'une statistqiue :" + sta.getJuridiction().getLibellecourt() + " " + sta.getAnnee().getCode());
+                }
             }
 
             this.journalisation = new MethodeJournalisation();
