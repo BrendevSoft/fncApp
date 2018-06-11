@@ -5,8 +5,11 @@
  */
 package com.fncapp.fncapp.web.web;
 
+import com.fncapp.fncapp.impl.shiro.EntityRealm;
 import javax.inject.Named;
 import java.io.Serializable;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import org.primefaces.event.FlowEvent;
 
@@ -27,10 +30,17 @@ public class GesNiveau implements Serializable {
     }
 
     public String onFlowProcess(FlowEvent event) {
+        FacesContext context = FacesContext.getCurrentInstance();
         if (skip) {
+            if (EntityRealm.getUser() == null) {
+                context.addMessage(null, new FacesMessage("Votre session est désactivé. Actualiser la page"));
+            }
             skip = false;   //reset in case user goes back
             return "confirm";
         } else {
+            if (EntityRealm.getUser() == null) {
+                context.addMessage(null, new FacesMessage("Votre session est désactivé. Actualiser la page"));
+            }
             return event.getNewStep();
         }
     }

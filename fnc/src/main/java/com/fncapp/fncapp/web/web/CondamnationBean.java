@@ -10,6 +10,7 @@ import com.fncapp.fncapp.api.api.utils.ManipulationDate;
 import com.fncapp.fncapp.api.api.utils.MethodeJournalisation;
 import com.fncapp.fncapp.api.entities.Annee;
 import com.fncapp.fncapp.api.entities.Condamnation;
+import com.fncapp.fncapp.api.entities.Groupeutilisateur;
 import com.fncapp.fncapp.api.entities.Infraction;
 import com.fncapp.fncapp.api.entities.Juridiction;
 import com.fncapp.fncapp.api.entities.Peine;
@@ -20,6 +21,7 @@ import com.fncapp.fncapp.api.entities.Situation;
 import com.fncapp.fncapp.api.entities.Statistique;
 import com.fncapp.fncapp.api.service.AnneServiceBeanLocal;
 import com.fncapp.fncapp.api.service.CondamnationServiceBeanLocal;
+import com.fncapp.fncapp.api.service.GroupeUtilisateurServiceBeanLocal;
 import com.fncapp.fncapp.api.service.InfractionServiceBeanLocal;
 import com.fncapp.fncapp.api.service.JuridictionServiceBeanLocal;
 import com.fncapp.fncapp.api.service.PeineInfractionServiceBeanLocal;
@@ -28,6 +30,7 @@ import com.fncapp.fncapp.api.service.PersonneServiceBeanLocal;
 import com.fncapp.fncapp.api.service.PrisonServiceBeanLocal;
 import com.fncapp.fncapp.api.service.SituationServiceBeanLocal;
 import com.fncapp.fncapp.api.service.StatistiqueServiceBeanLocal;
+import com.fncapp.fncapp.impl.shiro.EntityRealm;
 import com.fncapp.fncapp.impl.transaction.TransactionManager;
 import java.awt.event.ActionEvent;
 import java.io.Serializable;
@@ -105,6 +108,8 @@ public class CondamnationBean implements Serializable {
     private StatistiqueServiceBeanLocal ssbl1;
     @EJB
     private PeineInfractionServiceBeanLocal pisbl;
+    @EJB
+    private GroupeUtilisateurServiceBeanLocal gusbl;
 
     /**
      * Creates a new instance of CondamnationBean
@@ -137,7 +142,7 @@ public class CondamnationBean implements Serializable {
 
         this.statistique = new Statistique();
         this.statistiques = new ArrayList<>();
-       // this.statistiqueFilter = new ArrayList<>();
+        // this.statistiqueFilter = new ArrayList<>();
 
         this.peineInfraction = new PeineInfraction();
 
@@ -393,6 +398,17 @@ public class CondamnationBean implements Serializable {
         return juridictions;
     }
 
+    public List<Juridiction> juridictionsPersonnel() {
+        List<Groupeutilisateur> groupeutilisateurs = this.gusbl.getBy("utilisateur", EntityRealm.getUser());
+        if (groupeutilisateurs.get(0).getGroupe().getNom().equals("Admin")) {
+            this.juridictions = this.jsbl.getAll();
+        } else {
+            this.juridictions.add(groupeutilisateurs.get(0).getUtilisateur().getJuridiction());
+        }
+
+        return juridictions;
+    }
+
     public void setJuridictions(List<Juridiction> juridictions) {
         this.juridictions = juridictions;
     }
@@ -619,5 +635,4 @@ public class CondamnationBean implements Serializable {
         this.statistiqueFilter = statistiqueFilter;
     }
 
-    
 }

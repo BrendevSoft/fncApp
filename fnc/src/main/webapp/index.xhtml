@@ -48,34 +48,36 @@
 
     <ui:define name="content">
         <h:form id="form">
-            <div class="ui-g">
-                <div class="ui-g-12">
-                    <!-- Left Side -->
-                    <div class="card card-w-title">
+            <p:fieldset legend="Gestion des Profils">
+                <div class="ui-g">
+                    <div class="ui-g-12">
+                        <!-- Left Side -->
+                        <div class="card card-w-title">
 
-                        <p:dataGrid id="table" var="stat" value="#{condamnationBean.statistiques}" columns="4" layout="grid"
-                                    rows="6" paginator="true"
-                                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                    rowsPerPageTemplate="3,6,9,12,16">
+                            <p:dataGrid id="table" var="stat" value="#{condamnationBean.statistiques}" columns="3" layout="grid" 
+                                        rows="6" paginator="true"
+                                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                        rowsPerPageTemplate="3,6,9,12,16">
 
-                            <f:facet name="header">
-                                <h1>Saisie par Tribunal et par année</h1>
-                            </f:facet>
+                                <f:facet name="header">
+                                    <h1>Saisie par Tribunal et par année</h1>
+                                </f:facet>
 
-                            <p:panel header="#{stat.juridiction.libellecourt}" style="text-align:center">
+                                <p:panel header="#{stat.juridiction.libellecourt}" style="text-align:center">
 
-                                <h:panelGrid columns="2" style="width:100%">
-                                    <h:outputText value="Année" styleClass="Fs14 FontDosisMedium"/>
-                                    <h:outputText value="#{stat.annee.code}" styleClass="Fs14 FontDosisMedium"/>
-                                    <h:outputText value="Nombre de saisie" styleClass="Fs14 FontDosisMedium"/>
-                                    <h:outputText value="#{stat.nombreSaisiTotal}" />
-                                </h:panelGrid>
-                            </p:panel>
+                                    <h:panelGrid columns="2" style="width:100%">
+                                        <h:outputText value="Année" styleClass="Fs14 FontDosisMedium"/>
+                                        <h:outputText value="#{stat.annee.code}" styleClass="Fs14 FontDosisMedium"/>
+                                        <h:outputText value="Nombre de saisie" styleClass="Fs14 FontDosisMedium"/>
+                                        <h:outputText value="#{stat.nombreSaisiTotal}" />
+                                    </h:panelGrid>
+                                </p:panel>
 
-                        </p:dataGrid>
+                            </p:dataGrid>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </p:fieldset>
         </h:form>
 
     </ui:define>

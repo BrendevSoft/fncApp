@@ -25,17 +25,16 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
-import javax.ejb.EJB;
 
 public class EntityRealm extends AuthorizingRealm {
 
-    @EJB
-    private GroupeUtilisateurDaoBeanLocal pudbl;
-    private UtilisateurDaoBeanLocal udbl;
+    private static GroupeUtilisateurDaoBeanLocal pudbl;
+    
+    private static UtilisateurDaoBeanLocal udbl;
 
-    private GroupeRoleDaoBeanLocal prdbl;
+    private static GroupeRoleDaoBeanLocal prdbl;
 
-    private List<Groupeutilisateur> profilUtilisateurs;
+    private static List<Groupeutilisateur> profilUtilisateurs;
     private static Groupeutilisateur profilUtilisateur;
     private static List<Utilisateur> utilisateurs;
     private static Utilisateur utilisateur;
@@ -44,7 +43,6 @@ public class EntityRealm extends AuthorizingRealm {
     private static List<GroupeRole> profilRoles;
 
     public EntityRealm() throws NamingException {
-        this.profilUtilisateurs = new ArrayList<>();
         System.out.println("enter entity realm");
         this.setName("entityRealm");
         CredentialsMatcher credentialsMatcher = new HashedCredentialsMatcher("SHA-256");

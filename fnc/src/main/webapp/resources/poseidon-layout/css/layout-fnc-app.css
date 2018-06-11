@@ -305,35 +305,32 @@
 .login-body .logo {
     display: inline-block;
     vertical-align: middle;
-    width: 125px;
-    height: 175px;
-    background: url("#{resource['poseidon-layout:images/landing/togo.png']}") top left no-repeat;
-    background-size: 125px 175px; }
+    width: 200px;
+    height: 250px;
+    background: url("#{resource['poseidon-layout:images/landing/armoiries-tomato.png']}") top left no-repeat;
+    background-size: 200px 250px; }
 
 .login-body .logo1 {
     float: right;
     display: inline-block;
     vertical-align: middle;
-    width: 175px;
-    height: 125px;
-    background: url("#{resource['poseidon-layout:images/landing/justice.png']}") top right no-repeat;
-    background-size: 175px 125px; }
+    width: 200px;
+    height: 250px;
+    background: url("#{resource['poseidon-layout:images/landing/justice-tomato.png']}") top right no-repeat;
+    background-size: 200px 250px; }
 
 .login-body .login-panel {
     text-align: center;
     width: 350px;
-    min-height: 440px;
+    min-height: 300px;
     padding: 0 0;
     margin: 0 auto 0 auto; }
 
 @media (max-width: 640px) {
-    .login-body .login-panel {
-        text-align: center;
-        width: 100px;
-        height: 0;
-        padding: 0 0;
-        margin: 0 auto 0 auto; }
+    .login-body .login-panel .ui-g-12 {
+        width: 100px;}
 }
+
 .login-body .login-panel .ui-g-12 {
     padding: 25px 40px;
     margin: auto;}
@@ -359,7 +356,11 @@
     .login-body {
         background: none; }
     .login-body .login-panel {
-        width: 100%; } 
+        text-align: center;
+        width: 100%;
+        height: 0;
+        padding: 0 0;
+        margin: 0 auto 0 auto;} 
     .login-body .logo {
         background: none; }
     .login-body .logo1 {
@@ -426,32 +427,32 @@ body.exception-body.notfound-page .exception-top {
 .landing-wrapper #header .header-top .logo {
     display: inline-block;
     vertical-align: middle;
-    width: 125px;
-    height: 175px;
-    background: url("#{resource['poseidon-layout:images/landing/togo.png']}") top left no-repeat;
-    background-size: 125px 175px; }
+    width: 200px;
+    height: 250px;
+    background: url("#{resource['poseidon-layout:images/landing/armoiries-tomato.png']}") top left no-repeat;
+    background-size: 200px 250px; }
 
 .landing-wrapper #header .header-top .logo1 {
     float: right;
     display: inline-block;
     vertical-align: middle;
-    width: 175px;
-    height: 125px;
-    background: url("#{resource['poseidon-layout:images/landing/justice.png']}") top right no-repeat;
-    background-size: 175px 125px; }
+     width: 200px;
+    height: 250px;
+    background: url("#{resource['poseidon-layout:images/landing/justice-tomato.png']}") top right no-repeat;
+    background-size: 200px 250px; }
 .landing-wrapper #header .header-top .Vertical h1 {
     width: 900px;
-    height: 400px;
+    font-size: 250%;
     position: absolute;
     top: 20%;
     left: 45%;
-    color: tomato;
+    color: tomato; 
     margin: -100px 0 0 -400px;}
 @media (max-width: 640px) {
     .landing-wrapper #header .header-top .Vertical h1 {
-        text-align: justify;
-        width: 200px;
-        height: 100px;
+        text-align: center;
+        width: 100px;
+        height: 50px;
         position: absolute;
         left: 10%;
         top: 60%;
@@ -772,16 +773,13 @@ body a:hover {
     background: url("#{resource['poseidon-layout:images/logo-white.png']}") top left no-repeat;
     background-size: 175px 49px; }
 .layout-wrapper .topbar .topbar-left {
-    box-sizing: border-box;
-    padding: 12px 20px 0px 35px;
+    padding: auto auto auto auto;
     height: 75px;
     width: 250px;
-    background-color: #2f8ee5;
-    float: left;
-    -moz-transition: background-color 0.3s;
-    -o-transition: background-color 0.3s;
-    -webkit-transition: background-color 0.3s;
-    transition: background-color 0.3s; }
+    color: #2f8ee5;
+    font-weight:bolder;
+    font-size: 500%;
+    float: left;}
 .layout-wrapper .topbar .topbar-right {
     padding: 15px 20px 15px 270px;
 }
@@ -1019,23 +1017,7 @@ body a:hover {
 .layout-wrapper .footer .footer-text-right span {
     vertical-align: middle;
     display: inline-block; }
-.layout-wrapper #right-sidebar-button-open {
-    float: right;
-    color: #5f666c;
-    font-size: 24px;
-    line-height: 24px;
-    margin-top: -2px;
-    width: 20px;
-    -moz-transition: all 0.3s;
-    -o-transition: all 0.3s;
-    -webkit-transition: all 0.3s;
-    transition: all 0.3s; }
-.layout-wrapper #right-sidebar-button-open:hover {
-    -webkit-transform: scale(1.2);
-    -moz-transform: scale(1.2);
-    -o-transform: scale(1.2);
-    -ms-transform: scale(1.2);
-    transform: scale(1.2); }
+
 .layout-wrapper .right-sidebar {
     position: fixed;
     right: -250px;

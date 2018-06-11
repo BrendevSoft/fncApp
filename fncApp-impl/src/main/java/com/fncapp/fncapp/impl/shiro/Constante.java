@@ -5,12 +5,8 @@
  */
 package com.fncapp.fncapp.impl.shiro;
 
-import java.io.IOException;
 import java.io.Serializable;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.util.SavedRequest;
-import org.apache.shiro.web.util.WebUtils;
-import org.omnifaces.util.Faces;
 
 /**
  *

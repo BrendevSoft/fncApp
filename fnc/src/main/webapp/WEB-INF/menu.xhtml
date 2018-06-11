@@ -12,7 +12,7 @@
                 <div class="nano-content menu-scroll-content">
 
                     <pp:menu widgetVar="me">
-                        <p:menuitem rendered="#{loginBean.consulterTableauBord}" id="tableau_de_bord" value="Tableau de bord" icon="fa fa-fw fa-home" outcome="/index"/>
+                        <p:menuitem rendered="#{loginBean.consulterTableauBord}" id="tableau_de_bord" value="Tableau de bord" icon="fa fa-fw fa-home" outcome="/tableau/tableau"/>
                         <p:submenu rendered="#{loginBean.condamnation}" id="condamnation" label="Condamnation" icon="fa fa-fw fa-life-saver">
                             <p:menuitem rendered="#{loginBean.ajouterCondamnation}" id="saisi_condamnation" value="Saisie Condamnation" icon="fa fa-fw fa-square-o" outcome="/condamnation/saisie_condamnation" />
                             <p:menuitem rendered="#{loginBean.consulterCondamnation}" id="liste_condamnation" value="Liste Condamnation" icon="fa fa-fw fa-sign-in" outcome="/condamnation/liste_condamnation" />

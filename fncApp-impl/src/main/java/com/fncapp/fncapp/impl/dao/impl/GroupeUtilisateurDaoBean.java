@@ -29,7 +29,6 @@ public class GroupeUtilisateurDaoBean extends BaseDaoBean<Groupeutilisateur, Gro
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public List<Utilisateur> getUtilisateursGroupe() {
         return getEntityManager()
                 .createQuery("SELECT p FROM Utilisateur p WHERE p NOT IN (SELECT pi.utilisateur FROM Groupeutilisateur pi WHERE pi.dateRevocation IS NULL)")

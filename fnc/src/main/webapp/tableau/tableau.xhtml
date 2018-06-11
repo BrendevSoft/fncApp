@@ -42,53 +42,42 @@
         </style>
     </ui:define>
 
-    <ui:define name="title">Data</ui:define>
+    <ui:define name="title">Tableau de bord</ui:define>
 
-    <ui:define name="viewname">Data</ui:define>
+    <ui:define name="viewname">Tableau de bord</ui:define>
 
     <ui:define name="content">
         <h:form id="form">
-            <div class="ui-g">
+            <p:fieldset legend="Gestion des Profils">
+                <div class="ui-g">
+                    <div class="ui-g-12">
+                        <!-- Left Side -->
+                        <div class="card card-w-title">
 
-                <div class="ui-g-12">
-                    <!-- Left Side -->
-                    <div class="card card-w-title">
-                        <h1>DataGrid</h1>
-                        <p:dataGrid var="stat" value="#{condamnationBean.statistiques}" columns="3" layout="grid"
-                                    rows="6" paginator="true" id="cars"
-                                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                    rowsPerPageTemplate="3,6,9,12,16">
+                            <p:dataGrid id="table" var="stat" value="#{condamnationBean.statistiques}" columns="3" layout="grid" 
+                                        rows="6" paginator="true"
+                                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                        rowsPerPageTemplate="3,6,9,12,16">
 
-                            <f:facet name="header">
-                                Cars For Sale
-                            </f:facet>
+                                <f:facet name="header">
+                                    Saisie par Tribunal et par année
+                                </f:facet>
 
-                            <p:panel header="#{stat.juridiction.libellecourt}" style="text-align:center">
-                                <div class="ui-g-12 ui-md-6 ui-lg-3">
-                                    <div class="ui-g card overview-box overview-box-1">
-                                        <div class="ui-g-4">
-                                            <span class="overview-box-count">
-                                                <h:outputText value="#{stat.annee.code}" styleClass="Fs14 FontDosisMedium"/>
-                                            </span>
-                                        </div>
-                                        <div class="ui-g-8">
-                                            <span class="overview-box-count">253</span>
-                                            <span class="overview-box-name">Unread Messages</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <h:panelGrid columns="2" style="width:100%">
-                                    <h:outputText value="Année" styleClass="Fs14 FontDosisMedium"/>
-                                    <h:outputText value="#{stat.annee.code}" styleClass="Fs14 FontDosisMedium"/>
-                                    <h:outputText value="Nombre de saisie" styleClass="Fs14 FontDosisMedium"/>
-                                    <h:outputText value="#{stat.nombreSaisiTotal}" />
-                                </h:panelGrid>
-                            </p:panel>
+                                <p:panel header="#{stat.juridiction.libellecourt}" style="text-align:center">
 
-                        </p:dataGrid>
+                                    <h:panelGrid columns="2" style="width:100%">
+                                        <h:outputText value="Année" styleClass="Fs14 FontDosisMedium"/>
+                                        <h:outputText value="#{stat.annee.code}" styleClass="Fs14 FontDosisMedium"/>
+                                        <h:outputText value="Nombre de saisie" styleClass="Fs14 FontDosisMedium"/>
+                                        <h:outputText value="#{stat.nombreSaisiTotal}" />
+                                    </h:panelGrid>
+                                </p:panel>
+
+                            </p:dataGrid>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </p:fieldset>
         </h:form>
 
     </ui:define>

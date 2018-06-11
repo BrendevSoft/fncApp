@@ -16,7 +16,7 @@
                                      filter="true" filterMatchMode="startsWith"
                                      converter="omnifaces.SelectItemsIndexConverter">
                         <f:selectItem itemLabel="Choisir la jurudiction" noSelectionOption="true"/>
-                        <f:selectItems var="jur" value="#{condamnationBean.juridictions}" itemLabel="#{jur.libellecourt}" itemValue="#{jur}" />
+                        <f:selectItems var="jur" value="#{condamnationBean.juridictionsPersonnel()}" itemLabel="#{jur.libellecourt}" itemValue="#{jur}" />
                     </p:selectOneMenu> 
                     <h:outputText value="Date Jugement"/>
                     <p:calendar required="true" requiredMessage="Choisir la dâte du jugement" value="#{condamnationBean.condamnation.datejugement}" locale="fr" pattern="dd/MM/yyyy" mask="true" readonlyInput="true">

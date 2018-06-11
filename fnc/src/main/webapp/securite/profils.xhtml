@@ -49,7 +49,7 @@
     <ui:define name="content">    
         <h:form id="profil" >
             <p:growl id="message" life="4000" showSummary="true"/>
-            <p:fieldset legend="Gestion des Profils">
+            <p:fieldset legend="Tableau de bord">
                 <!-- Left Side -->
                 <p:panel  style="border-color: #171b1f;">
                     <h:form id="profilForm" styleClass="personne">
@@ -61,7 +61,7 @@
                                         <p:selectOneMenu  id="profi" value="#{utilisateurBean.profil}" effect="fade"
                                                           filter="true" required="true" requiredMessage="séléctionner le profil" filterMatchMode="startsWith"
                                                           converter="omnifaces.SelectItemsIndexConverter">
-                                            <f:selectItem itemLabel="Choisir le profil" noSelectionOption="true"/>
+                                            <f:selectItem itemLabel="Choisir les profil(s)" noSelectionOption="true"/>
                                             <f:selectItems value="#{utilisateurBean.profils}" var="prof" itemLabel="#{prof.nom}" itemValue="#{prof}"/>
 
                                         </p:selectOneMenu> 
@@ -69,9 +69,10 @@
                                         <h:inputHidden/>
                                         <p:selectCheckboxMenu id="utilisateur" value="#{utilisateurBean.utilisateurs1}" panelStyleClass="without-selectall"
                                                               converter="omnifaces.SelectItemsIndexConverter"  
-                                                              label="Choisir les infractions" filter="true" filterMatchMode="contains" required="true" requiredMessage="Selectionner l'(es) utilisateur(s)">
+                                                              label="Utilisateurs" filter="true" filterMatchMode="contains" required="true" requiredMessage="Selectionner l'(es) utilisateur(s)">
                                             <f:selectItems value="#{utilisateurBean.utilisateursNonProfil()}" itemLabel="#{num.nom}#{utilisateurBean.space}#{num.prenom}" itemValue="#{num}" var="num"/>
-                                        </p:selectCheckboxMenu>   <h:inputHidden/>
+                                        </p:selectCheckboxMenu> 
+                                        <h:inputHidden/>
                                     </p:panelGrid>
                                     <p:panelGrid columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3" columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
                                         <h:inputHidden/>
@@ -87,9 +88,9 @@
                     </h:form>
                     <h:form id="profilsTab">
                         <div class="card card-w-title">
-                            <p:dataTable var="profil" id="profilTab" widgetVar="profilsTable" value="#{profilBean.profils}"
-                                         emptyMessage="Profil non trouvé" reflow="true"
-                                         style="border-color: #00AEEF" filteredValue="#{profilBean.profilsFilter}" 
+                            <p:dataTable var="user" id="profilTab" widgetVar="profilsTable" value="#{utilisateurBean.profilUtilisateurs}"
+                                         emptyMessage="Utilisateur non trouvé" reflow="true"
+                                         style="border-color: #00AEEF" filteredValue="#{utilisateurBean.utilisateursFilter}" 
                                          rows="5" scrollable="true"  paginator="true" paginatorPosition="top" 
                                          rowsPerPageTemplate="2,5,10,15">
                                 <f:facet name="header">
@@ -100,11 +101,17 @@
                                         <p:inputText id="globalFilter" onkeyup="PF('profilsTable').filter()" style="width:150px" placeholder="entrer la valeur"/>
                                     </p:outputPanel>
                                 </f:facet>
-                                <p:column filterBy="#{profil.nom}" filterMatchMode="contains" id="libProfil"  headerText="Libellé">
-                                    <h:outputText value="#{profil.nom}" />
+                                <p:column filterBy="#{user.groupe.nom}" filterMatchMode="contains" headerText="Profil">
+                                    <h:outputText value="#{user.groupe.nom}" />
                                 </p:column>
-                                <p:column  id="descProfil" headerText="Description"  filterBy="#{profil.description}" filterMatchMode="contains">
-                                    <h:outputText value="#{profil.description}" />
+                                <p:column  headerText="Nom"  filterBy="#{user.utilisateur.nom}" filterMatchMode="contains">
+                                    <h:outputText value="#{user.utilisateur.nom}" />
+                                </p:column>
+                                <p:column filterBy="#{user.utilisateur.prenom}" filterMatchMode="contains" headerText="Prenom">
+                                    <h:outputText value="#{user.utilisateur.prenom}" />
+                                </p:column>
+                                <p:column  headerText="Login"  filterBy="#{user.utilisateur.login}" filterMatchMode="contains">
+                                    <h:outputText value="#{user.utilisateur.login}" />
                                 </p:column>
                             </p:dataTable>
                         </div>

@@ -86,6 +86,7 @@ public class LoginBean implements Serializable {
     private Utilisateur perse;
     private boolean remember = false;
     private boolean admin;
+    private String space = " / ";
 
     /**
      * Creates a new instance of LoginBean
@@ -461,7 +462,7 @@ public class LoginBean implements Serializable {
             journalisation.saveLog4j(LoginBean.class.getSimpleName(), Level.INFO, "Connexion");
 
             SavedRequest savedRequest = WebUtils.getAndClearSavedRequest(Faces.getRequest());
-            Faces.redirect(savedRequest != null ? savedRequest.getRequestUrl() : "index.xhtml");
+            Faces.redirect(savedRequest != null ? savedRequest.getRequestUrl() : "condamnation/saisie_condamnation.xhtml");
         } catch (AuthenticationException e) {
             e.printStackTrace();
             FacesMessage mf = new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -476,7 +477,14 @@ public class LoginBean implements Serializable {
         if (user == null) {
             return "Admin";
         }
-        return EntityRealm.getUser().getNom();
+        return EntityRealm.getUser().getNom().concat(" ").concat(EntityRealm.getUser().getPrenom());
+    }
+
+    public String tribunalUser() {
+        if (EntityRealm.getUser().getJuridiction() == null) {
+            return "Admin";
+        }
+        return EntityRealm.getUser().getJuridiction().getLibellecourt();
     }
 
     public Date sessionTime() {
@@ -484,13 +492,13 @@ public class LoginBean implements Serializable {
     }
 
     public void logout() {
-        try {
-            journalisation.saveLog4j(LoginBean.class.getSimpleName(), Level.INFO, "Déconnexion");
-            EntityRealm.getSubject().logout();
-            Faces.redirect("acceuil.xhtml");
-            username = "";
-        } catch (IOException ex) {
-        }
+        //  try {
+        journalisation.saveLog4j(LoginBean.class.getSimpleName(), Level.INFO, "Déconnexion");
+        EntityRealm.getSubject().logout();
+        // Faces.redirect("acceuil.xhtml");
+        username = "";
+        //  } catch (IOException ex) {
+        //  }
 
     }
 
@@ -1050,6 +1058,14 @@ public class LoginBean implements Serializable {
 
     public void setRecupQuestion(String recupQuestion) {
         this.recupQuestion = recupQuestion;
+    }
+
+    public String getSpace() {
+        return space;
+    }
+
+    public void setSpace(String space) {
+        this.space = space;
     }
 
 }
