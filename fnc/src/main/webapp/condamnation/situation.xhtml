@@ -26,7 +26,7 @@
                         <h:outputText value="Numéro mandat de dépôt"/>
                         <p:inputText required="#{condamnationBean.det}" requiredMessage="Saisir le numéro du mandat de dépot" value="#{condamnationBean.situation.numMandatDepot}"  placeholder="Numéro mandat de dépôt"/>
                         <h:outputText value="Date mandat de dépôt"/>
-                        <p:calendar required="#{condamnationBean.det}" requiredMessage="choisir la date du mandat de dépot" locale="fr" pattern="dd/MM/yyyy" mask="true" value="#{condamnationBean.situation.dateMandatDepot}" readonlyInput="true">
+                        <p:calendar navigator="true" yearRange="c-70:c+70" maxdate="#{condamnationBean.maxToday()}" required="#{condamnationBean.det}" requiredMessage="choisir la date du mandat de dépot" locale="fr" pattern="dd/MM/yyyy" mask="true" value="#{condamnationBean.situation.dateMandatDepot}" readonlyInput="true">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </p:calendar>
 
@@ -46,7 +46,7 @@
                         <h:outputText value="Numéro mandat d'arrêt"/>
                         <p:inputText required="#{condamnationBean.lib}" requiredMessage="Saisir le numéro du mandat d'arrêt" value="#{condamnationBean.situation.numMandatArret}"  placeholder="Numéro mandat d'arrêt"/>
                         <h:outputText value="Date mandat d'arrêt"/>
-                        <p:calendar required="#{condamnationBean.lib}" requiredMessage="Choisir la dâte du mandat d'arrêt" locale="fr" pattern="dd/MM/yyyy" mask="true" value="#{condamnationBean.situation.dateMandatArret}" readonlyInput="true">
+                        <p:calendar navigator="true" yearRange="c-70:c+70" maxdate="#{condamnationBean.maxToday()}" required="#{condamnationBean.lib}" requiredMessage="Choisir la dâte du mandat d'arrêt" locale="fr" pattern="dd/MM/yyyy" mask="true" value="#{condamnationBean.situation.dateMandatArret}" readonlyInput="true">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </p:calendar>  
                     </p:panelGrid>
@@ -56,7 +56,7 @@
                         <h:outputText value="Numéro décision LP"/>
                         <p:inputText required="#{condamnationBean.fuit}" requiredMessage="Saisir le numéro de la décison LP" value="#{condamnationBean.situation.numDecisionLp}"  placeholder="Numéro décision LP"/>
                         <h:outputText value="Date décison LP"/>
-                        <p:calendar required="#{condamnationBean.fuit}" requiredMessage="Choisir la date de la décision LP" locale="fr" pattern="dd/MM/yyyy" mask="true" value="#{condamnationBean.situation.dateDecisionLp}" readonlyInput="true">
+                        <p:calendar navigator="true" yearRange="c-70:c+70" maxdate="#{condamnationBean.maxToday()}" required="#{condamnationBean.fuit}" requiredMessage="Choisir la date de la décision LP" locale="fr" pattern="dd/MM/yyyy" mask="true" value="#{condamnationBean.situation.dateDecisionLp}" readonlyInput="true">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </p:calendar>  
                     </p:panelGrid>

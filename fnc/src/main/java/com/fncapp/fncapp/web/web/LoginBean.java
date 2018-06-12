@@ -49,23 +49,23 @@ import org.primefaces.context.RequestContext;
 @Named(value = "loginBean")
 @SessionScoped
 public class LoginBean implements Serializable {
-
+    
     private MethodeJournalisation journalisation;
-
+    
     @EJB
     private RoleServiceBeanLocal rsl;
-
+    
     @EJB
     private GroupeServiceBeanLocal psbl;
-
+    
     @EJB
     private UtilisateurServiceBeanLocal usbl;
-
+    
     @EJB
     private GroupeUtilisateurServiceBeanLocal pusbl;
     @EJB//HUM Tu m'as vraiment dérangé.plus de 24h avant de me rappeller de te mettre.hum
     private GroupeRoleServiceBeanLocal prsbl;
-
+    
     private Date date = new Date();
     private String username;
     private String password;
@@ -96,7 +96,7 @@ public class LoginBean implements Serializable {
         perse = new Utilisateur();
         journalisation = new MethodeJournalisation();
     }
-
+    
     @PostConstruct
     public void init() {
         List<Rolee> all = rsl.getAll();
@@ -107,7 +107,7 @@ public class LoginBean implements Serializable {
             this.rsl.saveOne(new Rolee("Associer role"));
             this.rsl.saveOne(new Rolee("Activer compte"));
             this.rsl.saveOne(new Rolee("Désactiver compte"));
-
+            
             this.rsl.saveOne(new Rolee("Ajouter utilisateur"));
             this.rsl.saveOne(new Rolee("Modifier utilisateur"));
             this.rsl.saveOne(new Rolee("Ajouter Court d'Appel"));
@@ -121,7 +121,7 @@ public class LoginBean implements Serializable {
             this.rsl.saveOne(new Rolee("Ajouter condamnation"));
             this.rsl.saveOne(new Rolee("Modifier condamnation"));
             this.rsl.saveOne(new Rolee("Tableau de bord"));
-
+            
             this.rsl.saveOne(new Rolee("Consulter condamnation"));
             this.rsl.saveOne(new Rolee("Consulter juridiction"));
             this.rsl.saveOne(new Rolee("Consulter Court d'Appel"));
@@ -132,11 +132,11 @@ public class LoginBean implements Serializable {
             this.rsl.saveOne(new Rolee("Consulter associer role"));
             this.rsl.saveOne(new Rolee("Consulter utilisateur"));
             this.rsl.saveOne(new Rolee("Consulter compte"));
-
+            
         }
-
+        
         List<Groupe> profils = psbl.getBy("nom", "Admin");
-
+        
         UserTransaction tx = TransactionManager.getUserTransaction();
         try {
             tx.begin();
@@ -150,7 +150,7 @@ public class LoginBean implements Serializable {
                     pr.setGroupe(psbl.getBy("nom", "Admin").get(0));
                     prsbl.saveOne(pr);
                 }
-
+                
                 Utilisateur u = new Utilisateur();
                 u.setLogin("AdminFNC");
                 u.setQuestion("AdminFNC");
@@ -161,12 +161,17 @@ public class LoginBean implements Serializable {
                 u.setPasswd(new Sha256Hash("@fnc2018").toHex());
                 u.setProfilactif(true);
                 usbl.saveOne(u);
-
+                
                 Groupeutilisateur pu = new Groupeutilisateur();
                 pu.setUtilisateur(usbl.getBy("login", "AdminFNC").get(0));
                 pu.setDateAffectation(date);
                 pu.setGroupe(psbl.getBy("nom", "Admin").get(0));
+                pu.setDatecreation(new Date());
+                pu.setRowvers(new Date());
                 pusbl.saveOne(pu);
+                pu = new Groupeutilisateur();
+                u = new Utilisateur();
+                pr = new GroupeRole();
                 tx.commit();
             }
         } catch (Exception e) {
@@ -180,9 +185,9 @@ public class LoginBean implements Serializable {
                 Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
             }
         }
-
+        
     }
-
+    
     @SuppressWarnings("deprecation")
     public void login() throws IOException {
         try {
@@ -196,17 +201,17 @@ public class LoginBean implements Serializable {
                     return;
                 }
             }
-
+            
             if (pers != null) {
                 boolean test = new Sha256Hash("admin").toHex().equals(pers.getPasswd());
                 if (test && pers.getProfilactif() == true) {
-
+                    
                     Faces.redirect("firstConnect.xhtml");
                     return;
                 }
-
+                
             }
-
+            
             UsernamePasswordToken token = new UsernamePasswordToken(username.trim(), password.trim());
             //  journalisation.saveLog4j(LoginBean.class.getName(), Level.INFO, "Journaliser");
             //”Remember Me” built-in, just do this:
@@ -238,9 +243,9 @@ public class LoginBean implements Serializable {
                     avoir = true;
                 }
             }
-
+            
             if (!username.equalsIgnoreCase("admin")) {
-
+                
                 if (subject.hasRole("Ajouter profil") || subject.hasRole("Modifier profil")
                         || subject.hasRole("Associer profil") || subject.hasRole("Associer role")
                         || subject.hasRole("Activer compte") || subject.hasRole("Désactiver compte")
@@ -252,88 +257,88 @@ public class LoginBean implements Serializable {
                 } else {
                     this.consulterSecurite = "false";
                 }
-
+                
                 if (subject.hasRole("Ajouter profil") || subject.hasRole("Modifier profil")
                         || subject.hasRole("Consulter profil")) {
                     this.consulterProfil = "true";
                 } else {
                     this.consulterProfil = "false";
                 }
-
+                
                 if (subject.hasRole("Ajouter profil")) {
                     this.ajouterProfil = "true";
                 } else {
                     this.ajouterProfil = "false";
                 }
-
+                
                 if (subject.hasRole("Modifier profil")) {
                     this.modifierProfil = "true";
                 } else {
                     this.modifierProfil = "false";
                 }
-
+                
                 if (subject.hasRole("Associer profil") || subject.hasRole("Consulter associer profil")) {
                     this.consulterAssocierProfil = "true";
                 } else {
                     this.consulterAssocierProfil = "false";
                 }
-
+                
                 if (subject.hasRole("Associer profil")) {
                     this.associerProfil = "true";
                 } else {
                     this.associerProfil = "false";
                 }
-
+                
                 if (subject.hasRole("Associer role") || subject.hasRole("Consulter associer role")) {
                     this.consulterRole = "true";
                 } else {
                     this.consulterRole = "false";
                 }
-
+                
                 if (subject.hasRole("Associer role")) {
                     this.associerRole = "true";
                 } else {
                     this.associerRole = "false";
                 }
-
+                
                 if (subject.hasRole("Activer compte") || subject.hasRole("Désactiver Compte")
                         || subject.hasRole("Consulter compte")) {
                     this.consulterCompte = "true";
                 } else {
                     this.consulterCompte = "false";
                 }
-
+                
                 if (subject.hasRole("Activer compte")) {
                     this.activerCompte = "true";
                 } else {
                     this.activerCompte = "false";
                 }
-
+                
                 if (subject.hasRole("Désactiver compte")) {
                     this.desactiverCompte = "true";
                 } else {
                     this.desactiverCompte = "false";
                 }
-
+                
                 if (subject.hasRole("Ajouter utilisateur") || subject.hasRole("Modifier utilisateur")
                         || subject.hasRole("Consulter utilisateur")) {
                     this.consulterUtilisateur = "true";
                 } else {
                     this.consulterUtilisateur = "false";
                 }
-
+                
                 if (subject.hasRole("Ajouter utilisateur")) {
                     this.ajouterUtilisateur = "true";
                 } else {
                     this.ajouterUtilisateur = "false";
                 }
-
+                
                 if (subject.hasRole("Modifier utilisateur")) {
                     this.modifierUtilisateur = "true";
                 } else {
                     this.modifierUtilisateur = "false";
                 }
-
+                
                 if (subject.hasRole("Ajouter Court d'Appel") || subject.hasRole("Modifier Court d'Appel")
                         || subject.hasRole("Ajouter juridiction") || subject.hasRole("Modifier juridiction")
                         || subject.hasRole("Ajouter infraction") || subject.hasRole("Modifier infraction")
@@ -344,123 +349,123 @@ public class LoginBean implements Serializable {
                 } else {
                     this.consulterAdministration = "false";
                 }
-
+                
                 if (subject.hasRole("Ajouter Court d'Appel") || subject.hasRole("Modifier Court d'Appel")
                         || subject.hasRole("Consulter Court d'Appel")) {
                     this.consulterAcourtAppel = "true";
                 } else {
                     this.consulterAcourtAppel = "false";
                 }
-
+                
                 if (subject.hasRole("Ajouter Court d'Appel")) {
                     this.ajouterCourtAppel = "true";
                 } else {
                     this.ajouterCourtAppel = "false";
                 }
-
+                
                 if (subject.hasRole("Modifier Court d'Appel")) {
                     this.modifierCourtAppel = "true";
                 } else {
                     this.modifierCourtAppel = "false";
                 }
-
+                
                 if (subject.hasRole("Ajouter juridiction") || subject.hasRole("Modifier juridiction")
                         || subject.hasRole("Consulter juridiction")) {
                     this.consulterTribunaux = "true";
                 } else {
                     this.consulterTribunaux = "false";
                 }
-
+                
                 if (subject.hasRole("Ajouter juridiction")) {
                     this.ajouterTribunaux = "true";
                 } else {
                     this.ajouterTribunaux = "false";
                 }
-
+                
                 if (subject.hasRole("Modifier juridiction")) {
                     this.modifierTribunaux = "true";
                 } else {
                     this.modifierTribunaux = "false";
                 }
-
+                
                 if (subject.hasRole("Ajouter infraction") || subject.hasRole("Modifier infraction")
                         || subject.hasRole("Consulter infraction")) {
                     this.consulterInfraction = "true";
                 } else {
                     this.consulterInfraction = "false";
                 }
-
+                
                 if (subject.hasRole("Ajouter infraction")) {
                     this.ajouterInfraction = "true";
                 } else {
                     this.ajouterInfraction = "false";
                 }
-
+                
                 if (subject.hasRole("Modifier infraction")) {
                     this.modifierInfraction = "true";
                 } else {
                     this.modifierInfraction = "false";
                 }
-
+                
                 if (subject.hasRole("Ajouter prison") || subject.hasRole("Modifier prison")
                         || subject.hasRole("Consulter prison")) {
                     this.consulterPrison = "true";
                 } else {
                     this.consulterPrison = "false";
                 }
-
+                
                 if (subject.hasRole("Ajouter prison")) {
                     this.ajouterPrison = "true";
                 } else {
                     this.ajouterPrison = "false";
                 }
-
+                
                 if (subject.hasRole("Modifier prison")) {
                     this.modifierPrison = "true";
                 } else {
                     this.modifierPrison = "false";
                 }
-
+                
                 if (subject.hasRole("Ajouter condamnation") || subject.hasRole("Modifier condamnation")
                         || subject.hasRole("Consulter condamnation")) {
                     this.condamnation = "true";
                 } else {
                     this.condamnation = "false";
                 }
-
+                
                 if (subject.hasRole("Ajouter condamnation")) {
                     this.ajouterCondamnation = "true";
                 } else {
                     this.ajouterCondamnation = "false";
                 }
-
+                
                 if (subject.hasRole("Modifier condamnation") || subject.hasRole("Consulter condamnation")) {
                     this.consulterCondamnation = "true";
                 } else {
                     this.consulterCondamnation = "false";
                 }
-
+                
                 if (subject.hasRole("Modifier condamnation")) {
                     this.modifierCondamnation = "true";
                 } else {
                     this.modifierCondamnation = "false";
                 }
-
+                
                 if (subject.hasRole("Tableau de bord")) {
                     this.consulterTableauBord = "true";
                 } else {
                     this.consulterTableauBord = "false";
                 }
-
+                
                 if (!avoir) {
                     Faces.redirect("error.xhtml");
                     username = "";
                     return;
                 }
-
+                
             }
             journalisation.saveLog4j(LoginBean.class.getSimpleName(), Level.INFO, "Connexion");
-
+            
             SavedRequest savedRequest = WebUtils.getAndClearSavedRequest(Faces.getRequest());
             Faces.redirect(savedRequest != null ? savedRequest.getRequestUrl() : "condamnation/saisie_condamnation.xhtml");
         } catch (AuthenticationException e) {
@@ -471,7 +476,7 @@ public class LoginBean implements Serializable {
         }
         //return "index";
     }
-
+    
     public String currentUser() {
         Utilisateur user = EntityRealm.getUser();
         if (user == null) {
@@ -479,18 +484,18 @@ public class LoginBean implements Serializable {
         }
         return EntityRealm.getUser().getNom().concat(" ").concat(EntityRealm.getUser().getPrenom());
     }
-
+    
     public String tribunalUser() {
         if (EntityRealm.getUser().getJuridiction() == null) {
             return "Admin";
         }
         return EntityRealm.getUser().getJuridiction().getLibellecourt();
     }
-
+    
     public Date sessionTime() {
         return EntityRealm.getSubject().getSession().getStartTimestamp();
     }
-
+    
     public void logout() {
         //  try {
         journalisation.saveLog4j(LoginBean.class.getSimpleName(), Level.INFO, "Déconnexion");
@@ -501,7 +506,7 @@ public class LoginBean implements Serializable {
         //  }
 
     }
-
+    
     public void modifierPasse() {
         try {
             if (newPass.trim().equals(retapPass.trim())) {
@@ -512,7 +517,7 @@ public class LoginBean implements Serializable {
                 journalisation.saveLog4j(LoginBean.class.getSimpleName(), Level.INFO, "Modification du mot de passe de l'Utilisateur" + pers.getLogin());
                 question = "";
                 reponse = "";
-
+                
                 FacesMessage mf = new FacesMessage(FacesMessage.SEVERITY_INFO,
                         "Mot de passe corriger", "");
                 FacesContext.getCurrentInstance().addMessage("", mf);
@@ -525,7 +530,7 @@ public class LoginBean implements Serializable {
         } catch (Exception e) {
         }
     }
-
+    
     public void modifierPasse2() {
         if (new Sha256Hash(lastPass).toHex().equals(EntityRealm.getUser().getPasswd())) {
             if (newPass.trim().equals(retapPass.trim())) {
@@ -553,7 +558,7 @@ public class LoginBean implements Serializable {
                 lastPass = "";
                 retapPass = "";
             }
-
+            
         } else {
             FacesMessage mf = new FacesMessage(FacesMessage.SEVERITY_FATAL,
                     "mot de passe incorrect!!!", "");
@@ -563,7 +568,7 @@ public class LoginBean implements Serializable {
             retapPass = "";
         }
     }
-
+    
     public void reinitialiserPasse() throws IOException {
         Utilisateur pe = this.usbl.getOneBy("login", recupQuestion);
         if (pe.getProfilactif() == true) {
@@ -573,7 +578,7 @@ public class LoginBean implements Serializable {
                 pe.setReponse(null);
                 usbl.updateOne(pe);
                 journalisation.saveLog4j(LoginBean.class.getSimpleName(), Level.INFO, "Réinitialisation du mot de passe de l'Utilisateur" + pe.getLogin());
-
+                
                 question = "";
                 reponse = "";
                 FacesMessage mf = new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -586,9 +591,9 @@ public class LoginBean implements Serializable {
                 FacesContext.getCurrentInstance().addMessage("", mf);
             }
         }
-
+        
     }
-
+    
     public void recupererQuestion() {
         try {
             if (!per.equals("")) {
@@ -619,453 +624,453 @@ public class LoginBean implements Serializable {
         } catch (Exception e) {
         }
     }
-
+    
     public RoleServiceBeanLocal getRsl() {
         return rsl;
     }
-
+    
     public void setRsl(RoleServiceBeanLocal rsl) {
         this.rsl = rsl;
     }
-
+    
     public UtilisateurServiceBeanLocal getUsbl() {
         return usbl;
     }
-
+    
     public void setUsbl(UtilisateurServiceBeanLocal usbl) {
         this.usbl = usbl;
     }
-
+    
     public MethodeJournalisation getJournalisation() {
         return journalisation;
     }
-
+    
     public void setJournalisation(MethodeJournalisation journalisation) {
         this.journalisation = journalisation;
     }
-
+    
     public GroupeServiceBeanLocal getPsbl() {
         return psbl;
     }
-
+    
     public void setPsbl(GroupeServiceBeanLocal psbl) {
         this.psbl = psbl;
     }
-
+    
     public GroupeUtilisateurServiceBeanLocal getPusbl() {
         return pusbl;
     }
-
+    
     public void setPusbl(GroupeUtilisateurServiceBeanLocal pusbl) {
         this.pusbl = pusbl;
     }
-
+    
     public GroupeRoleServiceBeanLocal getPrsbl() {
         return prsbl;
     }
-
+    
     public void setPrsbl(GroupeRoleServiceBeanLocal prsbl) {
         this.prsbl = prsbl;
     }
-
+    
     public Date getDate() {
         return date;
     }
-
+    
     public void setDate(Date date) {
         this.date = date;
     }
-
+    
     public String getUsername() {
         return username;
     }
-
+    
     public void setUsername(String username) {
         this.username = username;
     }
-
+    
     public String getPassword() {
         return password;
     }
-
+    
     public void setPassword(String password) {
         this.password = password;
     }
-
+    
     public String getNewPass() {
         return newPass;
     }
-
+    
     public void setNewPass(String newPass) {
         this.newPass = newPass;
     }
-
+    
     public String getRetapPass() {
         return retapPass;
     }
-
+    
     public void setRetapPass(String retapPass) {
         this.retapPass = retapPass;
     }
-
+    
     public String getLastPass() {
         return lastPass;
     }
-
+    
     public void setLastPass(String lastPass) {
         this.lastPass = lastPass;
     }
-
+    
     public String getPer() {
         return per;
     }
-
+    
     public void setPer(String per) {
         this.per = per;
     }
-
+    
     public String getQuestion() {
         return question;
     }
-
+    
     public void setQuestion(String question) {
         this.question = question;
     }
-
+    
     public String getReponse() {
         return reponse;
     }
-
+    
     public void setReponse(String reponse) {
         this.reponse = reponse;
     }
-
+    
     public String getConsulterProfil() {
         return consulterProfil;
     }
-
+    
     public void setConsulterProfil(String consulterProfil) {
         this.consulterProfil = consulterProfil;
     }
-
+    
     public String getConsulterRole() {
         return consulterRole;
     }
-
+    
     public void setConsulterRole(String consulterRole) {
         this.consulterRole = consulterRole;
     }
-
+    
     public String getConsulterUtilisateur() {
         return consulterUtilisateur;
     }
-
+    
     public void setConsulterUtilisateur(String consulterUtilisateur) {
         this.consulterUtilisateur = consulterUtilisateur;
     }
-
+    
     public String getConsulterCompte() {
         return consulterCompte;
     }
-
+    
     public void setConsulterCompte(String consulterCompte) {
         this.consulterCompte = consulterCompte;
     }
-
+    
     public String getConsulterAssocierProfil() {
         return consulterAssocierProfil;
     }
-
+    
     public void setConsulterAssocierProfil(String consulterAssocierProfil) {
         this.consulterAssocierProfil = consulterAssocierProfil;
     }
-
+    
     public String getConsulterAcourtAppel() {
         return consulterAcourtAppel;
     }
-
+    
     public void setConsulterAcourtAppel(String consulterAcourtAppel) {
         this.consulterAcourtAppel = consulterAcourtAppel;
     }
-
+    
     public String getConsulterTribunaux() {
         return consulterTribunaux;
     }
-
+    
     public void setConsulterTribunaux(String consulterTribunaux) {
         this.consulterTribunaux = consulterTribunaux;
     }
-
+    
     public String getConsulterInfraction() {
         return consulterInfraction;
     }
-
+    
     public void setConsulterInfraction(String consulterInfraction) {
         this.consulterInfraction = consulterInfraction;
     }
-
+    
     public String getConsulterPrison() {
         return consulterPrison;
     }
-
+    
     public void setConsulterPrison(String consulterPrison) {
         this.consulterPrison = consulterPrison;
     }
-
+    
     public String getCreerPoste() {
         return creerPoste;
     }
-
+    
     public void setCreerPoste(String creerPoste) {
         this.creerPoste = creerPoste;
     }
-
+    
     public String getModifierPoste() {
         return modifierPoste;
     }
-
+    
     public void setModifierPoste(String modifierPoste) {
         this.modifierPoste = modifierPoste;
     }
-
+    
     public String getAjouterProfil() {
         return ajouterProfil;
     }
-
+    
     public void setAjouterProfil(String ajouterProfil) {
         this.ajouterProfil = ajouterProfil;
     }
-
+    
     public String getModifierProfil() {
         return modifierProfil;
     }
-
+    
     public void setModifierProfil(String modifierProfil) {
         this.modifierProfil = modifierProfil;
     }
-
+    
     public String getAssocierPoste() {
         return associerPoste;
     }
-
+    
     public void setAssocierPoste(String associerPoste) {
         this.associerPoste = associerPoste;
     }
-
+    
     public String getAssocierProfil() {
         return associerProfil;
     }
-
+    
     public void setAssocierProfil(String associerProfil) {
         this.associerProfil = associerProfil;
     }
-
+    
     public String getAssocierRole() {
         return associerRole;
     }
-
+    
     public void setAssocierRole(String associerRole) {
         this.associerRole = associerRole;
     }
-
+    
     public String getAjouterUtilisateur() {
         return ajouterUtilisateur;
     }
-
+    
     public void setAjouterUtilisateur(String ajouterUtilisateur) {
         this.ajouterUtilisateur = ajouterUtilisateur;
     }
-
+    
     public String getModifierUtilisateur() {
         return modifierUtilisateur;
     }
-
+    
     public void setModifierUtilisateur(String modifierUtilisateur) {
         this.modifierUtilisateur = modifierUtilisateur;
     }
-
+    
     public String getConsulterSecurite() {
         return consulterSecurite;
     }
-
+    
     public void setConsulterSecurite(String consulterSecurite) {
         this.consulterSecurite = consulterSecurite;
     }
-
+    
     public String getConsulterAdministration() {
         return consulterAdministration;
     }
-
+    
     public void setConsulterAdministration(String consulterAdministration) {
         this.consulterAdministration = consulterAdministration;
     }
-
+    
     public String getConsulterTableauBord() {
         return consulterTableauBord;
     }
-
+    
     public void setConsulterTableauBord(String consulterTableauBord) {
         this.consulterTableauBord = consulterTableauBord;
     }
-
+    
     public String getConsulterCondamnation() {
         return consulterCondamnation;
     }
-
+    
     public void setConsulterCondamnation(String consulterCondamnation) {
         this.consulterCondamnation = consulterCondamnation;
     }
-
+    
     public String getAjouterCourtAppel() {
         return ajouterCourtAppel;
     }
-
+    
     public void setAjouterCourtAppel(String ajouterCourtAppel) {
         this.ajouterCourtAppel = ajouterCourtAppel;
     }
-
+    
     public String getModifierCourtAppel() {
         return modifierCourtAppel;
     }
-
+    
     public void setModifierCourtAppel(String modifierCourtAppel) {
         this.modifierCourtAppel = modifierCourtAppel;
     }
-
+    
     public String getAjouterTribunaux() {
         return ajouterTribunaux;
     }
-
+    
     public void setAjouterTribunaux(String ajouterTribunaux) {
         this.ajouterTribunaux = ajouterTribunaux;
     }
-
+    
     public String getModifierTribunaux() {
         return modifierTribunaux;
     }
-
+    
     public void setModifierTribunaux(String modifierTribunaux) {
         this.modifierTribunaux = modifierTribunaux;
     }
-
+    
     public String getAjouterInfraction() {
         return ajouterInfraction;
     }
-
+    
     public void setAjouterInfraction(String ajouterInfraction) {
         this.ajouterInfraction = ajouterInfraction;
     }
-
+    
     public String getModifierInfraction() {
         return modifierInfraction;
     }
-
+    
     public void setModifierInfraction(String modifierInfraction) {
         this.modifierInfraction = modifierInfraction;
     }
-
+    
     public String getAjouterPrison() {
         return ajouterPrison;
     }
-
+    
     public void setAjouterPrison(String ajouterPrison) {
         this.ajouterPrison = ajouterPrison;
     }
-
+    
     public String getModifierPrison() {
         return modifierPrison;
     }
-
+    
     public void setModifierPrison(String modifierPrison) {
         this.modifierPrison = modifierPrison;
     }
-
+    
     public String getAjouterCondamnation() {
         return ajouterCondamnation;
     }
-
+    
     public void setAjouterCondamnation(String ajouterCondamnation) {
         this.ajouterCondamnation = ajouterCondamnation;
     }
-
+    
     public String getModifierCondamnation() {
         return modifierCondamnation;
     }
-
+    
     public void setModifierCondamnation(String modifierCondamnation) {
         this.modifierCondamnation = modifierCondamnation;
     }
-
+    
     public String getCondamnation() {
         return condamnation;
     }
-
+    
     public void setCondamnation(String condamnation) {
         this.condamnation = condamnation;
     }
-
+    
     public String getActiverCompte() {
         return activerCompte;
     }
-
+    
     public void setActiverCompte(String activerCompte) {
         this.activerCompte = activerCompte;
     }
-
+    
     public String getDesactiverCompte() {
         return desactiverCompte;
     }
-
+    
     public void setDesactiverCompte(String desactiverCompte) {
         this.desactiverCompte = desactiverCompte;
     }
-
+    
     public Utilisateur getPers() {
         return pers;
     }
-
+    
     public void setPers(Utilisateur pers) {
         this.pers = pers;
     }
-
+    
     public Utilisateur getPerse() {
         return perse;
     }
-
+    
     public void setPerse(Utilisateur perse) {
         this.perse = perse;
     }
-
+    
     public boolean isRemember() {
         return remember;
     }
-
+    
     public void setRemember(boolean remember) {
         this.remember = remember;
     }
-
+    
     public boolean isAdmin() {
         return admin;
     }
-
+    
     public void setAdmin(boolean admin) {
         this.admin = admin;
     }
-
+    
     public String getRecupQuestion() {
         return recupQuestion;
     }
-
+    
     public void setRecupQuestion(String recupQuestion) {
         this.recupQuestion = recupQuestion;
     }
-
+    
     public String getSpace() {
         return space;
     }
-
+    
     public void setSpace(String space) {
         this.space = space;
     }
-
+    
 }

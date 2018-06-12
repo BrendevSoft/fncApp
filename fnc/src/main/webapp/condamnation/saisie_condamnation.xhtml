@@ -1,6 +1,5 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
@@ -12,14 +11,14 @@
     <ui:define name="content">    
         <h:form id="users" >
             <p:growl id="message" life="4000" showSummary="true"/>
-            <p:fieldset legend="Gestion des courts d'Appel">
+            <p:fieldset legend="Saisie des condamnations">
                 <!-- Left Side -->
                 <h:form id="userForm">
                     <p:growl id="message" life="4000" showSummary="true"/>
-                    <p:wizard flowListener="#{GesNiveau.onFlowProcess}" backLabel="Précédent" nextLabel="Suivant" >
-                                <ui:include src="../condamnation/personnel.xhtml"/>            
-                                <ui:include src="../condamnation/situation.xhtml"/>
-                                <ui:include src="../condamnation/jugement.xhtml"/>
+                    <p:wizard  widgetVar="wiz" id="wizard" flowListener="#{condamnationBean.onFlowProcess}" backLabel="Précédent" nextLabel="Suivant" >
+                        <ui:include src="../condamnation/personnel.xhtml"/>            
+                        <ui:include src="../condamnation/situation.xhtml"/>
+                        <ui:include src="../condamnation/jugement.xhtml"/>
                     </p:wizard>   
                 </h:form>
             </p:fieldset>

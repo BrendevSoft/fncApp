@@ -49,15 +49,15 @@
     <ui:define name="content">    
         <h:form id="profil" >
             <p:growl id="message" life="4000" showSummary="true"/>
-            <p:fieldset legend="Tableau de bord">
+            <p:fieldset legend="Associer des profils">
                 <!-- Left Side -->
                 <p:panel  style="border-color: #171b1f;">
                     <h:form id="profilForm" styleClass="personne">
                         <div class="ui-g ui-fluid">
                             <div class="ui-g-12 ui-lg-12">
-                                <p:panel id="profilPanel" style="border-color: #171b1f;">
+                                <p:panel id="profilPanel" style="border-color: #171b1f;">                                    
                                     <p:panelGrid columnClasses="ui-grid-col-3,ui-grid-col-6,ui-grid-col-3" columns="3" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
-                                        <h:inputHidden value="#{profilBean.profil.id}"/>
+                                        <h:inputHidden/>
                                         <p:selectOneMenu  id="profi" value="#{utilisateurBean.profil}" effect="fade"
                                                           filter="true" required="true" requiredMessage="séléctionner le profil" filterMatchMode="startsWith"
                                                           converter="omnifaces.SelectItemsIndexConverter">
@@ -77,7 +77,7 @@
                                     <p:panelGrid columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3" columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
                                         <h:inputHidden/>
                                         <p:commandButton process="@form" update=":profil:profilForm:profilPanel" action="#{utilisateurBean.cancelProfil(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
-                                        <p:commandButton rendered="#{loginBean.associerProfil}" update=":profil:profilForm:profilPanel,:profil:message,:profil:profilsTab:profilTab" class="Fs16 GreenButton" id="ajouter1" value="Ajouter" actionListener="#{utilisateurBean.associerProfil()}" process="@form" style="left: 35%"/>
+                                        <p:commandButton rendered="#{loginBean.associerProfil}" update=":profil:profilForm:profilPanel,:profil:message,:profil:profilsTab:profilTab" class="Fs16 GreenButton" id="ajouter1" value="Ajouter" actionListener="#{utilisateurBean.associerProfil()}" process="@form"/>
                                         <h:inputHidden/>
 
                                     </p:panelGrid>

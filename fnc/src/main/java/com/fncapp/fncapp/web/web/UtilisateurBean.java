@@ -8,15 +8,14 @@ package com.fncapp.fncapp.web.web;
 import com.fncapp.fncapp.impl.shiro.Constante;
 import com.fncapp.fncapp.api.api.utils.MethodeJournalisation;
 import com.fncapp.fncapp.api.entities.Groupe;
-import com.fncapp.fncapp.api.entities.Groupeutilisateur;
 import com.fncapp.fncapp.api.entities.GroupeUtilisateurId;
+import com.fncapp.fncapp.api.entities.Groupeutilisateur;
 import com.fncapp.fncapp.api.entities.Juridiction;
 import com.fncapp.fncapp.api.entities.Utilisateur;
 import com.fncapp.fncapp.api.service.GroupeServiceBeanLocal;
 import com.fncapp.fncapp.api.service.GroupeUtilisateurServiceBeanLocal;
 import com.fncapp.fncapp.api.service.JuridictionServiceBeanLocal;
 import com.fncapp.fncapp.api.service.UtilisateurServiceBeanLocal;
-import com.fncapp.fncapp.impl.shiro.EntityRealm;
 import com.fncapp.fncapp.impl.transaction.TransactionManager;
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.inject.Named;
@@ -43,8 +41,6 @@ import javax.transaction.UserTransaction;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.shiro.crypto.hash.Sha256Hash;
-import org.apache.shiro.subject.Subject;
-import org.omnifaces.util.Faces;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.FlowEvent;
 
@@ -56,14 +52,19 @@ import org.primefaces.event.FlowEvent;
 @ViewScoped
 public class UtilisateurBean implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private Utilisateur utilisateur;
+    private Utilisateur utilisateur1;
     private Juridiction juridiction;
     private List<Utilisateur> utilisateursTotal;
     private List<Utilisateur> utilisateursFilter;
     private List<Juridiction> juridictions;
     private Groupeutilisateur profilUtilisateur;
+    private Groupeutilisateur profilUtilisateurNew;
     private List<Groupeutilisateur> profilUtilisateurs;
     private List<Utilisateur> utilisateurs;
+    private List<Utilisateur> utilisateurs2;
     private List<Utilisateur> list;
     private Groupe profil;
     private List<Groupe> profils;
@@ -93,14 +94,17 @@ public class UtilisateurBean implements Serializable {
     public UtilisateurBean() {
         this.utilisateursTotal = new ArrayList<>();
         this.utilisateur = new Utilisateur();
+        this.utilisateur1 = new Utilisateur();
         this.utilisateurs = new ArrayList<>();
         this.utilisateurs1 = new ArrayList<>();
+        this.utilisateurs2 = new ArrayList<>();
         this.profil = new Groupe();
         this.profils = new ArrayList<>();
         this.situation = new ArrayList<>();
         this.pays = new ArrayList<>();
         this.u = new Utilisateur();
         this.profilUtilisateur = new Groupeutilisateur();
+        this.profilUtilisateurNew = new Groupeutilisateur();
         this.profilUtilisateurs = new ArrayList<>();
         this.journalisation = new MethodeJournalisation();
         this.list = new ArrayList<>();
@@ -306,13 +310,8 @@ public class UtilisateurBean implements Serializable {
 
     public void getObject(GroupeUtilisateurId id) {
         this.profilUtilisateur = this.pusbl.find(id);
-        if (this.profilUtilisateur.getUtilisateur() != null) {
-            this.utilisateur = this.profilUtilisateur.getUtilisateur();
-        }
-
-        if (this.profilUtilisateur.getGroupe() != null) {
-            this.profil = this.profilUtilisateur.getGroupe();
-        }
+        this.profil = this.profilUtilisateur.getGroupe();
+        this.utilisateur = this.profilUtilisateur.getUtilisateur();
 
     }
 
@@ -333,12 +332,13 @@ public class UtilisateurBean implements Serializable {
             for (Utilisateur utilisateur1 : utilisateurs1) {
                 this.profilUtilisateur.setGroupe(profil);
                 this.profilUtilisateur.setUtilisateur(utilisateur1);
-                this.profilUtilisateur.setDateAffectation(date);
+                this.profilUtilisateur.setDatecreation(new Date());
                 this.pusbl.saveOne(profilUtilisateur);
 
                 journalisation.saveLog4j(UtilisateurBean.class.getName(), Level.INFO, "Affectation du profil:" + profil.getNom() + " à l'utilisateur :" + utilisateur1.getNom() + " " + utilisateur1.getPrenom());
-
             }
+            this.profilUtilisateur = new Groupeutilisateur();
+            this.profil = new Groupe();
             context.addMessage(null, new FacesMessage(Constante.ENREGISTREMENT_REUSSIT));
             tx.commit();
         } catch (Exception e) {
@@ -346,13 +346,58 @@ public class UtilisateurBean implements Serializable {
             try {
                 tx.rollback();
             } catch (IllegalStateException ex) {
-                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+                Logger.getLogger(UtilisateurBean.class.getName()).log(Level.FATAL, null, ex);
             } catch (SecurityException ex) {
-                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+                Logger.getLogger(UtilisateurBean.class.getName()).log(Level.FATAL, null, ex);
             } catch (SystemException ex) {
-                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+                Logger.getLogger(UtilisateurBean.class.getName()).log(Level.FATAL, null, ex);
             }
         }
+    }
+
+    public void modifierAssocierProfil() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        UserTransaction tx = TransactionManager.getUserTransaction();
+        try {
+            tx.begin();
+            if (utilisateur != null) {
+                List<Groupeutilisateur> gs = this.pusbl.getBy("utilisateur", utilisateur);
+                System.out.println(gs.get(0));
+                for (Groupeutilisateur g : gs) {
+                    this.pusbl.supGroupeUtilisateurs(g);
+                }
+                gs.clear();
+
+                this.profilUtilisateur.setGroupe(profil);
+                this.profilUtilisateur.setUtilisateur(utilisateur);
+                this.profilUtilisateur.setDatecreation(new Date());
+                this.pusbl.saveOne(profilUtilisateur);
+                journalisation.saveLog4j(UtilisateurBean.class.getName(), Level.INFO, "Modification du profil:" + profil.getNom() + " à l'utilisateur :" + profilUtilisateur.getUtilisateur().getNom() + " " + profilUtilisateur.getUtilisateur().getPrenom());
+
+                this.profil = new Groupe();
+                this.utilisateur = new Utilisateur();
+                this.profilUtilisateur = new Groupeutilisateur();
+                context.addMessage(null, new FacesMessage(Constante.MODIFICATION_REUSSIT));
+            }
+            tx.commit();
+        } catch (Exception e) {
+            e.getMessage();
+            this.profil = new Groupe();
+            this.utilisateur = new Utilisateur();
+            this.profilUtilisateur = new Groupeutilisateur();
+            context.addMessage(null, new FacesMessage("Veillez selectionner l'utilisateur à modifier dans le tableau"));
+            //  context.addMessage(null, new FacesMessage(Constante.ENREGISTREMENT_ECHOUE));
+            try {
+                tx.rollback();
+            } catch (IllegalStateException ex) {
+                Logger.getLogger(UtilisateurBean.class.getName()).log(Level.FATAL, null, ex);
+            } catch (SecurityException ex) {
+                Logger.getLogger(UtilisateurBean.class.getName()).log(Level.FATAL, null, ex);
+            } catch (SystemException ex) {
+                Logger.getLogger(UtilisateurBean.class.getName()).log(Level.FATAL, null, ex);
+            }
+        }
+
     }
 
     public List<Utilisateur> utilisateurIsProfil() {
@@ -499,8 +544,91 @@ public class UtilisateurBean implements Serializable {
         return profils;
     }
 
-    public void setProfils(List<Groupe> profils) {
-        this.profils = profils;
+    public List<Groupeutilisateur> getProfilUtilisateurs() {
+        this.profilUtilisateurs = this.pusbl.getAll();
+        return profilUtilisateurs;
+    }
+
+    public List<Utilisateur> getUtilisateursTotal() {
+        this.utilisateursTotal = this.usbl.getAll();
+        return utilisateursTotal;
+    }
+
+    public List<Utilisateur> getUtilisateurs2() {
+        this.utilisateurs2 = this.usbl.getAll();
+        return utilisateurs2;
+    }
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
+    public Juridiction getJuridiction() {
+        return juridiction;
+    }
+
+    public void setJuridiction(Juridiction juridiction) {
+        this.juridiction = juridiction;
+    }
+
+    public List<Utilisateur> getUtilisateursFilter() {
+        return utilisateursFilter;
+    }
+
+    public void setUtilisateursFilter(List<Utilisateur> utilisateursFilter) {
+        this.utilisateursFilter = utilisateursFilter;
+    }
+
+    public List<Juridiction> getJuridictions() {
+        return juridictions;
+    }
+
+    public void setJuridictions(List<Juridiction> juridictions) {
+        this.juridictions = juridictions;
+    }
+
+    public Groupeutilisateur getProfilUtilisateur() {
+        return profilUtilisateur;
+    }
+
+    public void setProfilUtilisateur(Groupeutilisateur profilUtilisateur) {
+        this.profilUtilisateur = profilUtilisateur;
+    }
+
+    public Groupeutilisateur getProfilUtilisateurNew() {
+        return profilUtilisateurNew;
+    }
+
+    public void setProfilUtilisateurNew(Groupeutilisateur profilUtilisateurNew) {
+        this.profilUtilisateurNew = profilUtilisateurNew;
+    }
+
+    public List<Utilisateur> getUtilisateurs() {
+        return utilisateurs;
+    }
+
+    public void setUtilisateurs(List<Utilisateur> utilisateurs) {
+        this.utilisateurs = utilisateurs;
+    }
+
+    public List<Utilisateur> getList() {
+        return list;
+    }
+
+    public void setList(List<Utilisateur> list) {
+        this.list = list;
+    }
+
+    public Groupe getProfil() {
+        return profil;
+    }
+
+    public void setProfil(Groupe profil) {
+        this.profil = profil;
     }
 
     public boolean isSkip() {
@@ -520,11 +648,6 @@ public class UtilisateurBean implements Serializable {
     }
 
     public List<String> getSituation() {
-        situation.add("Célibataire");
-        situation.add("fiancé(e)");
-        situation.add("marié(e)");
-        situation.add("divorcé(e)");
-        situation.add("veuf(ve)");
         return situation;
     }
 
@@ -533,37 +656,11 @@ public class UtilisateurBean implements Serializable {
     }
 
     public List<String> getPays() {
-        pays.add("Togolaise");
-        pays.add("Béninoise");
         return pays;
     }
 
     public void setPays(List<String> pays) {
         this.pays = pays;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
-    }
-
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
-    }
-
-    public List<Utilisateur> getUtilisateurs() {
-        return utilisateurs;
-    }
-
-    public void setUtilisateurs(List<Utilisateur> utilisateurs) {
-        this.utilisateurs = utilisateurs;
     }
 
     public List<Utilisateur> getUtilisateurs1() {
@@ -574,21 +671,12 @@ public class UtilisateurBean implements Serializable {
         this.utilisateurs1 = utilisateurs1;
     }
 
-    public UtilisateurServiceBeanLocal getUsbl() {
-        return usbl;
+    public Date getDate() {
+        return date;
     }
 
-    public void setUsbl(UtilisateurServiceBeanLocal usbl) {
-        this.usbl = usbl;
-    }
-
-    public void setProfilUtilisateur(Groupeutilisateur profilUtilisateur) {
-        this.profilUtilisateur = profilUtilisateur;
-    }
-
-    public List<Groupeutilisateur> getProfilUtilisateurs() {
-        this.profilUtilisateurs = this.pusbl.getAll();
-        return profilUtilisateurs;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Utilisateur getU() {
@@ -597,15 +685,6 @@ public class UtilisateurBean implements Serializable {
 
     public void setU(Utilisateur u) {
         this.u = u;
-    }
-
-    public List<Utilisateur> getList() {
-        this.list = this.usbl.getAll();
-        return list;
-    }
-
-    public void setList(List<Utilisateur> list) {
-        this.list = list;
     }
 
     public MethodeJournalisation getJournalisation() {
@@ -624,12 +703,20 @@ public class UtilisateurBean implements Serializable {
         this.inptStrm = inptStrm;
     }
 
-    public Groupe getProfil() {
-        return profil;
+    public JuridictionServiceBeanLocal getJsbl() {
+        return jsbl;
     }
 
-    public void setProfil(Groupe profil) {
-        this.profil = profil;
+    public void setJsbl(JuridictionServiceBeanLocal jsbl) {
+        this.jsbl = jsbl;
+    }
+
+    public UtilisateurServiceBeanLocal getUsbl() {
+        return usbl;
+    }
+
+    public void setUsbl(UtilisateurServiceBeanLocal usbl) {
+        this.usbl = usbl;
     }
 
     public GroupeServiceBeanLocal getPsbl1() {
@@ -648,46 +735,12 @@ public class UtilisateurBean implements Serializable {
         this.pusbl = pusbl;
     }
 
-    public Juridiction getJuridiction() {
-        return juridiction;
+    public Utilisateur getUtilisateur1() {
+        return utilisateur1;
     }
 
-    public void setJuridiction(Juridiction juridiction) {
-        this.juridiction = juridiction;
-    }
-
-    public List<Juridiction> getJuridictions() {
-        this.juridictions = this.jsbl.getAll();
-        return juridictions;
-    }
-
-    public void setJuridictions(List<Juridiction> juridictions) {
-        this.juridictions = juridictions;
-    }
-
-    public List<Utilisateur> getUtilisateursTotal() {
-        this.utilisateursTotal = this.usbl.getAll();
-        return utilisateursTotal;
-    }
-
-    public void setUtilisateursTotal(List<Utilisateur> utilisateursTotal) {
-        this.utilisateursTotal = utilisateursTotal;
-    }
-
-    public JuridictionServiceBeanLocal getJsbl() {
-        return jsbl;
-    }
-
-    public void setJsbl(JuridictionServiceBeanLocal jsbl) {
-        this.jsbl = jsbl;
-    }
-
-    public List<Utilisateur> getUtilisateursFilter() {
-        return utilisateursFilter;
-    }
-
-    public void setUtilisateursFilter(List<Utilisateur> utilisateursFilter) {
-        this.utilisateursFilter = utilisateursFilter;
+    public void setUtilisateur1(Utilisateur utilisateur1) {
+        this.utilisateur1 = utilisateur1;
     }
 
 }

@@ -33,8 +33,10 @@ import com.fncapp.fncapp.api.service.StatistiqueServiceBeanLocal;
 import com.fncapp.fncapp.impl.shiro.EntityRealm;
 import com.fncapp.fncapp.impl.transaction.TransactionManager;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -47,6 +49,8 @@ import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.omnifaces.util.Faces;
+import org.primefaces.event.FlowEvent;
 
 /**
  *
@@ -57,6 +61,7 @@ import org.apache.log4j.Logger;
 public class CondamnationBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    private boolean skip;
 
     private MethodeJournalisation journalisation;
     private Condamnation condamnation;
@@ -191,9 +196,29 @@ public class CondamnationBean implements Serializable {
         }
     }
 
+    public Date maxAge() {
+        Calendar ca = Calendar.getInstance();
+        ca.add(Calendar.YEAR, -5);
+        return ca.getTime();
+    }
+
+    public Date maxToday() {
+        Calendar ca = Calendar.getInstance();
+        ca.add(Calendar.YEAR, 0);
+        return ca.getTime();
+    }
+
     public void statistiqueFiltre() {
         this.statistiqueFilter = this.ssbl1.getBy("annee", annee);
-        System.out.println("test1");
+    }
+
+    public String onFlowProcess(FlowEvent event) throws IOException {
+        if (skip) {
+            skip = false;   //reset in case user goes back
+            return "confirm";
+        } else {
+            return event.getNewStep();
+        }
     }
 
     public void save(ActionEvent actionEvent) {
@@ -658,6 +683,30 @@ public class CondamnationBean implements Serializable {
 
     public void setStatistiqueFilter(List<Statistique> statistiqueFilter) {
         this.statistiqueFilter = statistiqueFilter;
+    }
+
+    public boolean isSkip() {
+        return skip;
+    }
+
+    public void setSkip(boolean skip) {
+        this.skip = skip;
+    }
+
+    public List<Statistique> getStatistiques1() {
+        return statistiques1;
+    }
+
+    public void setStatistiques1(List<Statistique> statistiques1) {
+        this.statistiques1 = statistiques1;
+    }
+
+    public GroupeUtilisateurServiceBeanLocal getGusbl() {
+        return gusbl;
+    }
+
+    public void setGusbl(GroupeUtilisateurServiceBeanLocal gusbl) {
+        this.gusbl = gusbl;
     }
 
 }

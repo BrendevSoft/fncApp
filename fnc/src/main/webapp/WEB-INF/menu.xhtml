@@ -24,10 +24,13 @@
                             <p:menuitem rendered="#{loginBean.consulterInfraction}" id="infractions" value="Infractions" icon="fa fa-fw fa-exclamation-circle" outcome="/administration/infractions" />
                         </p:submenu>
                         <p:submenu rendered="#{loginBean.consulterSecurite}" id="securite" label="Sécurité" icon="fa fa-fw fa-life-saver">
-                            <p:menuitem rendered="#{loginBean.consulterProfil}" id="profils" value="Profils" icon="fa fa-fw fa-square-o" outcome="/securite/profil" />
                             <p:menuitem rendered="#{loginBean.consulterRole}" id="groupeRoles" value="Associer Roles" icon="fa fa-fw fa-sign-in" outcome="/securite/roles" />
                             <p:menuitem rendered="#{loginBean.consulterUtilisateur}" id="utilisateurs" value="Utilisateurs" icon="fa fa-fw fa-exclamation-circle" outcome="/securite/utilisateurs" />
-                            <p:menuitem rendered="#{loginBean.consulterAssocierProfil}" id="utilisateursProfils" value="Associer Profils" icon="fa fa-fw fa-exclamation-circle" outcome="/securite/profils" />
+                            <p:submenu rendered="#{loginBean.consulterAssocierProfil}" id="profils" label="Gestion des profils" icon="fa fa-fw fa-life-saver">
+                                <p:menuitem rendered="#{loginBean.consulterProfil}" id="profil" value="Profils" icon="fa fa-fw fa-square-o" outcome="/securite/profil" />
+                                <p:menuitem rendered="#{loginBean.consulterAssocierProfil}" id="utilisateursProfils" value="Associer Profils" icon="fa fa-fw fa-exclamation-circle" outcome="/securite/associerProfil" />
+                                <p:menuitem rendered="#{loginBean.consulterAssocierProfil}" id="utilisateursProfils1" value="Modifier Profils" icon="fa fa-fw fa-exclamation-circle" outcome="/securite/modifierProfil" />
+                            </p:submenu>
                             <p:menuitem rendered="#{loginBean.consulterCompte}" id="activation" value="Activation des comptes" icon="fa fa-fw fa-exclamation-circle" outcome="/securite/compte" />
                         </p:submenu>
                     </pp:menu>

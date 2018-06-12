@@ -7,6 +7,7 @@ package com.fncapp.fncapp.impl.service.impl;
 
 import com.fncapp.fncapp.api.dao.GroupeUtilisateurDaoBeanLocal;
 import com.fncapp.fncapp.api.dao.core.BaseDaoBeanLocal;
+import com.fncapp.fncapp.api.entities.Groupe;
 import com.fncapp.fncapp.api.entities.Groupeutilisateur;
 import com.fncapp.fncapp.api.entities.GroupeUtilisateurId;
 import com.fncapp.fncapp.api.entities.Utilisateur;
@@ -49,5 +50,10 @@ public class GroupeUtilisateurServiceBean extends BaseServiceBean<Groupeutilisat
     @Override
     public List<Utilisateur> getUtilisateursNonGroupee() {
         return this.gudbl.getUtilisateursNonGroupee();
+    }
+
+    @Override
+    public boolean supGroupeUtilisateurs(Groupeutilisateur groupeutilisateur) {
+        return this.gudbl.supGroupeUtilisateurs(groupeutilisateur);
     }
 }

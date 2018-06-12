@@ -17,7 +17,7 @@ import javax.ejb.Local;
  * @author Brendev
  */
 @Local
-public interface GroupeUtilisateurServiceBeanLocal extends BaseServiceBeanLocal<Groupeutilisateur,GroupeUtilisateurId> {
+public interface GroupeUtilisateurServiceBeanLocal extends BaseServiceBeanLocal<Groupeutilisateur, GroupeUtilisateurId> {
 
     public List<Utilisateur> getUtilisateursGroupe();
 
@@ -26,4 +26,6 @@ public interface GroupeUtilisateurServiceBeanLocal extends BaseServiceBeanLocal<
     public List<Utilisateur> getUtilisateursGroupee();
 
     public List<Utilisateur> getUtilisateursNonGroupee();
+
+    public boolean supGroupeUtilisateurs(Groupeutilisateur groupeutilisateur);
 }

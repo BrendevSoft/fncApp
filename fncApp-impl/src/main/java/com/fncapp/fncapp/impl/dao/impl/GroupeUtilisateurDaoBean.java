@@ -31,7 +31,7 @@ public class GroupeUtilisateurDaoBean extends BaseDaoBean<Groupeutilisateur, Gro
     @Override
     public List<Utilisateur> getUtilisateursGroupe() {
         return getEntityManager()
-                .createQuery("SELECT p FROM Utilisateur p WHERE p NOT IN (SELECT pi.utilisateur FROM Groupeutilisateur pi WHERE pi.dateRevocation IS NULL)")
+                .createQuery("SELECT p FROM Utilisateur p WHERE p NOT IN (SELECT pi.utilisateur FROM Groupeutilisateur pi)")
                 .getResultList();
     }
 
@@ -39,7 +39,7 @@ public class GroupeUtilisateurDaoBean extends BaseDaoBean<Groupeutilisateur, Gro
     @SuppressWarnings("unchecked")
     public List<Utilisateur> getUtilisateursGroupee() {
         return getEntityManager()
-                .createQuery("SELECT p FROM Utilisateur p,Groupeutilisateur pi WHERE pi.utilisateur = p AND pi.dateRevocation IS NOT NULL")
+                .createQuery("SELECT p FROM Utilisateur p,Groupeutilisateur pi WHERE pi.utilisateur = p")
                 .getResultList();
     }
 
@@ -47,7 +47,7 @@ public class GroupeUtilisateurDaoBean extends BaseDaoBean<Groupeutilisateur, Gro
     @SuppressWarnings("unchecked")
     public List<Utilisateur> getUtilisateursNonGroupe() {
         return getEntityManager()
-                .createQuery("SELECT p FROM Utilisateur p WHERE p IN (SELECT pi.utilisateur FROM Groupeutilisateur pi WHERE pi.dateRevocation IS NULL AND pi.utilisateur = p)")
+                .createQuery("SELECT p FROM Utilisateur p WHERE p IN (SELECT pi.utilisateur FROM Groupeutilisateur pi WHERE pi.utilisateur = p)")
                 .getResultList();
     }
 
@@ -55,7 +55,21 @@ public class GroupeUtilisateurDaoBean extends BaseDaoBean<Groupeutilisateur, Gro
     @SuppressWarnings("unchecked")
     public List<Utilisateur> getUtilisateursNonGroupee() {
         return getEntityManager()
-                .createQuery("SELECT p FROM Utilisateur p,Groupeutilisateur pi WHERE pi.utilisateur = p AND pi.dateRevocation IS NOT NULL")
+                .createQuery("SELECT p FROM Utilisateur p,Groupeutilisateur pi WHERE pi.utilisateur = p")
                 .getResultList();
+    }
+    
+    @Override
+    public boolean supGroupeUtilisateurs(Groupeutilisateur groupeutilisateur) {
+        try {
+            em.createQuery("DELETE FROM Groupeutilisateur pr WHERE pr.groupe=:groupe AND pr.utilisateur=:utilisateur")
+                    .setParameter("groupe", groupeutilisateur.getGroupe())
+                    .setParameter("utilisateur", groupeutilisateur.getUtilisateur())
+                    .executeUpdate();
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 }

@@ -9,6 +9,7 @@ import com.fncapp.fncapp.api.entities.Groupeutilisateur;
 import com.fncapp.fncapp.api.entities.Utilisateur;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import org.apache.shiro.SecurityUtils;
@@ -28,6 +29,7 @@ import org.apache.shiro.subject.Subject;
 
 public class EntityRealm extends AuthorizingRealm {
 
+    @EJB
     private static GroupeUtilisateurDaoBeanLocal pudbl;
     
     private static UtilisateurDaoBeanLocal udbl;

@@ -54,11 +54,11 @@ public class Groupeutilisateur extends BaseEntity {
     @Column(name = "utilisateur_login")
     private String utilisateurLogin;
 
-    @JoinColumn(name = "groupe",insertable = true,updatable = true)
+    @JoinColumn(name = "groupe", insertable = true, updatable = true)
     @ManyToOne(fetch = FetchType.EAGER)
     private Groupe groupe;
 
-    @JoinColumn(name = "utilisateur",insertable = true,updatable = true)
+    @JoinColumn(name = "utilisateur", insertable = true, updatable = true)
     @ManyToOne(fetch = FetchType.EAGER)
     private Utilisateur utilisateur;
 
@@ -167,5 +167,4 @@ public class Groupeutilisateur extends BaseEntity {
         return "Groupeutilisateur{" + "id=" + id + ", dateRevocation=" + dateRevocation + ", dateAffectation=" + dateAffectation + ", datecreation=" + datecreation + ", rowvers=" + rowvers + ", utilisateurLogin=" + utilisateurLogin + '}';
     }
 
-    
 }

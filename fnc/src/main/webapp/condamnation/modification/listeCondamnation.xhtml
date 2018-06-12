@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+
+
+    <p:tab title="Liste des condamnation">
+        <!-- Left Side -->
+        <div class="card card-w-title">
+
+            <p:dataTable reflow="true" var="sit" id="userTab" widgetVar="situationTable" value="#{condamnationBean.situations}"
+                         emptyMessage="Utilisateur non trouvé"
+                         style="border-color: #00AEEF" filteredValue="#{condamnationBean.situationsFileter}" 
+                         rows="5" scrollable="true"  paginator="true" paginatorPosition="top" 
+                         rowsPerPageTemplate="2,5,10,15">
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
+                        <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
+                        <h:outputText value="Rechercher toutes les valeurs :" />
+                        <p:inputText id="globalFilter" onkeyup="PF('situationTable').filter()" style="width:150px" placeholder="entrer la valeur"/>
+                    </p:outputPanel>
+                </f:facet>
+                <p:column filterBy="#{sit.condamnation.juridiction.courtAppel.libelle}" filterMatchMode="contains" headerText="Court d'Appel">
+                    <h:outputText value="#{sit.condamnation.juridiction.courtAppel.libelle}" />
+                </p:column>
+                <p:column  headerText="Tribunal"  filterBy="#{sit.condamnation.juridiction.libellecourt}" filterMatchMode="contains">
+                    <h:outputText value="#{sit.condamnation.juridiction.libellecourt}" />
+                </p:column>
+                <p:column  headerText="Nom"  filterBy="#{sit.condamnation.personne.nom}" filterMatchMode="contains">
+                    <h:outputText value="#{sit.condamnation.personne.nom}" />
+                </p:column>
+                <p:column  headerText="Prenom"  filterBy="#{sit.condamnation.personne.prenom}" filterMatchMode="contains">
+                    <h:outputText value="#{sit.condamnation.personne.prenom}" />
+                </p:column>
+                <p:column  headerText="Date Jugement"  filterBy="#{sit.condamnation.datejugement.toLocaleString()}" filterMatchMode="contains">
+                    <h:outputText value="#{sit.condamnation.datejugement.toLocaleString()}" />
+                </p:column>
+                <p:column  headerText="Peine prononcée"  filterBy="#{sit.condamnation.peine.libelle}" filterMatchMode="contains">
+                    <h:outputText value="#{sit.condamnation.peine.libelle}" />
+                </p:column>
+                <p:column  headerText="Amende"  filterBy="#{sit.condamnation.peine.amande}" filterMatchMode="contains">
+                    <h:outputText value="#{sit.condamnation.peine.amande}" />
+                </p:column>
+            </p:dataTable>
+        </div>
+    </p:tab>
+
+</ui:composition>

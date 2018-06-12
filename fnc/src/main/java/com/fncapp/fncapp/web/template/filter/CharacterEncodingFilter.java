@@ -78,9 +78,17 @@ public class CharacterEncodingFilter implements Filter {
                     }
                     break;
 
-                case "securite/profils.xhtml":
+                case "securite/associerProfil.xhtml":
                     if (EntityRealm.getSubject().hasRole("Consulter associer profil") || EntityRealm.getSubject().hasRole("Associer profil")) {
-                        req2.getRequestDispatcher("profils.xhtml").forward(req, resp);
+                        req2.getRequestDispatcher("associerProfil.xhtml").forward(req, resp);
+                    } else {
+                        EntityRealm.getSubject().logout();
+                        req2.getRequestDispatcher(PAGE_ERROR).forward(req, resp);
+                    }
+                    break;
+                    case "securite/modifierProfil.xhtml":
+                    if (EntityRealm.getSubject().hasRole("Consulter associer profil") || EntityRealm.getSubject().hasRole("Associer profil")) {
+                        req2.getRequestDispatcher("modifierProfil.xhtml").forward(req, resp);
                     } else {
                         EntityRealm.getSubject().logout();
                         req2.getRequestDispatcher(PAGE_ERROR).forward(req, resp);

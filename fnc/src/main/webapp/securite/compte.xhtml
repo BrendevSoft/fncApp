@@ -48,7 +48,7 @@
     <ui:define name="content">    
         <h:form id="comptes" >
             <p:growl id="message" life="4000" showSummary="true"/>
-            <p:fieldset legend="Gestion des Profils">
+            <p:fieldset legend="Gestion des comptes">
                 <!-- Left Side -->
                 <p:panel  style="border-color: #171b1f;">
                     <h:form id="comptesTab">
@@ -65,14 +65,16 @@
                                             <p:inputText id="globalFilter" onkeyup="PF('usersInactifs').filter()" style="width:150px" placeholder="entrer la valeur"/>
                                         </p:outputPanel>
                                     </f:facet>
-                                    <p:column style="width: 45%" headerText="Nom" filterBy="#{user.nom}" filterMatchMode="exact">
+                                    <p:column  headerText="Nom" filterBy="#{user.nom}" filterMatchMode="exact">
                                         <h:outputText value="#{user.nom}"/>
                                     </p:column>
-                                    <p:column style="width: 45%" headerText="Prenom" filterBy="#{user.prenom}" filterMatchMode="startsWith">
+                                    <p:column  headerText="Prenom" filterBy="#{user.prenom}" filterMatchMode="startsWith">
                                         <h:outputText value="#{user.prenom}"/>
                                     </p:column>
-                                    <p:column style="width: 10%">
-                                        <p:commandButton rendered="#{loginBean.activerCompte}" process="@this" update=":comptes:message,:comptes:comptesTab:compteTab1,:comptes:comptesTab:compteTab" value="activer" action="#{utilisateurBean.activerUtilisateur(user.id)}"/>
+                                    <p:column >
+                                        <center>
+                                            <p:commandButton rendered="#{loginBean.activerCompte}" process="@this" update=":comptes:message,:comptes:comptesTab:compteTab1,:comptes:comptesTab:compteTab" value="activer" action="#{utilisateurBean.activerUtilisateur(user.id)}"/>
+                                        </center>
                                     </p:column>
                                 </p:dataTable>
                             </div>
@@ -91,14 +93,16 @@
                                             <p:inputText id="globalFilter" onkeyup="PF('usersActifs').filter()" style="width:150px" placeholder="entrer la valeur"/>
                                         </p:outputPanel>
                                     </f:facet>
-                                    <p:column style="width: 45%" headerText="Nom" filterBy="#{user.nom}" filterMatchMode="exact">
+                                    <p:column  headerText="Nom" filterBy="#{user.nom}" filterMatchMode="exact">
                                         <h:outputText value="#{user.nom}"/>
                                     </p:column>
-                                    <p:column style="width: 45%" headerText="Prenom" filterBy="#{user.prenom}" filterMatchMode="startsWith">
+                                    <p:column  headerText="Prenom" filterBy="#{user.prenom}" filterMatchMode="startsWith">
                                         <h:outputText value="#{user.prenom}"/>
                                     </p:column>
-                                    <p:column style="width: 10%">
-                                        <p:commandButton rendered="#{loginBean.desactiverCompte}" value="desactiver" process="@this" update=":comptes:message,:comptes:comptesTab:compteTab1,:comptes:comptesTab:compteTab" action="#{utilisateurBean.desactiverUtilisateur(user.id)}"/>
+                                    <p:column >
+                                        <center>
+                                            <p:commandButton rendered="#{loginBean.desactiverCompte}" value="desactiver" process="@this" update=":comptes:message,:comptes:comptesTab:compteTab1,:comptes:comptesTab:compteTab" action="#{utilisateurBean.desactiverUtilisateur(user.id)}"/>
+                                        </center>
                                     </p:column>
                                 </p:dataTable>
                             </div>

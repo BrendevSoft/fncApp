@@ -8,7 +8,6 @@ package com.fncapp.fncapp.impl.dao.impl;
 import com.fncapp.fncapp.api.dao.UtilisateurDaoBeanLocal;
 import com.fncapp.fncapp.api.entities.Utilisateur;
 import com.fncapp.fncapp.impl.dao.core.impl.BaseDaoBean;
-import java.util.List;
 import javax.ejb.Stateless;
 
 /**

@@ -21,7 +21,7 @@
                     <p:inputText value="#{condamnationBean.personne.prenom}" required="true" requiredMessage="Saisir le prénom" placeholder="Prénom"/>
 
                     <h:outputText value="Date de naissance"/>
-                    <p:calendar value="#{condamnationBean.personne.datenaissance}" navigator="true" yearRange="c-70:c+0" required="true" requiredMessage="choisir la date de naissance" locale="fr" pattern="dd/MM/yyyy" mask="true" readonly="true">
+                    <p:calendar value="#{condamnationBean.personne.datenaissance}" maxdate="#{condamnationBean.maxAge()}"  navigator="true" yearRange="c-70:c+70" required="true" requiredMessage="choisir la date de naissance" locale="fr" pattern="dd/MM/yyyy" mask="true" readonlyInput="true">
                         <f:convertDateTime pattern="dd/MM/yyyy" />
                     </p:calendar>
                     <h:outputText value="Lieu de naissance"/>

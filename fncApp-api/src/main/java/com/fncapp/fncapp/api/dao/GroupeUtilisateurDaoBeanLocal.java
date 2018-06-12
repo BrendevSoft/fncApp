@@ -26,4 +26,6 @@ public interface GroupeUtilisateurDaoBeanLocal extends BaseDaoBeanLocal<Groupeut
     public List<Utilisateur> getUtilisateursNonGroupe();
 
     public List<Utilisateur> getUtilisateursNonGroupee();
+
+    public boolean supGroupeUtilisateurs(Groupeutilisateur groupeutilisateur);
 }
