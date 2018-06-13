@@ -62,7 +62,7 @@
                                                          required="true" filter="true" filterMatchMode="startsWith"
                                                          converter="omnifaces.SelectItemsIndexConverter">
                                             <f:selectItem itemLabel="Choisir la jurudiction" noSelectionOption="true"/>
-                                            <f:selectItems var="juri" value="#{utilisateurBean.juridictions}"  itemLabel="#{juri.libellecourt}" itemValue="#{juri}" />
+                                            <f:selectItems var="juri" value="#{utilisateurBean.juridictions1}"  itemLabel="#{juri.libellecourt}" itemValue="#{juri}" />
                                         </p:selectOneMenu> 
                                         <p:selectOneRadio layout="responsive" columns="3" value="#{utilisateurBean.utilisateur.civilite}">
                                             <f:selectItem itemLabel="Monsieur" itemValue="Monsieur" />

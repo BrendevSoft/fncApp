@@ -21,27 +21,19 @@
                         <p:inputText id="globalFilter" onkeyup="PF('situationTable').filter()" style="width:150px" placeholder="entrer la valeur"/>
                     </p:outputPanel>
                 </f:facet>
-                <p:column filterBy="#{sit.condamnation.juridiction.courtAppel.libelle}" filterMatchMode="contains" headerText="Court d'Appel">
-                    <h:outputText value="#{sit.condamnation.juridiction.courtAppel.libelle}" />
-                </p:column>
-                <p:column  headerText="Tribunal"  filterBy="#{sit.condamnation.juridiction.libellecourt}" filterMatchMode="contains">
-                    <h:outputText value="#{sit.condamnation.juridiction.libellecourt}" />
-                </p:column>
                 <p:column  headerText="Nom"  filterBy="#{sit.condamnation.personne.nom}" filterMatchMode="contains">
                     <h:outputText value="#{sit.condamnation.personne.nom}" />
                 </p:column>
                 <p:column  headerText="Prenom"  filterBy="#{sit.condamnation.personne.prenom}" filterMatchMode="contains">
                     <h:outputText value="#{sit.condamnation.personne.prenom}" />
                 </p:column>
-                <p:column  headerText="Date Jugement"  filterBy="#{sit.condamnation.datejugement}" filterMatchMode="contains">
-                    <h:outputText value="#{sit.condamnation.datejugement}" />
-                </p:column>
-                <p:column  headerText="Peine prononcée"  filterBy="#{sit.condamnation.peine.libelle}" filterMatchMode="contains">
-                    <h:outputText value="#{sit.condamnation.peine.libelle}" />
-                </p:column>
                 <p:column  headerText="Amende"  filterBy="#{sit.condamnation.peine.amande}" filterMatchMode="contains">
                     <h:outputText value="#{sit.condamnation.peine.amande}" />
                 </p:column>
+                <p:column  headerText="Peine IS"  filterBy="#{sit.condamnation.peine.peineIs}" filterMatchMode="contains">
+                    <h:outputText value="#{sit.condamnation.peine.peineIs}" />
+                </p:column>
+               
             </p:dataTable>
         </div>
     </p:tab>

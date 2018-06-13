@@ -60,6 +60,7 @@ public class UtilisateurBean implements Serializable {
     private List<Utilisateur> utilisateursTotal;
     private List<Utilisateur> utilisateursFilter;
     private List<Juridiction> juridictions;
+    private List<Juridiction> juridictions1;
     private Groupeutilisateur profilUtilisateur;
     private Groupeutilisateur profilUtilisateurNew;
     private List<Groupeutilisateur> profilUtilisateurs;
@@ -110,6 +111,7 @@ public class UtilisateurBean implements Serializable {
         this.list = new ArrayList<>();
         this.juridictions = new ArrayList<>();
         this.juridiction = new Juridiction();
+        this.juridictions1 = new ArrayList<>();
     }
 
     public void save(java.awt.event.ActionEvent actionEvent) throws SystemException {
@@ -743,4 +745,14 @@ public class UtilisateurBean implements Serializable {
         this.utilisateur1 = utilisateur1;
     }
 
+    public List<Juridiction> getJuridictions1() {
+        this.juridictions1 = this.jsbl.getAll();
+        return juridictions1;
+    }
+
+    public void setJuridictions1(List<Juridiction> juridictions1) {
+        this.juridictions1 = juridictions1;
+    }
+
+    
 }
