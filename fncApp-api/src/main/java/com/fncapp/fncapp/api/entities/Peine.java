@@ -46,6 +46,9 @@ public class Peine extends BaseEntity {
 
     @Column(name = "peine_is")
     private String peineIs;
+    
+    @Column(name = "sursis")
+    private String sursis;
 
     @Column(name = "datecreation")
     @Temporal(TemporalType.TIMESTAMP)
@@ -96,6 +99,16 @@ public class Peine extends BaseEntity {
     public Date getDatecreation() {
         return datecreation;
     }
+
+    public String getSursis() {
+        return sursis;
+    }
+
+    public void setSursis(String sursis) {
+        this.sursis = sursis;
+    }
+    
+    
 
     public void setDatecreation(Date datecreation) {
         this.datecreation = datecreation;
@@ -152,7 +165,9 @@ public class Peine extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Peine{" + "id=" + id + ", libelle=" + libelle + ", amande=" + amande + ", peineIs=" + peineIs + ", datecreation=" + datecreation + ", rowvers=" + rowvers + ", condamnationCollection=" + condamnationCollection + '}';
+        return "Peine{" + "id=" + id + ", libelle=" + libelle + ", amande=" + amande + ", peineIs=" + peineIs + ", sursis=" + sursis + ", datecreation=" + datecreation + ", rowvers=" + rowvers + ", condamnationCollection=" + condamnationCollection + '}';
     }
+
+    
 
 }
