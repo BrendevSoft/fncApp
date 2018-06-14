@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -209,10 +210,6 @@ public class CondamnationBean implements Serializable {
         Calendar ca = Calendar.getInstance();
         ca.add(Calendar.YEAR, 0);
         return ca.getTime();
-    }
-
-    public void statistiqueFiltre() {
-        this.statistiqueFilter = this.ssbl1.getBy("annee", annee);
     }
 
     public String onFlowProcess(FlowEvent event) throws IOException {
@@ -736,7 +733,10 @@ public class CondamnationBean implements Serializable {
     }
 
     public List<Statistique> getStatistiques3() {
-        return statistiques3;
+        return this.ssbl1.getAll().stream()
+                .filter(c -> c.getAnnee().equals(this.annee))
+                .collect(Collectors.toList());
+   
     }
 
     public void setStatistiques3(List<Statistique> statistiques3) {

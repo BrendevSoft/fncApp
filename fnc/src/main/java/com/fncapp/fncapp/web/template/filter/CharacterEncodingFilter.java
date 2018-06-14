@@ -86,7 +86,7 @@ public class CharacterEncodingFilter implements Filter {
                         req2.getRequestDispatcher(PAGE_ERROR).forward(req, resp);
                     }
                     break;
-                    case "securite/modifierProfil.xhtml":
+                case "securite/modifierProfil.xhtml":
                     if (EntityRealm.getSubject().hasRole("Consulter associer profil") || EntityRealm.getSubject().hasRole("Associer profil")) {
                         req2.getRequestDispatcher("modifierProfil.xhtml").forward(req, resp);
                     } else {
@@ -134,6 +134,24 @@ public class CharacterEncodingFilter implements Filter {
                 case "condamnation/liste_condamnation.xhtml":
                     if (EntityRealm.getSubject().hasRole("Consulter condamnation") || EntityRealm.getSubject().hasRole("Modifier condamnation")) {
                         req2.getRequestDispatcher("liste_condamnation.xhtml").forward(req, resp);
+                    } else {
+                        EntityRealm.getSubject().logout();
+                        req2.getRequestDispatcher(PAGE_ERROR).forward(req, resp);
+                    }
+                    break;
+
+                case "condamnation/statistique.xhtml":
+                    if (EntityRealm.getSubject().hasRole("Tableau de bord")) {
+                        req2.getRequestDispatcher("statistique.xhtml").forward(req, resp);
+                    } else {
+                        EntityRealm.getSubject().logout();
+                        req2.getRequestDispatcher(PAGE_ERROR).forward(req, resp);
+                    }
+                    break;
+
+                case "condamnation/recherche.xhtml":
+                    if (EntityRealm.getSubject().hasRole("Recherche")) {
+                        req2.getRequestDispatcher("recherche.xhtml").forward(req, resp);
                     } else {
                         EntityRealm.getSubject().logout();
                         req2.getRequestDispatcher(PAGE_ERROR).forward(req, resp);

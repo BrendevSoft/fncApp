@@ -52,8 +52,19 @@
                 <div class="ui-g">
                     <div class="ui-g-12">
                         <!-- Left Side -->
+
+                        <p:panelGrid columnClasses="ui-grid-col-4,ui-grid-col-8" columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
+                            <h:outputText value="Année de la statistique"/>
+                            <p:selectOneMenu value="#{condamnationBean.annee}" 
+                                             converter="omnifaces.SelectItemsIndexConverter">
+                                <p:ajax event="change" update="@form" />
+                                <f:selectItem itemLabel="Choisir l'anneé" noSelectionOption="true"/>
+                                <f:selectItems var="anne" value="#{condamnationBean.annees}" itemLabel="#{anne.code}" itemValue="#{anne}"/>
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+
                         <div class="card card-w-title">
-                            <p:dataGrid id="table" var="stat" value="#{condamnationBean.statistiques}" columns="3" layout="grid" 
+                            <p:dataGrid id="table" var="stat" value="#{condamnationBean.statistiques3}" columns="3" layout="grid" 
                                         rows="6" paginator="true"
                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                         rowsPerPageTemplate="3,6,9,12,16">
@@ -73,12 +84,11 @@
                                 </p:panel>
 
                             </p:dataGrid>
-                        </div>
+                        </div>                           
                     </div>
                 </div>
             </p:fieldset>
         </h:form>
-
     </ui:define>
 
 </ui:composition>
