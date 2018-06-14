@@ -106,19 +106,19 @@
                                         <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" style="width:150px" placeholder="entrer la valeur"/>
                                     </p:outputPanel>
                                 </f:facet>
-                                <p:column filterBy="#{use.civilite}" filterMatchMode="contains" headerText="Civilité">
+                                <p:column filterBy="#{use.civilite}" filterMatchMode="startsWith" headerText="Civilité">
                                     <h:outputText value="#{use.civilite}" />
                                 </p:column>
-                                <p:column headerText="Nom"  filterBy="#{use.nom}" filterMatchMode="contains">
+                                <p:column headerText="Nom"  filterBy="#{use.nom}" filterMatchMode="startsWith">
                                     <h:outputText value="#{use.nom}" />
                                 </p:column>
-                                <p:column  filterBy="#{use.prenom}" filterMatchMode="contains"  headerText="Prenom">
+                                <p:column  filterBy="#{use.prenom}" filterMatchMode="startsWith"  headerText="Prenom">
                                     <h:outputText value="#{use.prenom}" />
                                 </p:column>
-                                <p:column  headerText="Adresse mail"  filterBy="#{use.mail}" filterMatchMode="contains">
+                                <p:column  headerText="Adresse mail"  filterBy="#{use.mail}" filterMatchMode="startsWith">
                                     <h:outputText value="#{use.mail}" />
                                 </p:column>
-                                <p:column  headerText="Téléphone"  filterBy="#{use.telephone}" filterMatchMode="contains">
+                                <p:column  headerText="Téléphone"  filterBy="#{use.telephone}" filterMatchMode="startsWith">
                                     <h:outputText value="#{use.telephone}" />
                                 </p:column>
                                 <p:column  rendered="#{loginBean.modifierUtilisateur}">

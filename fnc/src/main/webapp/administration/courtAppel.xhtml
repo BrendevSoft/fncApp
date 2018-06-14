@@ -88,7 +88,7 @@
                                         <p:inputText id="globalFilter" onkeyup="PF('courtAppelTable').filter()" style="width:150px" placeholder="entrer la valeur"/>
                                     </p:outputPanel>
                                 </f:facet>
-                                <p:column filterBy="#{ca.libelle}" filterMatchMode="contains" headerText="Libellé">
+                                <p:column filterBy="#{ca.libelle}" filterMatchMode="startsWith" headerText="Libellé">
                                     <h:outputText value="#{ca.libelle}" />
                                 </p:column>
                                 <p:column rendered="#{loginBean.modifierCourtAppel}">

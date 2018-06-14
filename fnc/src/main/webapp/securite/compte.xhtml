@@ -65,7 +65,7 @@
                                             <p:inputText id="globalFilter" onkeyup="PF('usersInactifs').filter()" style="width:150px" placeholder="entrer la valeur"/>
                                         </p:outputPanel>
                                     </f:facet>
-                                    <p:column  headerText="Nom" filterBy="#{user.nom}" filterMatchMode="exact">
+                                    <p:column  headerText="Nom" filterBy="#{user.nom}" filterMatchMode="startsWith">
                                         <h:outputText value="#{user.nom}"/>
                                     </p:column>
                                     <p:column  headerText="Prenom" filterBy="#{user.prenom}" filterMatchMode="startsWith">
@@ -93,7 +93,7 @@
                                             <p:inputText id="globalFilter" onkeyup="PF('usersActifs').filter()" style="width:150px" placeholder="entrer la valeur"/>
                                         </p:outputPanel>
                                     </f:facet>
-                                    <p:column  headerText="Nom" filterBy="#{user.nom}" filterMatchMode="exact">
+                                    <p:column  headerText="Nom" filterBy="#{user.nom}" filterMatchMode="startsWith">
                                         <h:outputText value="#{user.nom}"/>
                                     </p:column>
                                     <p:column  headerText="Prenom" filterBy="#{user.prenom}" filterMatchMode="startsWith">

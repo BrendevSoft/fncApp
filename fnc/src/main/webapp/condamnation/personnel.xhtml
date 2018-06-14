@@ -21,11 +21,11 @@
                     <p:inputText value="#{condamnationBean.personne.prenom}" required="true" requiredMessage="Saisir le prénom" placeholder="Prénom"/>
 
                     <h:outputText value="Date de naissance"/>
-                    <p:calendar value="#{condamnationBean.personne.datenaissance}" maxdate="#{condamnationBean.maxAge()}"  navigator="true" yearRange="c-70:c+70" required="true" requiredMessage="choisir la date de naissance" locale="fr" pattern="dd/MM/yyyy" mask="true" readonlyInput="true">
-                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    <p:calendar value="#{condamnationBean.personne.datenaissance}" maxdate="#{condamnationBean.maxAge()}"  navigator="true" yearRange="c-70:c+70" locale="fr" pattern="dd/MM/yyyy" mask="true">
+                        <f:convertDateTime pattern="dd/MM/yyyy" locale="fr"/>
                     </p:calendar>
                     <h:outputText value="Lieu de naissance"/>
-                    <p:inputText value="#{condamnationBean.personne.lieunaissance}" required="true" requiredMessage="Saisir le lieu de naissance"  placeholder="Lieu de naissance"/>
+                    <p:inputText value="#{condamnationBean.personne.lieunaissance}" placeholder="Lieu de naissance"/>
 
                     <h:outputText value="Sexe"/>
                     <p:selectOneRadio layout="responsive" required="true" requiredMessage="choisir le sexe " columns="2" value="#{condamnationBean.personne.sexe}">
@@ -33,7 +33,7 @@
                         <f:selectItem itemLabel="Féminin" itemValue="Féminin" />
                     </p:selectOneRadio>
                     <h:outputText value="Adresse complète"/>
-                    <p:inputTextarea required="true" requiredMessage="Saisir l'adresse complète de la personne" value="#{condamnationBean.personne.adresse}"/>
+                    <p:inputTextarea value="#{condamnationBean.personne.adresse}"/>
                 </p:panelGrid>
             </p:panel>
         </div>

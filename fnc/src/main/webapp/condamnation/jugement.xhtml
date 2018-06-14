@@ -30,13 +30,15 @@
 
                         <f:selectItems var="inf" value="#{condamnationBean.infractions}"  itemLabel="#{inf.libelle}" itemValue="#{inf}" />
                     </p:selectCheckboxMenu> 
-                    <h:outputText value="Peine prononcée"/>
-                    <p:inputText required="true" requiredMessage="Saisir la peine prononcée" value="#{condamnationBean.peine.libelle}"  placeholder="Peine prononcée"/>
-
+                    <h:outputText value="Peine prononcée ET Sursis"/>
+                    <p:panelGrid columnClasses="ui-grid-col-6,ui-grid-col-6" columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
+                        <p:inputText required="true" requiredMessage="Saisir la peine prononcée" value="#{condamnationBean.peine.libelle}"  placeholder="Peine prononcée"/>
+                        <p:inputText required="true" requiredMessage="Saisir le sursis" value="#{condamnationBean.peine.sursis}"  placeholder="Sursis"/>
+                    </p:panelGrid>
                     <h:outputText value="Amende"/>
                     <p:inputText required="true" requiredMessage="Saisir l'amande de la peine" value="#{condamnationBean.peine.amande}"  placeholder="Amende"/>
-                    <h:outputText value="IS"/>
-                    <p:inputText  requiredMessage="Saisir l'IS" value="#{condamnationBean.peine.peineIs}"  placeholder="IS"/>
+                    <h:outputText value="Interdition de Sortie"/>
+                    <p:inputText value="#{condamnationBean.peine.peineIs}"  placeholder="Interdition de Sortie"/>
 
                     <h:inputHidden/>
                     <h:inputHidden/>

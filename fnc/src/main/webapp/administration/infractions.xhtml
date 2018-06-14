@@ -102,7 +102,7 @@
                                         <p:inputText id="globalFilter" onkeyup="PF('infractionsTable').filter()" style="width:150px" placeholder="entrer la valeur"/>
                                     </p:outputPanel>
                                 </f:facet>
-                                <p:column filterBy="#{infras.libelle}" filterMatchMode="contains" id="libProfil"  headerText="Libellé">
+                                <p:column filterBy="#{infras.libelle}" filterMatchMode="startsWith" id="libProfil"  headerText="Libellé">
                                     <h:outputText value="#{infras.libelle}" />
                                 </p:column>
                                 <p:column  headerText="Qualification"  filterBy="#{infras.qualification}" filterMatchMode="contains">

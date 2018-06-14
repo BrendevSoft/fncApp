@@ -101,13 +101,13 @@
                                         <p:inputText id="globalFilter" onkeyup="PF('profilsTable').filter()" style="width:150px" placeholder="entrer la valeur"/>
                                     </p:outputPanel>
                                 </f:facet>
-                                <p:column filterBy="#{user.groupe.nom}" filterMatchMode="contains" headerText="Profil">
+                                <p:column filterBy="#{user.groupe.nom}" filterMatchMode="startsWith" headerText="Profil">
                                     <h:outputText value="#{user.groupe.nom}" />
                                 </p:column>
-                                <p:column  headerText="Nom"  filterBy="#{user.utilisateur.nom}" filterMatchMode="contains">
+                                <p:column  headerText="Nom"  filterBy="#{user.utilisateur.nom}" filterMatchMode="startsWith">
                                     <h:outputText value="#{user.utilisateur.nom}" />
                                 </p:column>
-                                <p:column filterBy="#{user.utilisateur.prenom}" filterMatchMode="contains" headerText="Prenom">
+                                <p:column filterBy="#{user.utilisateur.prenom}" filterMatchMode="startsWith" headerText="Prenom">
                                     <h:outputText value="#{user.utilisateur.prenom}" />
                                 </p:column>
                                 <p:column  headerText="Login"  filterBy="#{user.utilisateur.login}" filterMatchMode="contains">

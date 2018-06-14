@@ -24,14 +24,14 @@
                 <p:panel style="width: 100%" id="detention" visible="#{condamnationBean.det}">
                     <p:panelGrid columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4," columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
                         <h:outputText value="Numéro mandat de dépôt"/>
-                        <p:inputText required="#{condamnationBean.det}" requiredMessage="Saisir le numéro du mandat de dépot" value="#{condamnationBean.situation.numMandatDepot}"  placeholder="Numéro mandat de dépôt"/>
+                        <p:inputText value="#{condamnationBean.situation.numMandatDepot}"  placeholder="Numéro mandat de dépôt"/>
                         <h:outputText value="Date mandat de dépôt"/>
                         <p:calendar navigator="true" yearRange="c-70:c+70" maxdate="#{condamnationBean.maxToday()}" required="#{condamnationBean.det}" requiredMessage="choisir la date du mandat de dépot" locale="fr" pattern="dd/MM/yyyy" mask="true" value="#{condamnationBean.situation.dateMandatDepot}" readonlyInput="true">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </p:calendar>
 
                         <h:outputText value="Numéro Ecrou"/>
-                        <p:inputText required="#{condamnationBean.det}" requiredMessage="Saisir le numéro Ecrou" value="#{condamnationBean.situation.numEcrou}"  placeholder="Numéro Ecrou"/>
+                        <p:inputText value="#{condamnationBean.situation.numEcrou}"  placeholder="Numéro Ecrou"/>
                         <h:outputText value="Prison"/>
                         <p:selectOneMenu required="#{condamnationBean.det}" requiredMessage="Choisir la prison"  value="#{condamnationBean.prison}" 
                                          filter="true" filterMatchMode="startsWith"
@@ -44,7 +44,7 @@
                 <p:panel style="width: 100%" id="liberte" visible="#{condamnationBean.lib}">
                     <p:panelGrid columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4," columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
                         <h:outputText value="Numéro mandat d'arrêt"/>
-                        <p:inputText required="#{condamnationBean.lib}" requiredMessage="Saisir le numéro du mandat d'arrêt" value="#{condamnationBean.situation.numMandatArret}"  placeholder="Numéro mandat d'arrêt"/>
+                        <p:inputText value="#{condamnationBean.situation.numMandatArret}"  placeholder="Numéro mandat d'arrêt"/>
                         <h:outputText value="Date mandat d'arrêt"/>
                         <p:calendar navigator="true" yearRange="c-70:c+70" maxdate="#{condamnationBean.maxToday()}" required="#{condamnationBean.lib}" requiredMessage="Choisir la dâte du mandat d'arrêt" locale="fr" pattern="dd/MM/yyyy" mask="true" value="#{condamnationBean.situation.dateMandatArret}" readonlyInput="true">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
@@ -54,7 +54,7 @@
                 <p:panel style="width: 100%" id="fuite" visible="#{condamnationBean.fuit}">
                     <p:panelGrid columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4," columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
                         <h:outputText value="Numéro décision LP"/>
-                        <p:inputText required="#{condamnationBean.fuit}" requiredMessage="Saisir le numéro de la décison LP" value="#{condamnationBean.situation.numDecisionLp}"  placeholder="Numéro décision LP"/>
+                        <p:inputText value="#{condamnationBean.situation.numDecisionLp}"  placeholder="Numéro décision LP"/>
                         <h:outputText value="Date décison LP"/>
                         <p:calendar navigator="true" yearRange="c-70:c+70" maxdate="#{condamnationBean.maxToday()}" required="#{condamnationBean.fuit}" requiredMessage="Choisir la date de la décision LP" locale="fr" pattern="dd/MM/yyyy" mask="true" value="#{condamnationBean.situation.dateDecisionLp}" readonlyInput="true">
                             <f:convertDateTime pattern="dd/MM/yyyy" />

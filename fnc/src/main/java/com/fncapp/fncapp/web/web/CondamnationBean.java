@@ -49,7 +49,6 @@ import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.omnifaces.util.Faces;
 import org.primefaces.event.FlowEvent;
 
 /**
@@ -92,7 +91,10 @@ public class CondamnationBean implements Serializable {
     private List<Annee> annees;
     private List<Statistique> statistiques;
     private List<Statistique> statistiques1;
+    private List<Statistique> statistiques2;
+    private List<Statistique> statistiques3;
     private List<Statistique> statistiqueFilter;
+    
 
     @EJB
     private CondamnationServiceBeanLocal csbl;
@@ -149,7 +151,8 @@ public class CondamnationBean implements Serializable {
         this.statistique = new Statistique();
         this.statistiques = new ArrayList<>();
         this.statistiques1 = new ArrayList<>();
-        // this.statistiqueFilter = new ArrayList<>();
+        this.statistiques2 = new ArrayList<>();
+        this.statistiques3 = new ArrayList<>();
 
         this.peineInfraction = new PeineInfraction();
 
@@ -286,7 +289,6 @@ public class CondamnationBean implements Serializable {
 
             statistiques1 = this.ssbl1.getBy("juridiction", juridiction);
             if (statistiques1.isEmpty()) {
-                System.out.println("Année nouvelement crée" + this.condamnation.getAnnee());
                 this.statistique.setJuridiction(juridiction);
                 this.statistique.setAnnee(this.condamnation.getAnnee());
                 this.statistique.setDatecreation(new Date());
@@ -306,7 +308,6 @@ public class CondamnationBean implements Serializable {
                 }
 
                 if (existe == false) {
-                    System.out.println("Année nouvelement crée" + this.condamnation.getAnnee());
                     this.statistique.setJuridiction(this.juridiction);
                     this.statistique.setAnnee(this.condamnation.getAnnee());
                     this.statistique.setDatecreation(new Date());
@@ -316,7 +317,6 @@ public class CondamnationBean implements Serializable {
                     journalisation.saveLog4j(CondamnationBean.class.getName(), Level.INFO, "Enregistrement d'une statistique :" + this.statistique.getJuridiction().getLibellecourt() + " " + this.statistique.getAnnee().getCode());
 
                 } else {
-                    System.out.println("Annee existe deja" + sta);
                     sta.setRowvers(new Date());
                     sta.setNombreSaisiTotal(sta.getNombreSaisiTotal() + 1L);
                     this.ssbl1.updateOne(sta);
@@ -707,6 +707,40 @@ public class CondamnationBean implements Serializable {
 
     public void setGusbl(GroupeUtilisateurServiceBeanLocal gusbl) {
         this.gusbl = gusbl;
+    }
+
+    public List<Statistique> getStatistiques2() {
+        List<Statistique> list = this.ssbl1.getAll();
+        List<Juridiction> list1 = this.jsbl.getAll();
+        for (Statistique s : list) {
+            if (!statistiques2.contains(this.ssbl1.getBy("juridiction", s.getJuridiction()).get(0))) {
+                statistiques2.add(s);
+            }
+        }
+
+        return statistiques2;
+    }
+
+    public Long saisis(Juridiction j) {
+        Long nbr = 0L;
+        List<Statistique> l = this.ssbl1.getBy("juridiction", j);
+        for (Statistique statistique1 : l) {
+            nbr += statistique1.getNombreSaisiTotal();
+        }
+
+        return nbr;
+    }
+
+    public void setStatistiques2(List<Statistique> statistiques2) {
+        this.statistiques2 = statistiques2;
+    }
+
+    public List<Statistique> getStatistiques3() {
+        return statistiques3;
+    }
+
+    public void setStatistiques3(List<Statistique> statistiques3) {
+        this.statistiques3 = statistiques3;
     }
 
 }

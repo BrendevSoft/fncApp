@@ -106,13 +106,13 @@
                                         <p:inputText id="globalFilter" onkeyup="PF('tribunalTable').filter()" style="width:150px" placeholder="entrer la valeur"/>
                                     </p:outputPanel>
                                 </f:facet>
-                                <p:column  filterBy="#{juri.courtAppel.libelle}" filterMatchMode="contains" headerText="Court d'Appel">
+                                <p:column  filterBy="#{juri.courtAppel.libelle}" filterMatchMode="startsWith" headerText="Court d'Appel">
                                     <h:outputText value="#{juri.courtAppel.libelle}" />
                                 </p:column>
-                                <p:column  filterBy="#{juri.libellecourt}" filterMatchMode="contains"  headerText="Nom">
+                                <p:column  filterBy="#{juri.libellecourt}" filterMatchMode="startsWith"  headerText="Nom">
                                     <h:outputText value="#{juri.libellecourt}" />
                                 </p:column>
-                                <p:column id="villeJuri" headerText="Ville"  filterBy="#{juri.ville}" filterMatchMode="contains">
+                                <p:column id="villeJuri" headerText="Ville"  filterBy="#{juri.ville}" filterMatchMode="startsWith">
                                     <h:outputText value="#{juri.ville}" />
                                 </p:column>
                                 <p:column rendered="#{loginBean.modifierTribunaux}">

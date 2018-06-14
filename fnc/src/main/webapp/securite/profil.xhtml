@@ -91,10 +91,10 @@
                                         <p:inputText id="globalFilter" onkeyup="PF('profilsTable').filter()" style="width:150px" placeholder="entrer la valeur"/>
                                     </p:outputPanel>
                                 </f:facet>
-                                <p:column filterBy="#{profil.nom}" filterMatchMode="contains" id="libProfil"  headerText="Libellé">
+                                <p:column filterBy="#{profil.nom}" filterMatchMode="startsWith" id="libProfil"  headerText="Libellé">
                                     <h:outputText value="#{profil.nom}" />
                                 </p:column>
-                                <p:column  id="descProfil" headerText="Description"  filterBy="#{profil.description}" filterMatchMode="contains">
+                                <p:column  id="descProfil" headerText="Description"  filterBy="#{profil.description}" filterMatchMode="startsWith">
                                     <h:outputText value="#{profil.description}" />
                                 </p:column>
                                 <p:column  rendered="#{loginBean.modifierProfil}">

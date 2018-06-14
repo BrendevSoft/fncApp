@@ -94,7 +94,7 @@
                                         <p:inputText id="globalFilter" onkeyup="PF('prisonsTable').filter()" style="width:150px" placeholder="entrer la valeur"/>
                                     </p:outputPanel>
                                 </f:facet>
-                                <p:column filterBy="#{pris.libellecourt}" filterMatchMode="contains" headerText="Libellé">
+                                <p:column filterBy="#{pris.libellecourt}" filterMatchMode="startsWith" headerText="Libellé">
                                     <h:outputText value="#{pris.libellecourt}" />
                                 </p:column>
                                 <p:column id="descProfil" headerText="Adresse"  filterBy="#{pris.adresse}" filterMatchMode="contains">
