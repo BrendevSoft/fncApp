@@ -29,10 +29,10 @@
                             <p:password id="reponse" placeholder="Saisir la réponse à la question" requiredMessage="Veillez entrer une réponse" required="true" value="#{loginBean.reponse}"/>
                         </div>
                         <div class="ui-g-12 button-container">
-                            <p:commandButton value="Valider" style="padding: 5px" update="message"
+                            <p:commandButton value="Valider" style="background-color: tomato" update="message"
                                              action="#{loginBean.reinitialiserPasse()}"
                                              process="@form"/> 
-                            <p:button outcome="/login" value="Annuler" icon="fa fa-key" styleClass="blue-btn" />
+                            <p:button style="background-color: tomato" outcome="/login" value="Annuler" icon="fa fa-key" styleClass="blue-btn" />
                         </div>
                     </div>
                 </div>

@@ -9,7 +9,7 @@
         <module>fncApp-api</module>
         <module>fncApp-impl</module>
         <module>fnc</module>
-    </modules>
+  </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

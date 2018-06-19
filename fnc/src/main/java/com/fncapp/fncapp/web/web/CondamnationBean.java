@@ -95,7 +95,6 @@ public class CondamnationBean implements Serializable {
     private List<Statistique> statistiques2;
     private List<Statistique> statistiques3;
     private List<Statistique> statistiqueFilter;
-    
 
     @EJB
     private CondamnationServiceBeanLocal csbl;
@@ -163,6 +162,7 @@ public class CondamnationBean implements Serializable {
     @PostConstruct
     public void init() {
         visible();
+        juridictionsPersonnel();
     }
 
     public void cancel(ActionEvent actionEvent) {
@@ -355,8 +355,53 @@ public class CondamnationBean implements Serializable {
 
     }
 
+    public void updatePersonnel() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        UserTransaction tx = TransactionManager.getUserTransaction();
+        try {
+            tx.begin();
+            if (this.situation.getCondamnation().getPersonne().getId() != null) {
+                this.situation.getCondamnation().getPersonne().setRowvers(new Date());
+                this.psbl.updateOne(this.situation.getCondamnation().getPersonne());
+                journalisation.saveLog4j(CondamnationBean.class.getName(), Level.INFO, "Modification d'une personne :" + this.situation.getCondamnation().getPersonne().getNom().concat(this.situation.getCondamnation().getPersonne().getPrenom()));
+                System.out.println(this.situation.getCondamnation().getPersonne().getId());
+                this.journalisation = new MethodeJournalisation();
+                this.condamnation = new Condamnation();
+                this.juridiction = new Juridiction();
+                this.personne = new Personne();
+                this.situation = new Situation();
+                this.infraction = new Infraction();
+                this.prison = new Prison();
+                this.peine = new Peine();
+                this.statistique = new Statistique();
+                context.addMessage(null, new FacesMessage(Constante.MODIFICATION_REUSSIT));
+                tx.commit();
+            }
+        } catch (Exception e) {
+            e.getMessage();
+            context.addMessage(null, new FacesMessage(Constante.MODIFICATION_ECHOUE));
+            try {
+                tx.rollback();
+            } catch (IllegalStateException ex) {
+                Logger.getLogger(CondamnationBean.class.getName()).log(Level.FATAL, null, ex);
+            } catch (SecurityException ex) {
+                Logger.getLogger(CondamnationBean.class.getName()).log(Level.FATAL, null, ex);
+            } catch (SystemException ex) {
+                Logger.getLogger(CondamnationBean.class.getName()).log(Level.FATAL, null, ex);
+            }
+        }
+
+    }
+
     public void getObject(Long id) {
         this.juridiction = this.jsbl.find(id);
+    }
+
+    public void getObjectSituation(Long id) {
+        this.situation = this.ssbl.find(id);
+        if (this.situation.getCondamnation().getPersonne() != null) {
+            this.personne = this.situation.getCondamnation().getPersonne();
+        }
     }
 
     public Condamnation getCondamnation() {
@@ -450,7 +495,9 @@ public class CondamnationBean implements Serializable {
         if (groupeutilisateurs.get(0).getGroupe().getNom().equals("Admin")) {
             this.juridictions = this.jsbl.getAll();
         } else {
-            this.juridictions.add(groupeutilisateurs.get(0).getUtilisateur().getJuridiction());
+            if (!juridictions.contains(groupeutilisateurs.get(0).getUtilisateur().getJuridiction())) {
+                this.juridictions.add(groupeutilisateurs.get(0).getUtilisateur().getJuridiction());
+            }
         }
 
         return juridictions;
@@ -736,7 +783,7 @@ public class CondamnationBean implements Serializable {
         return this.ssbl1.getAll().stream()
                 .filter(c -> c.getAnnee().equals(this.annee))
                 .collect(Collectors.toList());
-   
+
     }
 
     public void setStatistiques3(List<Statistique> statistiques3) {

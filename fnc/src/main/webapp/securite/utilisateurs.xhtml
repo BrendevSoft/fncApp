@@ -121,8 +121,11 @@
                                 <p:column  headerText="Téléphone"  filterBy="#{use.telephone}" filterMatchMode="startsWith">
                                     <h:outputText value="#{use.telephone}" />
                                 </p:column>
-                                <p:column  rendered="#{loginBean.modifierUtilisateur}">
-                                    <p:commandButton style="width: 100%" update=":users:userForm:userPanel" process="@form" value="Editer" actionListener="#{utilisateurBean.getUsersObject(use.id)}"/>
+                                <p:column width="3%" rendered="#{loginBean.modifierUtilisateur}">
+                                    <p:commandButton  update=":users:userForm:userPanel"  icon="ui-icon-pencil" title="Editer" actionListener="#{utilisateurBean.getUsersObject(use.id)}" process="@form">
+                                        <f:setPropertyActionListener value="#{use}" target="#{utilisateurBean.utilisateur}" />
+                                    </p:commandButton>
+                                       <!-- <p:commandButton style="width: 100%" update=":users:userForm:userPanel" process="@form" value="Editer" actionListener="#{utilisateurBean.getUsersObject(use.id)}"/>-->
                                 </p:column>
                             </p:dataTable>
                         </div>

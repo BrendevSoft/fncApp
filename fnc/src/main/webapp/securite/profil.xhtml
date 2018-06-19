@@ -97,10 +97,10 @@
                                 <p:column  id="descProfil" headerText="Description"  filterBy="#{profil.description}" filterMatchMode="startsWith">
                                     <h:outputText value="#{profil.description}" />
                                 </p:column>
-                                <p:column  rendered="#{loginBean.modifierProfil}">
-                                    <center>
-                                        <p:commandButton style="width: 50%"  process="@form" update=":profil:profilForm:profilPanel" value="Editer" actionListener="#{profilBean.getObject(profil.id)}"/>
-                                    </center>
+                                <p:column width="3%" rendered="#{loginBean.modifierProfil}">
+                                    <p:commandButton  update=":profil:profilForm:profilPanel"  icon="ui-icon-pencil" title="Editer" actionListener="#{profilBean.getObject(profil.id)}" process="@form">
+                                        <f:setPropertyActionListener value="#{profil}" target="#{profilBean.profil}" />
+                                    </p:commandButton>
                                 </p:column>
                             </p:dataTable>
                         </div>

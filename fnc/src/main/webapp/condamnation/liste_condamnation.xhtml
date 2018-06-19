@@ -46,12 +46,10 @@
 
     <ui:define name="viewname">Gestion des condamnations</ui:define>
     <ui:define name="content">
-        <h:form id="form">
+        <h:form styleClass="condamnationForm">
             <p:fieldset legend="Gestion des condamnations">
                 <div class="ui-g">
                     <div class="ui-g-12">
-
-                        <h:form id="cabinetForm">
                             <p:tabView  dynamic="true">
                                 <ui:include src="modification/listeCondamnation.xhtml"/>
                                 <ui:include src="modification/modifPersonnel.xhtml"/>
@@ -59,8 +57,6 @@
                                 <ui:include src="modification/modifPeine.xhtml"/>
                                 <ui:include src="modification/modifJugement.xhtml"/>
                             </p:tabView>
-                        </h:form>
-
                     </div>
                 </div>                          
             </p:fieldset>

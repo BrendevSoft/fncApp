@@ -100,10 +100,10 @@
                                 <p:column id="descProfil" headerText="Adresse"  filterBy="#{pris.adresse}" filterMatchMode="contains">
                                     <h:outputText value="#{pris.adresse}" />
                                 </p:column>
-                                <p:column rendered="#{loginBean.modifierPrison}">
-                                    <center>
-                                        <p:commandButton  process="@form" update=":prison:prisonForm:prisonPanel" value="Editer" actionListener="#{prisonBean.getObject(pris.id)}"/>
-                                    </center>
+                                <p:column width="3%" rendered="#{loginBean.modifierPrison}">
+                                    <p:commandButton  update=":prison:prisonForm:prisonPanel" icon="ui-icon-pencil" title="Editer" actionListener="#{prisonBean.getObject(pris.id)}" process="@form">
+                                        <f:setPropertyActionListener value="#{pris}" target="#{prisonBean.prison}" />
+                                    </p:commandButton>
                                 </p:column>
                             </p:dataTable>
                         </div>

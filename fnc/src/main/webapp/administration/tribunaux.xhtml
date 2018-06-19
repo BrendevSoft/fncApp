@@ -115,10 +115,13 @@
                                 <p:column id="villeJuri" headerText="Ville"  filterBy="#{juri.ville}" filterMatchMode="startsWith">
                                     <h:outputText value="#{juri.ville}" />
                                 </p:column>
-                                <p:column rendered="#{loginBean.modifierTribunaux}">
-                                    <center>
-                                        <p:commandButton process="@form" update=":tribunal:tribunalForm:tribunalPanel" value="Editer" actionListener="#{juridictionBean.getObject(juri.id)}"/>                                                                        
-                                    </center>
+                                <p:column  headerText="Adresse"  filterBy="#{juri.adresse}" filterMatchMode="startsWith">
+                                    <h:outputText value="#{juri.adresse}" />
+                                </p:column>
+                                <p:column width="3%" rendered="#{loginBean.modifierTribunaux}">
+                                    <p:commandButton  update=":tribunal:tribunalForm:tribunalPanel" icon="ui-icon-pencil" title="Editer" actionListener="#{juridictionBean.getObject(juri.id)}" process="@form">
+                                        <f:setPropertyActionListener value="#{juri}" target="#{juridictionBean.juridiction}" />
+                                    </p:commandButton>
                                 </p:column>
                             </p:dataTable>
                         </div>

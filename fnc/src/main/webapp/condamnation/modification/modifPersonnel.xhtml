@@ -6,40 +6,80 @@
 
     <p:tab title="Modifier l'Identité">
         <!-- Left Side -->
-        <div class="card card-w-title">
+        <h:inputHidden value="#{condamnationBean.personne.id}"/>
+        <div class="ui-g-12 ui-md-12 ui-lg-12 ui-fluid contact-form">
+            <p:panel style="border-color: #171b1f;width: 100%;" styleClass="userPanel">
+                <p:panelGrid columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4," columns="4" layout="grid" styleClass="panelgrid"> 
+                    <p:growl life="4000" showSummary="true"/>
+                    <h:inputHidden/>
+                    <h:inputHidden/>
+                    <h:inputHidden/>
+                    <h:outputText value="Nom"/>
+                    <p:inputText value="#{condamnationBean.situation.condamnation.personne.nom}" required="true" requiredMessage="Saisir le nom" placeholder="Nom"/>
+                    <h:outputText value="Prénom"/>
+                    <p:inputText value="#{condamnationBean.situation.condamnation.personne.prenom}" required="true" requiredMessage="Saisir le prénom" placeholder="Prénom"/>
 
-            <p:dataTable reflow="true" var="sit" id="userTabIde" widgetVar="situationTable" value="#{condamnationBean.situations}"
-                         emptyMessage="Utilisateur non trouvé"
-                         style="border-color: #00AEEF" filteredValue="#{condamnationBean.situationsFileter}" 
-                         rows="5" scrollable="true"  paginator="true" paginatorPosition="top" 
-                         rowsPerPageTemplate="2,5,10,15">
-                <f:facet name="header">
-                    <p:outputPanel>
-                        <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
-                        <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
-                        <h:outputText value="Rechercher toutes les valeurs :" />
-                        <p:inputText id="globalFilter" onkeyup="PF('situationTable').filter()" style="width:150px" placeholder="entrer la valeur"/>
-                    </p:outputPanel>
-                </f:facet>
-                <p:column  headerText="Nom"  filterBy="#{sit.condamnation.personne.nom}" filterMatchMode="contains">
-                    <h:outputText value="#{sit.condamnation.personne.nom}" />
-                </p:column>
-                <p:column  headerText="Prenom"  filterBy="#{sit.condamnation.personne.prenom}" filterMatchMode="contains">
-                    <h:outputText value="#{sit.condamnation.personne.prenom}" />
-                </p:column>
-                <p:column  headerText="Date naissance"  filterBy="#{sit.condamnation.personne.datenaissance.toLocaleString()}" filterMatchMode="contains">
-                    <h:outputText value="#{sit.condamnation.personne.datenaissance.toLocaleString()}" />
-                </p:column>
-                <p:column  headerText="Lieu naissance"  filterBy="#{sit.condamnation.personne.lieunaissance}" filterMatchMode="contains">
-                    <h:outputText value="#{sit.condamnation.personne.lieunaissance}" />
-                </p:column>
-                <p:column  headerText="Sexe"  filterBy="#{sit.condamnation.personne.sexe}" filterMatchMode="contains">
-                    <h:outputText value="#{sit.condamnation.personne.sexe}" />
-                </p:column>
-                <p:column  headerText="Adresse"  filterBy="#{sit.condamnation.personne.adresse}" filterMatchMode="contains">
-                    <h:outputText value="#{sit.condamnation.personne.adresse}" />
-                </p:column>
-            </p:dataTable>
+                    <h:outputText value="Date de naissance"/>
+                    <p:calendar value="#{condamnationBean.situation.condamnation.personne.datenaissance}" maxdate="#{condamnationBean.maxAge()}"  navigator="true" yearRange="c-70:c+70" locale="fr" pattern="dd/MM/yyyy" mask="true">
+                        <f:convertDateTime pattern="dd/MM/yyyy" locale="fr"/>
+                    </p:calendar>
+                    <h:outputText value="Lieu de naissance"/>
+                    <p:inputText value="#{condamnationBean.situation.condamnation.personne.lieunaissance}" placeholder="Lieu de naissance"/>
+
+                    <h:outputText value="Sexe"/>
+                    <p:selectOneRadio layout="responsive" required="true" requiredMessage="choisir le sexe " columns="2" value="#{condamnationBean.situation.condamnation.personne.sexe}">
+                        <f:selectItem itemLabel="Masculin" itemValue="Masculin" />
+                        <f:selectItem itemLabel="Féminin" itemValue="Féminin" />
+                    </p:selectOneRadio>
+                    <h:outputText value="Adresse complète"/>
+                    <p:inputTextarea value="#{condamnationBean.situation.condamnation.personne.adresse}"/>
+                </p:panelGrid>
+                <p:panelGrid columnClasses="ui-grid-col-4,ui-grid-col-2,ui-grid-col-2,ui-grid-col-4" columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
+                    <h:inputHidden/>
+                    <p:commandButton process="@this" update="@(.panelgrid)" action="#{condamnationBean.cancel(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
+                    <p:commandButton process="@this" update="@(.panelgrid)" action ="#{condamnationBean.updatePersonnel()}" value="Modifier" icon="fa fa-paper-plane-o"></p:commandButton>
+                    <h:inputHidden/>
+                </p:panelGrid>
+                <div class="card card-w-title">
+                    <p:dataTable styleClass="dataPersonnel" reflow="true" var="sit" id="userTabIde" widgetVar="situationTable" value="#{condamnationBean.situations}"
+                                 emptyMessage="Utilisateur non trouvé"
+                                 style="border-color: #00AEEF" filteredValue="#{condamnationBean.situationsFileter}" 
+                                 rows="5" scrollable="true"  paginator="true" paginatorPosition="top" 
+                                 rowsPerPageTemplate="2,5,10,15">
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
+                                <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
+                                <h:outputText value="Rechercher toutes les valeurs :" />
+                                <p:inputText id="globalFilter" onkeyup="PF('situationTable').filter()" style="width:150px" placeholder="entrer la valeur"/>
+                            </p:outputPanel>
+                        </f:facet>
+                        <p:column  headerText="Nom"  filterBy="#{sit.condamnation.personne.nom}" filterMatchMode="contains">
+                            <h:outputText value="#{sit.condamnation.personne.nom}" />
+                        </p:column>
+                        <p:column  headerText="Prenom"  filterBy="#{sit.condamnation.personne.prenom}" filterMatchMode="contains">
+                            <h:outputText value="#{sit.condamnation.personne.prenom}" />
+                        </p:column>
+                        <p:column  headerText="Date naissance"  filterBy="#{sit.condamnation.personne.datenaissance.toLocaleString()}" filterMatchMode="contains">
+                            <h:outputText value="#{sit.condamnation.personne.datenaissance.toLocaleString()}" />
+                        </p:column>
+                        <p:column  headerText="Lieu naissance"  filterBy="#{sit.condamnation.personne.lieunaissance}" filterMatchMode="contains">
+                            <h:outputText value="#{sit.condamnation.personne.lieunaissance}" />
+                        </p:column>
+                        <p:column  headerText="Sexe"  filterBy="#{sit.condamnation.personne.sexe}" filterMatchMode="contains">
+                            <h:outputText value="#{sit.condamnation.personne.sexe}" />
+                        </p:column>
+                        <p:column  headerText="Adresse"  filterBy="#{sit.condamnation.personne.adresse}" filterMatchMode="contains">
+                            <h:outputText value="#{sit.condamnation.personne.adresse}" />
+                        </p:column>
+                        <p:column width="3%" rendered="#{loginBean.modifierTribunaux}">
+                            <p:commandButton update="@(.userPanel)" icon="ui-icon-pencil" title="Editer" actionListener="#{condamnationBean.getObjectSituation(sit.id)}" process="@this">
+                                <f:setPropertyActionListener value="#{sit}" target="#{condamnationBean.situation}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </p:panel>
         </div>
     </p:tab>
 

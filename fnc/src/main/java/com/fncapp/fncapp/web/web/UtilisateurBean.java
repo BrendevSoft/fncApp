@@ -55,6 +55,7 @@ public class UtilisateurBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Utilisateur utilisateur;
+    private Utilisateur utilisateurSelect;
     private Utilisateur utilisateur1;
     private Juridiction juridiction;
     private List<Utilisateur> utilisateursTotal;
@@ -754,5 +755,12 @@ public class UtilisateurBean implements Serializable {
         this.juridictions1 = juridictions1;
     }
 
-    
+    public Utilisateur getUtilisateurSelect() {
+        return utilisateurSelect;
+    }
+
+    public void setUtilisateurSelect(Utilisateur utilisateurSelect) {
+        this.utilisateurSelect = utilisateurSelect;
+    }
+
 }

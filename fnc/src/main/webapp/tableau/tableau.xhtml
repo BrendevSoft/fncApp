@@ -55,22 +55,20 @@
                         <div class="card card-w-title">
 
                             <p:dataGrid  id="table" var="stat" value="#{condamnationBean.statistiques2}" columns="3" layout="grid" 
-                                        rows="6" paginator="true"
-                                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                        rowsPerPageTemplate="3,6,9,12,16">
+                                         emptyMessage="Aucune donnée disponible">
 
                                 <f:facet name="header">
                                     Nombre total de saisie par Tribunal
                                 </f:facet>
-
-                                <p:panel header="#{stat.juridiction.libellecourt}" style="text-align:center">
-                                    <center>
-                                        <h:panelGrid columns="1">
-                                            <h:outputText style="font-family: cursive;font-size: xx-large" value="#{condamnationBean.saisis(stat.juridiction)}" />
-                                        </h:panelGrid>
-                                    </center>
-                                </p:panel>
-
+                                <p:column>
+                                    <p:panel id="pnl" header="#{stat.juridiction.libellecourt}" style="text-align:center">
+                                        <center>
+                                            <h:panelGrid columns="1">
+                                                <h:outputText style="font-family: cursive;font-size: xx-large" value="#{condamnationBean.saisis(stat.juridiction)}" />
+                                            </h:panelGrid>
+                                        </center>
+                                    </p:panel>
+                                </p:column>
                             </p:dataGrid>
                         </div>
                     </div>

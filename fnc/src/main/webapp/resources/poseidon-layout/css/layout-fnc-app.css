@@ -326,10 +326,26 @@
     padding: 0 0;
     margin: 0 auto 0 auto; }
 
-@media (max-width: 640px) {
+@media (max-width: 400px) {
+    .login-body {
+        background: url("#{resource['poseidon-layout:images/login/back.jpeg']}") top left no-repeat;
+        background-size: cover;
+        text-align: center;}
+    .login-body .login-panel {
+        position: absolute;
+        text-align: center;
+        width: 300px;} 
+    .login-body .logo {
+        background: none; }
+    .login-body .logo1 {
+        background: none; }
     .login-body .login-panel .ui-g-12 {
-        width: 100px;}
+        padding: 20px 20px; 
+    } 
+    .login-body  .login-panel .ui-g .ui-g-12 .ui-button {
+        margin-top: 30px; } 
 }
+
 
 .login-body .login-panel .ui-g-12 {
     padding: 25px 40px;
@@ -345,26 +361,14 @@
 .login-body .login-panel .ui-g-12.button-container button {
     margin-bottom: 20px; }
 
-@media (min-width: 641px) {
+@media (min-width: 400px) {
     .login-body {
         max-width: 100%;
         height: auto;
         object-fit: cover;
         background: url("#{resource['poseidon-layout:images/login/back.jpeg']}") top left no-repeat;
-        background-size: cover; } }
-@media (max-width: 640px) {
-    .login-body {
-        background: none; }
-    .login-body .login-panel {
-        text-align: center;
-        width: 100%;
-        height: 0;
-        padding: 0 0;
-        margin: 0 auto 0 auto;} 
-    .login-body .logo {
-        background: none; }
-    .login-body .logo1 {
-        background: none; }}
+        background-size: cover;} }
+
 body.exception-body .exception-top {
     height: 30%;
     position: relative; }
@@ -436,7 +440,7 @@ body.exception-body.notfound-page .exception-top {
     float: right;
     display: inline-block;
     vertical-align: middle;
-     width: 200px;
+    width: 200px;
     height: 250px;
     background: url("#{resource['poseidon-layout:images/landing/justice-tomato.png']}") top right no-repeat;
     background-size: 200px 250px; }
@@ -770,16 +774,19 @@ body a:hover {
     vertical-align: middle;
     width: 175px;
     height: 49px;
-    background: url("#{resource['poseidon-layout:images/logo-white.png']}") top left no-repeat;
+    background: url("#{resource['poseidon-layout:images/fnc-white.png']}") top left no-repeat;
     background-size: 175px 49px; }
 .layout-wrapper .topbar .topbar-left {
-    padding: auto auto auto auto;
+    box-sizing: border-box;
+    padding: 12px 20px 0px 35px;
     height: 75px;
     width: 250px;
-    color: #2f8ee5;
-    font-weight:bolder;
-    font-size: 500%;
-    float: left;}
+    background-color: #2f8ee5;
+    float: left;
+    -moz-transition: background-color 0.3s;
+    -o-transition: background-color 0.3s;
+    -webkit-transition: background-color 0.3s;
+    transition: background-color 0.3s; }
 .layout-wrapper .topbar .topbar-right {
     padding: 15px 20px 15px 270px;
 }
@@ -911,13 +918,13 @@ body a:hover {
 .layout-wrapper.menu-layout-overlay.layout-menu-overlay-active .topbar .topbar-left {
     background-color: #2f8ee5; }
 .layout-wrapper.menu-layout-overlay.layout-menu-overlay-active .topbar .topbar-left .logo {
-    background-image: url("#{resource['poseidon-layout:images/logo-white.png']}"); }
+    background-image: url("#{resource['poseidon-layout:images/fnc-white.png']}"); }
 .layout-wrapper.menu-layout-overlay .topbar {
     z-index: 999999998; }
 .layout-wrapper.menu-layout-overlay .topbar .topbar-left {
     background-color: #f0f3f5; }
 .layout-wrapper.menu-layout-overlay .topbar .topbar-left .logo {
-    background-image: url("#{resource['poseidon-layout:images/logo-black.png']}"); }
+    background-image: url("#{resource['poseidon-layout:images/fnc-black.png']}"); }
 .layout-wrapper.menu-layout-overlay .topbar .topbar-right #menu-button i {
     -webkit-transform: rotate(180deg);
     -moz-transform: rotate(180deg);
@@ -1340,7 +1347,7 @@ body a:hover {
     .layout-wrapper.menu-layout-static.layout-menu-static-inactive .topbar .topbar-left {
         background-color: #f0f3f5; }
     .layout-wrapper.menu-layout-static.layout-menu-static-inactive .topbar .topbar-left .logo {
-        background-image: url("#{resource['poseidon-layout:images/logo-black.png']}"); }
+        background-image: url("#{resource['poseidon-layout:images/fnc-black.png']}"); }
     .layout-wrapper.menu-layout-static.layout-menu-static-inactive .topbar .topbar-right #menu-button.menu-button-rotate i {
         -webkit-transform: rotate(180deg);
         -moz-transform: rotate(180deg);
@@ -1363,7 +1370,7 @@ body a:hover {
         -moz-box-shadow: none;
         background-color: #ffffff; }
     .layout-wrapper.menu-layout-horizontal .topbar .topbar-left .logo {
-        background-image: url("#{resource['poseidon-layout:images/logo-black.png']}"); }
+        background-image: url("#{resource['poseidon-layout:images/fnc-black.png']}"); }
     .layout-wrapper.menu-layout-horizontal .topbar .topbar-right #menu-button {
         display: none; }
     .layout-wrapper.menu-layout-horizontal .layout-menu-container {
@@ -1454,7 +1461,7 @@ body a:hover {
     .layout-wrapper.menu-layout-static .topbar .topbar-left {
         background-color: #f0f3f5; }
     .layout-wrapper.menu-layout-static .topbar .topbar-left .logo {
-        background-image: url("#{resource['poseidon-layout:images/logo-black.png']}"); }
+        background-image: url("#{resource['poseidon-layout:images/fnc-black.png']}"); }
     .layout-wrapper.menu-layout-static .topbar .topbar-right #menu-button i {
         -webkit-transform: rotate(180deg);
         -moz-transform: rotate(180deg);
@@ -1619,7 +1626,7 @@ body a:hover {
     .layout-wrapper.menu-layout-static .topbar .topbar-left .logo,
     .layout-wrapper.menu-layout-overlay .topbar .topbar-left .logo,
     .layout-wrapper.menu-layout-overlay.layout-menu-overlay-active .topbar .topbar-left .logo {
-        background-image: url("#{resource['poseidon-layout:images/logo-black.png']}"); }
+        background-image: url("#{resource['poseidon-layout:images/fnc-black.png']}"); }
     .layout-wrapper.menu-layout-static .topbar .topbar-right,
     .layout-wrapper.menu-layout-overlay .topbar .topbar-right,
     .layout-wrapper.menu-layout-overlay.layout-menu-overlay-active .topbar .topbar-right {

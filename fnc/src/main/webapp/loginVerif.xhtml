@@ -26,8 +26,8 @@
                             <p:inputText required="true" requiredMessage="Veillez saisir votre login" value="#{loginBean.per}" id="identifiant" placeholder="Username" />
                         </div>
                         <div class="ui-g-12 button-container">
-                            <p:commandButton process="@form" icon="fa fa-user"  value="Vérifier" styleClass="turquoise-btn" update="message" actionListener="#{loginBean.recupererQuestion()}"/>
-                            <p:button outcome="/login" value="Retour" icon="fa fa-key" styleClass="blue-btn" />
+                            <p:commandButton style="background-color: tomato" process="@form" icon="fa fa-user"  value="Vérifier" styleClass="turquoise-btn" update="message" actionListener="#{loginBean.recupererQuestion()}"/>
+                            <p:button style="background-color: tomato" outcome="/login" value="Retour" icon="fa fa-key" styleClass="blue-btn" />
                         </div>
                        
                     </div>

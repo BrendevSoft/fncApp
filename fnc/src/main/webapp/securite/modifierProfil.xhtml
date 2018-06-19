@@ -69,8 +69,8 @@
                                         <h:inputHidden/>
                                         <h:inputHidden/>
                                         <p:selectOneMenu  rendered="false"  value="#{utilisateurBean.utilisateur}" effect="fade"
-                                                         filter="true" required="true" requiredMessage="séléctionner l'utilisateur" filterMatchMode="startsWith"
-                                                         converter="omnifaces.SelectItemsIndexConverter">
+                                                          filter="true" required="true" requiredMessage="séléctionner l'utilisateur" filterMatchMode="startsWith"
+                                                          converter="omnifaces.SelectItemsIndexConverter">
                                             <f:selectItem itemLabel="Choisir les profil(s)" noSelectionOption="true"/>
                                             <f:selectItems value="#{utilisateurBean.utilisateurs2}" var="use" itemLabel="#{use.nom}" itemValue="#{use}"/>
 
@@ -117,10 +117,10 @@
                                 <p:column  headerText="Login"  filterBy="#{user.utilisateur.login}" filterMatchMode="startsWith">
                                     <h:outputText value="#{user.utilisateur.login}" />
                                 </p:column>
-                                <p:column>
-                                    <center>
-                                        <p:commandButton process="@form" update=":profil:profilForm:profilPanel" value="Editer" actionListener="#{utilisateurBean.getObject(user.id)}"/>
-                                    </center>
+                                <p:column width="3%">
+                                    <p:commandButton  update=":profil:profilForm:profilPanel"  icon="ui-icon-pencil" title="Editer" actionListener="#{utilisateurBean.getObject(user.id)}" process="@form">
+                                        <f:setPropertyActionListener value="#{user}" target="#{utilisateurBean.profilUtilisateur}" />
+                                    </p:commandButton>                                   
                                 </p:column>
                             </p:dataTable>
                         </div>
