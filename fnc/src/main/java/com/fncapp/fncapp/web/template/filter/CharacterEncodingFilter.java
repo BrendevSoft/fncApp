@@ -48,6 +48,27 @@ public class CharacterEncodingFilter implements Filter {
         String page = req2.getRequestURI().substring(req2.getContextPath().length() + 1);
         try {
             switch (page) {
+                case "login.xhtml":
+
+                    req2.getRequestDispatcher("login.xhtml").forward(req, resp);
+                    break;
+
+                case "firstConnect.xhtml":
+                    req2.getRequestDispatcher("firstConnect.xhtml").forward(req, resp);
+                    break;
+
+                case "loginVerif.xhtml":
+                    req2.getRequestDispatcher("loginVerif.xhtml").forward(req, resp);
+                    break;
+
+                case "reinitPass.xhtml":
+                    req2.getRequestDispatcher("reinitPass.xhtml").forward(req, resp);
+                    break;
+
+                case "error.xhtml":
+                    req2.getRequestDispatcher("reinitPass.xhtml").forward(req, resp);
+                    break;
+
                 case "acceuil.xhtml":
                     if (EntityRealm.getUser() != null) {
                         journalisation = new MethodeJournalisation();
@@ -198,8 +219,10 @@ public class CharacterEncodingFilter implements Filter {
                 default:
                     chain.doFilter(req, resp);
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             //erreur dans le filtre
+            // e.getMessage();
+            e.getStackTrace();
             System.out.println("Erreur dans le filtre FiltreJournalisation");
         }
 
