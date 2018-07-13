@@ -66,7 +66,7 @@
                                     </p:panelGrid>
                                     <p:panelGrid columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3" columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
                                         <h:inputHidden/>
-                                        <p:commandButton process="@form" update=":profil:profilForm:profilPanel" action="#{profilBean.cancel(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
+                                        <p:commandButton process="@this" update=":profil:profilForm:profilPanel" action="#{profilBean.cancel(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
                                         <p:commandButton rendered="#{loginBean.ajouterProfil}" process="@form" update=":profil:profilForm:profilPanel,:profil:message,:profil:profilsTab:profilTab" action ="#{profilBean.save(actionEvent)}" value="Valider" icon="fa fa-paper-plane-o"></p:commandButton>
                                         <h:inputHidden/>
 
@@ -97,7 +97,7 @@
                                 <p:column  id="descProfil" headerText="Description"  filterBy="#{profil.description}" filterMatchMode="startsWith">
                                     <h:outputText value="#{profil.description}" />
                                 </p:column>
-                                <p:column width="3%" rendered="#{loginBean.modifierProfil}">
+                                <p:column width="5%" rendered="#{loginBean.modifierProfil}">
                                     <p:commandButton  update=":profil:profilForm:profilPanel"  icon="ui-icon-pencil" title="Editer" actionListener="#{profilBean.getObject(profil.id)}" process="@form">
                                         <f:setPropertyActionListener value="#{profil}" target="#{profilBean.profil}" />
                                     </p:commandButton>

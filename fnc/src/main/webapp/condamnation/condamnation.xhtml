@@ -1,0 +1,191 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="head">
+        <style type="text/css">
+            .cars-datalist .text-column p:last-child{
+                color:#757575;
+            }
+
+            .cars-datalist .car-item {
+                padding: 8px 14px;
+            }
+
+            .cars-datalist .car-item img, .cars-datalist .car-item .car-details {
+                display: inline-block;
+                vertical-align: middle;
+                margin-right: 14px;
+            }
+
+            .cars-datalist .car-item button {
+                float: right;
+            }
+
+            .cars-datalist ul {
+                margin: 0;
+                padding: 0;
+            }
+
+            .ui-car-display td:last-child {
+                font-weight: 700;
+            }
+
+            @media (max-width:640px) {
+                .cars-datalist .text-column {
+                    text-align: center;
+                }
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="title">Condamnations</ui:define>
+
+    <ui:define name="viewname">Condamnations</ui:define>
+
+    <ui:define name="content">    
+
+
+        <p:fieldset legend="Saisie des condamnations">
+            <h:form id="users" >
+                <p:growl id="message" life="4000" showSummary="true"/>
+                <p:panel  style="border-color: #171b1f;">
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12 ui-lg-12">
+                            <p:panel id="userPanel" header="informations" style="border-color: #171b1f;" toggleable="true" toggleableHeader="true">
+                                <p:panelGrid columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4," columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
+                                    <p:outputLabel for="ordre" value="Numéro d'ordre"/>
+                                    <p:inputText id="ordre" value="#{condamnationBean.condamnation.numeroOrdre}" required="true" requiredMessage="Saisir le numéro d'ordre" placeholder="Numéro d'ordre"/>
+                                    <p:outputLabel for="rp" value="Numéro R.P"/>
+                                    <p:inputText id="rp" value="#{condamnationBean.condamnation.numeroRp}" required="true" requiredMessage="Saisir le numéro R.P" placeholder="Numéro R.P"/>
+                                    <p:outputLabel for="nom" value="Nom"/>
+                                    <p:inputText id="nom" value="#{condamnationBean.personne.nom}" required="true" requiredMessage="Saisir le nom" placeholder="Nom"/>
+                                    <p:outputLabel for="prenom" value="Prénom"/>
+                                    <p:inputText id="prenom" value="#{condamnationBean.personne.prenom}" required="true" requiredMessage="Saisir le prénom" placeholder="Prénom"/>
+                                    <p:outputLabel for="naiss" value="Date de naissance"/>
+                                    <p:calendar id="naiss" required="true" requiredMessage="Veillez choisir la date de naissance" value="#{condamnationBean.personne.datenaissance}" maxdate="#{condamnationBean.maxAge()}"  navigator="true" yearRange="c-70:c+70" locale="fr" pattern="dd/MM/yyyy" mask="true">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" locale="fr"/>
+                                    </p:calendar>
+                                    <p:outputLabel for="lieu" value="Lieu de naissance"/>
+                                    <p:inputText id="lieu" required="true" requiredMessage="Veuillez choisir le lieu de naissance" value="#{condamnationBean.personne.lieunaissance}" placeholder="Lieu de naissance"/>
+
+                                    <p:outputLabel for="sexe" value="Sexe"/>
+                                    <p:selectOneRadio id="sexe" layout="responsive" required="true" requiredMessage="choisir le sexe " columns="3" value="#{condamnationBean.personne.sexe}">
+                                        <f:selectItem itemLabel="Masculin" itemValue="Masculin" />
+                                        <f:selectItem itemLabel="Féminin" itemValue="Féminin" />
+                                        <f:selectItem itemLabel="Inconnu" itemValue="Inconnu" />
+                                    </p:selectOneRadio>
+                                    <p:outputLabel for="adresse" value="Adresse complète"/>
+                                    <p:inputTextarea id="adresse" required="true" requiredMessage="Veillez saisir l'adresse complète" value="#{condamnationBean.personne.adresse}"/>
+                                </p:panelGrid>
+                            </p:panel>
+                            <p:panel id="situationPanel" header="Situations" style="border-color: #171b1f;" toggleable="true" toggleableHeader="true">
+                                <p:panelGrid columnClasses="ui-grid-col-4,ui-grid-col-8" columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
+                                    <p:outputLabel for="situation" value="Situation au moment du jugement"/>
+                                    <p:selectOneMenu id="situation"  value="#{condamnationBean.typeSituation}" 
+                                                     required="true" requiredMessage="Choisir la situation au moment du jugement">
+                                        <f:selectItem itemLabel="Choisir le type de situation au moment du jugement" noSelectionOption="true"/>
+                                        <f:selectItem itemLabel="En détention" itemValue="En Détention"/>
+                                        <f:selectItem itemLabel="En fuite" itemValue="En Fuite"/>
+                                        <f:selectItem itemLabel="En Liberté" itemValue="En liberté"/>
+                                        <p:ajax  event="change" process="@this" listener="#{condamnationBean.visible()}"
+                                                 update="detention,liberte,fuite"/>
+                                    </p:selectOneMenu>   
+                                </p:panelGrid>
+                                <p:panel style="width: 100%" id="detention" visible="#{condamnationBean.det}">
+                                    <p:panelGrid columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4," columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
+                                        <p:outputLabel for="depot" value="Numéro mandat de dépôt"/>
+                                        <p:inputText id="depot" required="#{condamnationBean.det}" requiredMessage="Veillez saisir le numero mandat de dépot" value="#{condamnationBean.situation.numMandatDepot}"  placeholder="Numéro mandat de dépôt"/>
+                                        <p:outputLabel for="dateD" value="Date mandat de dépôt"/>
+                                        <p:calendar id="dateD" navigator="true" yearRange="c-70:c+70" maxdate="#{condamnationBean.maxToday()}" required="#{condamnationBean.det}" requiredMessage="choisir la date du mandat de dépot" locale="fr" pattern="dd/MM/yyyy" mask="true" value="#{condamnationBean.situation.dateMandatDepot}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" locale="fr"/>
+                                        </p:calendar>
+                                        <p:outputLabel for="ecrou" value="Numéro Ecrou"/>
+                                        <p:inputText id="ecrou" required="#{condamnationBean.det}" requiredMessage="Veillez saisir le numéro Ecrou" value="#{condamnationBean.situation.numEcrou}"  placeholder="Numéro Ecrou"/>
+                                        <p:outputLabel for="prison" value="Prison"/>
+                                        <p:selectOneMenu id="prison" required="#{condamnationBean.det}" requiredMessage="Choisir la prison"  value="#{condamnationBean.prison}" 
+                                                         filter="true" filterMatchMode="startsWith"
+                                                         converter="omnifaces.SelectItemsIndexConverter">
+                                            <f:selectItem itemLabel="Choisir la prison" noSelectionOption="true"/>
+                                            <f:selectItems var="pris" value="#{condamnationBean.prisons}" itemLabel="#{pris.libellecourt}" itemValue="#{pris}"/>
+                                        </p:selectOneMenu>
+                                    </p:panelGrid>
+                                </p:panel>
+                                <p:panel style="width: 100%" id="liberte" visible="#{condamnationBean.lib}">
+                                    <p:panelGrid columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4," columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
+                                        <p:outputLabel for="arret" value="Numéro mandat d'arrêt"/>
+                                        <p:inputText id="arret" required="#{condamnationBean.lib}" requiredMessage="Veillez saisir le Numéro mandat d'arrêt" value="#{condamnationBean.situation.numMandatArret}"  placeholder="Numéro mandat d'arrêt"/>
+                                        <p:outputLabel for="dateA" value="Date mandat d'arrêt"/>
+                                        <p:calendar id="dateA" requiredMessage="Veillez choisir la date de mandat d'arrêt" navigator="true" yearRange="c-70:c+70" locale="fr" pattern="dd/MM/yyyy" mask="true" value="#{condamnationBean.situation.dateMandatArret}" maxdate="#{condamnationBean.maxToday()}" required="#{condamnationBean.lib}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" locale="fr"/>
+                                        </p:calendar>  
+                                    </p:panelGrid>
+                                </p:panel>
+                                <p:panel style="width: 100%" id="fuite" visible="#{condamnationBean.fuit}">
+                                    <p:panelGrid columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4," columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
+                                        <p:outputLabel for="lp" value="Numéro décision LP"/>
+                                        <p:inputText id="lp" required="#{condamnationBean.fuit}" requiredMessage="Veillez saisir le numéro décision LP" value="#{condamnationBean.situation.numDecisionLp}"  placeholder="Numéro décision LP"/>
+                                        <p:outputLabel for="dateLP" value="Date décison LP"/>
+                                        <p:calendar id="dateLP" requiredMessage="Veillez choisir la date décision LP" navigator="true" yearRange="c-70:c+70" maxdate="#{condamnationBean.maxToday()}" value="#{condamnationBean.situation.dateDecisionLp}" required="#{condamnationBean.fuit}" locale="fr" pattern="dd/MM/yyyy" mask="true">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" locale="fr"/>
+                                        </p:calendar>  
+                                    </p:panelGrid>
+                                </p:panel>
+                            </p:panel>
+                            <p:panel id="jugementPanel" header="Jugements" style="border-color: #171b1f;" toggleable="true" toggleableHeader="true">
+                                <p:panelGrid columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4," columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
+                                    <p:outputLabel for="juri" value="Tribunal"/>
+                                    <p:selectOneMenu id="juri" required="true"  requiredMessage="Choisir le tribunal" value="#{condamnationBean.juridiction}" 
+                                                     filter="true" filterMatchMode="startsWith"
+                                                     converter="omnifaces.SelectItemsIndexConverter">
+                                        <f:selectItem itemLabel="Choisir la jurudiction" noSelectionOption="true"/>
+                                        <f:selectItems var="jur" value="#{condamnationBean.juridictionsPersonnel()}" itemLabel="#{jur.libellecourt}" itemValue="#{jur}" />
+                                    </p:selectOneMenu> 
+                                    <p:outputLabel for="dateJ" value="Date Jugement"/>
+                                    <p:calendar id="dateJ" navigator="true" yearRange="c-70:c+70" maxdate="#{condamnationBean.maxToday()}" required="true" requiredMessage="Choisir la dâte du jugement" value="#{condamnationBean.condamnation.datejugement}" locale="fr" pattern="dd/MM/yyyy" mask="true">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" locale="fr" />
+                                    </p:calendar>  
+
+                                    <p:outputLabel for="delit" value="Nature des délits"/>
+                                    <p:selectCheckboxMenu dynamic="true" id="delit" required="true" panelStyleClass="without-selectall" value="#{condamnationBean.infractions1}"
+                                                          converter="omnifaces.SelectItemsIndexConverter"  
+                                                          label="Infractions" filter="true" filterMatchMode="startsWith" requiredMessage="Selectionner l'(es) infraction(s)">
+
+                                        <f:selectItems var="inf" value="#{condamnationBean.infractions}"  itemLabel="#{inf.libelle}" itemValue="#{inf}" />
+                                    </p:selectCheckboxMenu> 
+                                    <p:outputLabel for="peine" value="Peine prononcée (en MOIS)"/>
+                                    <p:inputText id="peine" required="true" requiredMessage="Saisir la peine prononcée" value="#{condamnationBean.peine.libelle}"  placeholder="Peine prononcée"/>
+                                    <p:outputLabel for="amende" value="Amende"/>
+                                    <p:inputText id="amende" required="true" requiredMessage="Saisir l'amande de la peine" value="#{condamnationBean.peine.amande}"  placeholder="Amende"/>
+                                    <p:outputLabel for="surcis" value="Sursis (en MOIS)"/>
+                                    <p:inputText id="surcis" required="true" requiredMessage="Saisir le sursis" value="#{condamnationBean.peine.sursis}"  placeholder="Sursis"/>
+                                    <p:outputLabel for="isSo" value="Interdition de Sortie"/>
+                                    <p:inputText required="true" requiredMessage="Veillez saisir l'Interdition de sortie" id="isSo" value="#{condamnationBean.peine.peineIs}"  placeholder="Interdition de Sortie"/>  
+                                    <p:outputLabel for="isSe" value="Interdition de Séjour"/>
+                                    <p:inputText required="true" requiredMessage="Veillez saisir l'Interdition de séjour" id="isSe" value="#{condamnationBean.peine.is_sejour}"  placeholder="Interdition de Séjour"/>                               
+
+                                </p:panelGrid>
+                            </p:panel>
+                            <p:panel id="buttonPanel">
+                                <p:panelGrid columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3" columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
+                                    <h:inputHidden/>
+                                    <p:commandButton process="@this" update=":users:userPanel,:users:situationPanel,:users:jugementPanel" action="#{condamnationBean.cancel(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
+                                    <p:commandButton process="@form" class="Fs16 OrangeButton" 
+                                                     update=":users:userPanel,:users:situationPanel,:users:jugementPanel,:users:message" action="#{condamnationBean.save(actionEvent)}" 
+                                                     value="Valider"/>
+                                    <h:inputHidden/>
+                                </p:panelGrid>
+
+                            </p:panel>
+                        </div>
+                    </div>
+                </p:panel>
+            </h:form>
+        </p:fieldset>
+
+    </ui:define>
+
+</ui:composition>

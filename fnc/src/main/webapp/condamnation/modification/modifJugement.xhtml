@@ -2,48 +2,129 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
 
-    <p:tab title="Modifier la condamnation">
-        <!-- Left Side -->
-        <div class="card card-w-title">
+    <ui:define name="head">
+        <style type="text/css">
+            .cars-datalist .text-column p:last-child{
+                color:#757575;
+            }
 
-            <p:dataTable reflow="true" var="sit" id="userTabJug" widgetVar="situationTable" value="#{condamnationBean.situations}"
-                         emptyMessage="Utilisateur non trouvé"
-                         style="border-color: #00AEEF" filteredValue="#{condamnationBean.situationsFileter}" 
-                         rows="5" scrollable="true"  paginator="true" paginatorPosition="top" 
-                         rowsPerPageTemplate="2,5,10,15">
-                <f:facet name="header">
-                    <p:outputPanel>
-                        <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
-                        <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
-                        <h:outputText value="Rechercher toutes les valeurs :" />
-                        <p:inputText id="globalFilter" onkeyup="PF('situationTable').filter()" style="width:150px" placeholder="entrer la valeur"/>
-                    </p:outputPanel>
-                </f:facet>
-                <p:column filterBy="#{sit.condamnation.juridiction.courtAppel.libelle}" filterMatchMode="contains" headerText="Court d'Appel">
-                    <h:outputText value="#{sit.condamnation.juridiction.courtAppel.libelle}" />
-                </p:column>
-                <p:column  headerText="Tribunal"  filterBy="#{sit.condamnation.juridiction.libellecourt}" filterMatchMode="contains">
-                    <h:outputText value="#{sit.condamnation.juridiction.libellecourt}" />
-                </p:column>
-                <p:column  headerText="Nom"  filterBy="#{sit.condamnation.personne.nom}" filterMatchMode="contains">
-                    <h:outputText value="#{sit.condamnation.personne.nom}" />
-                </p:column>
-                <p:column  headerText="Prenom"  filterBy="#{sit.condamnation.personne.prenom}" filterMatchMode="contains">
-                    <h:outputText value="#{sit.condamnation.personne.prenom}" />
-                </p:column>
-                <p:column  headerText="Date Jugement"  filterBy="#{sit.condamnation.datejugement}" filterMatchMode="contains">
-                    <h:outputText value="#{sit.condamnation.datejugement}" />
-                </p:column>
-                <p:column  headerText="Peine prononcée"  filterBy="#{sit.condamnation.peine.libelle}" filterMatchMode="contains">
-                    <h:outputText value="#{sit.condamnation.peine.libelle}" />
-                </p:column>
-                <p:column  headerText="Amende"  filterBy="#{sit.condamnation.peine.amande}" filterMatchMode="contains">
-                    <h:outputText value="#{sit.condamnation.peine.amande}" />
-                </p:column>
-            </p:dataTable>
-        </div>
-    </p:tab>
+            .cars-datalist .car-item {
+                padding: 8px 14px;
+            }
+
+            .cars-datalist .car-item img, .cars-datalist .car-item .car-details {
+                display: inline-block;
+                vertical-align: middle;
+                margin-right: 14px;
+            }
+
+            .cars-datalist .car-item button {
+                float: right;
+            }
+
+            .cars-datalist ul {
+                margin: 0;
+                padding: 0;
+            }
+
+            .ui-car-display td:last-child {
+                font-weight: 700;
+            }
+
+            @media (max-width:640px) {
+                .cars-datalist .text-column {
+                    text-align: center;
+                }
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="title">Gestion des condamnations</ui:define>
+
+    <ui:define name="viewname">Gestion des condamnations</ui:define>
+    <ui:define name="content">
+        <h:form id="condamnationForm">
+            <p:growl id="message" life="4000" showSummary="true"/>
+            <p:fieldset legend="Gestion des condamnations (Modification du jugement)">
+                <div class="ui-g">
+                    <div class="ui-g-12">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12 ui-fluid contact-form">
+                            <p:panel id="userPanel" header="informations" style="border-color: #171b1f;">
+                                <p:panelGrid columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4," columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
+                                    <h:inputHidden value="#{condamnationBean.condamnation.id}"/>
+                                    <h:inputHidden/>
+                                    <h:inputHidden/>
+                                    <h:inputHidden/>
+                                    <p:outputLabel for="juri" value="Tribunal"/>
+                                    <p:selectOneMenu id="juri" required="true"  requiredMessage="Choisir le tribunal" value="#{condamnationBean.juridiction2}" 
+                                                     filter="true" filterMatchMode="startsWith"
+                                                     converter="omnifaces.SelectItemsIndexConverter">
+                                        <f:selectItem itemLabel="Choisir la jurudiction" noSelectionOption="true"/>
+                                        <f:selectItems var="jur" value="#{condamnationBean.juridictionsPersonnel()}" itemLabel="#{jur.libellecourt}" itemValue="#{jur}" />
+                                    </p:selectOneMenu> 
+                                    <p:outputLabel for="dateJ" value="Date Jugement"/>
+                                    <p:calendar id="dateJ" navigator="true" yearRange="c-70:c+70" maxdate="#{condamnationBean.maxToday()}" required="true" requiredMessage="Choisir la dâte du jugement" value="#{condamnationBean.dateJugement}" locale="fr" pattern="dd/MM/yyyy" mask="true">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" locale="fr" />
+                                    </p:calendar>  
+                                    <p:outputLabel for="ordre" value="Numéro d'ordre"/>
+                                    <p:inputText id="ordre" value="#{condamnationBean.condamnation.numeroOrdre}" required="true" requiredMessage="Saisir le numéro d'ordre" placeholder="Numéro d'ordre"/>
+                                    <p:outputLabel for="rp" value="Numéro R.P"/>
+                                    <p:inputText id="rp" value="#{condamnationBean.condamnation.numeroRp}" required="true" requiredMessage="Saisir le numéro R.P" placeholder="Numéro R.P"/>
+                                </p:panelGrid>
+                                <p:panelGrid columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3" columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
+                                    <h:inputHidden/>
+                                    <p:commandButton process="@this" update="userPanel" action="#{condamnationBean.cancel(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
+                                    <p:commandButton rendered="#{loginBean.consulterCondamnation}" update="userPanel,message,userTabIde" process="@form" action ="#{condamnationBean.updateJugement()}" value="Valider" icon="fa fa-paper-plane-o"></p:commandButton>
+                                    <h:inputHidden/>
+                                </p:panelGrid>
+                                <div class="card card-w-title">
+                                    <p:dataTable styleClass="dataPersonnel" reflow="true" var="sit" id="userTabIde" widgetVar="situationTable" value="#{condamnationBean.situations}"
+                                                 emptyMessage="Utilisateur non trouvé"
+                                                 style="border-color: #00AEEF" filteredValue="#{condamnationBean.situationsFileter}" 
+                                                 rows="5" scrollable="true"  paginator="true" paginatorPosition="top" 
+                                                 rowsPerPageTemplate="2,5,10,15">
+                                        <f:facet name="header">
+                                            <p:outputPanel>
+                                                <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
+                                                <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
+                                                <h:outputText value="Rechercher toutes les valeurs :" />
+                                                <p:inputText id="globalFilter" onkeyup="PF('situationTable').filter()" style="width:150px" placeholder="entrer la valeur"/>
+                                            </p:outputPanel>
+                                        </f:facet>
+                                        <p:column  headerText="Nom"  filterBy="#{sit.condamnation.personne.nom}" filterMatchMode="contains">
+                                            <h:outputText value="#{sit.condamnation.personne.nom}" />
+                                        </p:column>
+                                        <p:column  headerText="Prenom"  filterBy="#{sit.condamnation.personne.prenom}" filterMatchMode="contains">
+                                            <h:outputText value="#{sit.condamnation.personne.prenom}" />
+                                        </p:column>
+                                        <p:column  headerText="Tribunal"  filterBy="#{sit.condamnation.juridiction.libellecourt}" filterMatchMode="contains">
+                                            <h:outputText value="#{sit.condamnation.juridiction.libellecourt}" />
+                                        </p:column>
+                                        <p:column  headerText="Date jugement"  filterBy="#{sit.condamnation.datejugement.toLocaleString()}" filterMatchMode="contains">
+                                            <h:outputText value="#{sit.condamnation.datejugement.toLocaleString()}" />
+                                        </p:column>
+                                        <p:column  headerText="Numéro d'ordre"  filterBy="#{sit.condamnation.numeroOrdre}" filterMatchMode="contains">
+                                            <h:outputText value="#{sit.condamnation.numeroOrdre}" />
+                                        </p:column>
+                                        <p:column  headerText="Numéro rp"  filterBy="#{sit.condamnation.numeroRp}" filterMatchMode="contains">
+                                            <h:outputText value="#{sit.condamnation.numeroRp}" />
+                                        </p:column>
+                                        <p:column width="5%" rendered="#{loginBean.consulterCondamnation}">
+                                            <p:commandButton update=":condamnationForm:userPanel" icon="ui-icon-pencil" title="Editer" actionListener="#{condamnationBean.getObjectSituation(sit.id)}" process="@this">
+                                                <f:setPropertyActionListener value="#{sit}" target="#{condamnationBean.situation}" />
+                                            </p:commandButton>
+                                        </p:column>
+                                    </p:dataTable>
+                                </div>
+                            </p:panel>
+                        </div>
+                    </div>
+                </div>                          
+            </p:fieldset>
+        </h:form>
+    </ui:define>
 
 </ui:composition>

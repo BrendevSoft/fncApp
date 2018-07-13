@@ -13,8 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -46,9 +44,12 @@ public class Peine extends BaseEntity {
 
     @Column(name = "peine_is")
     private String peineIs;
-    
+
     @Column(name = "sursis")
     private String sursis;
+
+    @Column(name = "is_sejour")
+    private String is_sejour;
 
     @Column(name = "datecreation")
     @Temporal(TemporalType.TIMESTAMP)
@@ -107,8 +108,14 @@ public class Peine extends BaseEntity {
     public void setSursis(String sursis) {
         this.sursis = sursis;
     }
-    
-    
+
+    public String getIs_sejour() {
+        return is_sejour;
+    }
+
+    public void setIs_sejour(String is_sejour) {
+        this.is_sejour = is_sejour;
+    }
 
     public void setDatecreation(Date datecreation) {
         this.datecreation = datecreation;
@@ -165,9 +172,7 @@ public class Peine extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Peine{" + "id=" + id + ", libelle=" + libelle + ", amande=" + amande + ", peineIs=" + peineIs + ", sursis=" + sursis + ", datecreation=" + datecreation + ", rowvers=" + rowvers + ", condamnationCollection=" + condamnationCollection + '}';
+        return "Peine{" + "id=" + id + ", libelle=" + libelle + ", amande=" + amande + ", peineIs=" + peineIs + ", sursis=" + sursis + ", is_sejour=" + is_sejour + ", datecreation=" + datecreation + ", rowvers=" + rowvers + '}';
     }
-
-    
 
 }

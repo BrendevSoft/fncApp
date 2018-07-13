@@ -52,11 +52,4 @@ public abstract class Constante implements Serializable {
     public Constante() {
     }
 
-    public static void bloqueLien(String role) {
-        Subject subject = EntityRealm.getSubject();
-        if (!subject.hasRole(role)) {
-            subject.logout();
-        }
-    }
-
 }

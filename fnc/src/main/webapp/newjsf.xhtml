@@ -1,0 +1,30 @@
+<p:panel id="userPanel" header="informations" style="border-color: #171b1f;" toggleable="true" toggleableHeader="true">
+                                <p:panelGrid columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4," columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
+                                    <p:outputLabel for="nom" value="Nom"/>
+                                    <p:inputText id="nom" value="#{condamnationBean.personne.nom}" required="true" requiredMessage="Saisir le nom" placeholder="Nom"/>
+                                    <p:outputLabel for="prenom" value="Prénom"/>
+                                    <p:inputText id="prenom" value="#{condamnationBean.personne.prenom}" required="true" requiredMessage="Saisir le prénom" placeholder="Prénom"/>
+                                    <p:outputLabel for="naiss" value="Date de naissance"/>
+                                    <p:calendar id="naiss" required="true" requiredMessage="Veillez choisir la date de naissance" value="#{condamnationBean.personne.datenaissance}" maxdate="#{condamnationBean.maxAge()}"  navigator="true" yearRange="c-70:c+70" locale="fr" pattern="dd/MM/yyyy" mask="true">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" locale="fr"/>
+                                    </p:calendar>
+                                    <p:outputLabel for="lieu" value="Lieu de naissance"/>
+                                    <p:inputText id="lieu" required="true" requiredMessage="Veuillez choisir le lieu de naissance" value="#{condamnationBean.personne.lieunaissance}" placeholder="Lieu de naissance"/>
+
+                                    <p:outputLabel for="sexe" value="Sexe"/>
+                                    <p:selectOneRadio id="sexe" layout="responsive" required="true" requiredMessage="choisir le sexe " columns="3" value="#{condamnationBean.personne.sexe}">
+                                        <f:selectItem itemLabel="Masculin" itemValue="Masculin" />
+                                        <f:selectItem itemLabel="Féminin" itemValue="Féminin" />
+                                        <f:selectItem itemLabel="Inconnu" itemValue="Inconnu" />
+                                    </p:selectOneRadio>
+                                    <p:outputLabel for="adresse" value="Adresse complète"/>
+                                    <p:inputTextarea id="adresse" required="true" requiredMessage="Veillez saisir l'adresse complète" value="#{condamnationBean.personne.adresse}"/>
+                                </p:panelGrid>
+                                <p:panelGrid columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3" columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
+                                    <h:inputHidden/>
+                                    <p:commandButton process="@this" action="#{utilisateurBean.cancel(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
+                                    <p:commandButton rendered="#{loginBean.ajouterUtilisateur}" update="userPanel,message" process="@form" action ="#{utilisateurBean.save(actionEvent)}" value="Valider" icon="fa fa-paper-plane-o"></p:commandButton>
+                                    <h:inputHidden/>
+                                </p:panelGrid>
+
+                            </p:panel>

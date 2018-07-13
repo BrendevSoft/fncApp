@@ -80,7 +80,7 @@
                                     </p:panelGrid>
                                     <p:panelGrid columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3" columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
                                         <h:inputHidden/>
-                                        <p:commandButton process="@form" update=":tribunal:tribunalForm:tribunalPanel" action="#{juridictionBean.cancel(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
+                                        <p:commandButton process="@this" update=":tribunal:tribunalForm:tribunalPanel" action="#{juridictionBean.cancel(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
                                         <p:commandButton rendered="#{loginBean.ajouterTribunaux}" process="@form" update=":tribunal:tribunalForm:tribunalPanel,:tribunal:message,:tribunal:tribunauxTab:tribunalTab" action ="#{juridictionBean.save(actionEvent)}" value="Valider" icon="fa fa-paper-plane-o"></p:commandButton>
                                         <h:inputHidden/>
 
@@ -118,7 +118,7 @@
                                 <p:column  headerText="Adresse"  filterBy="#{juri.adresse}" filterMatchMode="startsWith">
                                     <h:outputText value="#{juri.adresse}" />
                                 </p:column>
-                                <p:column width="3%" rendered="#{loginBean.modifierTribunaux}">
+                                <p:column width="5%" rendered="#{loginBean.modifierTribunaux}">
                                     <p:commandButton  update=":tribunal:tribunalForm:tribunalPanel" icon="ui-icon-pencil" title="Editer" actionListener="#{juridictionBean.getObject(juri.id)}" process="@form">
                                         <f:setPropertyActionListener value="#{juri}" target="#{juridictionBean.juridiction}" />
                                     </p:commandButton>

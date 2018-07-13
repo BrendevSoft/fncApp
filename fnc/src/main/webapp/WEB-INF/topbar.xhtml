@@ -24,7 +24,7 @@
                 <li class="profile-item">
                     <a href="#">                            
                         <div class="profile-image"></div>
-                        <span class="topbar-item-name"><p:outputLabel value="#{loginBean.currentUser()}"/></span>
+                        <span class="topbar-item-name"></span>
                     </a>
 
                     <ul class="poseidon-menu animated">
@@ -41,11 +41,7 @@
                             </a>
                         </li>
                         <li>
-                            <h:form>
-                                <po:menu>
-                                    <p:menuitem  value="Déconnexion" icon="fa fa-fw fa-sign-out" outcome="/acceuil"/>
-                                </po:menu>
-                            </h:form>
+                                <p:commandLink style="color: #2f8ee5" process="@this" value="Déconnexion" action="#{loginBean.logout()}"/>
                         </li>
                     </ul>
                 </li>         

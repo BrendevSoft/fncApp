@@ -80,7 +80,7 @@ public class Utilisateur extends BaseEntity {
     private String question;
 
     @Column(name = "reponse")
-    private String reponse ;
+    private String reponse;
 
     @OneToMany(mappedBy = "utilisateur")
     private Collection<Groupeutilisateur> groupeutilisateurCollection;
@@ -290,7 +290,7 @@ public class Utilisateur extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Utilisateur{" + "id=" + id + ", login=" + login + ", civilite=" + civilite + ", mail=" + mail + ", telephone=" + telephone + ", passwd=" + passwd + ", nom=" + nom + ", nomprenoms=" + nomprenoms + ", prenom=" + prenom + ", datecreation=" + datecreation + ", rowvers=" + rowvers + ", profilactif=" + profilactif + ", question=" + question + ", reponse=" + reponse + ", corps=" + corps + ", juridiction=" + juridiction + ", service=" + service + '}';
+        return "Utilisateur{" + "id=" + id + ", login=" + login + ", civilite=" + civilite + ", mail=" + mail + ", telephone=" + telephone + ", passwd=" + passwd + ", nom=" + nom + ", nomprenoms=" + nomprenoms + ", prenom=" + prenom + ", datecreation=" + datecreation + ", rowvers=" + rowvers + ", profilactif=" + profilactif + ", question=" + question + ", reponse=" + reponse + ", groupeutilisateurCollection=" + groupeutilisateurCollection + ", corps=" + corps + ", juridiction=" + juridiction + ", service=" + service + ", logsCollection=" + logsCollection + '}';
     }
 
 }

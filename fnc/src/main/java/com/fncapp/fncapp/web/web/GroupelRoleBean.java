@@ -10,19 +10,20 @@ import com.fncapp.fncapp.api.entities.GroupeRoleId;
 import com.fncapp.fncapp.api.entities.Rolee;
 import com.fncapp.fncapp.api.entities.Utilisateur;
 import com.fncapp.fncapp.api.service.GroupeRoleServiceBeanLocal;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 
 /**
  *
  * @author Brendev
  */
 @Named(value = "profilRoleBean")
-@RequestScoped
-public class GroupelRoleBean {
+@ViewScoped
+public class GroupelRoleBean implements Serializable {
 
     private GroupeRole personnelRole;
     private List<GroupeRole> personnelRoles;
@@ -36,15 +37,21 @@ public class GroupelRoleBean {
         this.utilisateur = new Utilisateur();
         this.role = new Rolee();
         this.personnelRole = new GroupeRole();
+        this.personnelRoles = new ArrayList<>();
     }
 
     public void getObject(GroupeRoleId id) {
-        this.prsbl.find(id);
+        try {
+            this.personnelRole = this.prsbl.find(id);
+        } catch (Exception e) {
+        }
     }
 
     public List<GroupeRole> getPersonnelRoles() {
-        personnelRoles = new ArrayList<>();
-        personnelRoles = this.prsbl.getAll();
+        try {
+            personnelRoles = this.prsbl.getAll();
+        } catch (Exception e) {
+        }
         return personnelRoles;
     }
 

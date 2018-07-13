@@ -35,9 +35,9 @@
                             <p:inputText placeholder="Saisir votre réponse à la question" id="reponse" required="true" requiredMessage="saisir la réponse à la question" value="#{loginBean.reponse}"/>
                         </div>
                         <div class="ui-g-12 button-container">
-                            <p:commandButton  value="Modifier" style="padding: 5px" update="message"
-                                              action="#{loginBean.modifierPasse()}"
-                                              process="@form"/>
+                            <p:commandButton value="Modifier" style="padding: 5px;background-color: tomato" update="message"
+                                             action="#{loginBean.modifierPasse()}"
+                                             process="@form"/>
                             <p:button style="background-color: tomato" outcome="/login" value="Retour à l'Accueil" icon="fa fa-key" styleClass="blue-btn" />
                         </div>
                     </div>

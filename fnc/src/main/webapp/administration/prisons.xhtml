@@ -68,7 +68,7 @@
                                     </p:panelGrid>
                                     <p:panelGrid columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3" columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
                                         <h:inputHidden/>
-                                        <p:commandButton process="@form" update=":prison:prisonForm:prisonPanel" action="#{prisonBean.cancel(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
+                                        <p:commandButton process="@this" update=":prison:prisonForm:prisonPanel" action="#{prisonBean.cancel(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
                                         <p:commandButton rendered="#{loginBean.ajouterPrison}" process="@form" update=":prison:prisonForm:prisonPanel,:prison:message,:prison:prisonsTab:prisonTab" action ="#{prisonBean.save(actionEvent)}" value="Valider" icon="fa fa-paper-plane-o"></p:commandButton>
                                         <h:inputHidden/>
 
@@ -100,7 +100,7 @@
                                 <p:column id="descProfil" headerText="Adresse"  filterBy="#{pris.adresse}" filterMatchMode="contains">
                                     <h:outputText value="#{pris.adresse}" />
                                 </p:column>
-                                <p:column width="3%" rendered="#{loginBean.modifierPrison}">
+                                <p:column width="5%" rendered="#{loginBean.modifierPrison}">
                                     <p:commandButton  update=":prison:prisonForm:prisonPanel" icon="ui-icon-pencil" title="Editer" actionListener="#{prisonBean.getObject(pris.id)}" process="@form">
                                         <f:setPropertyActionListener value="#{pris}" target="#{prisonBean.prison}" />
                                     </p:commandButton>

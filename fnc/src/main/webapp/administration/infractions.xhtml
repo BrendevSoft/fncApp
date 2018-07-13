@@ -76,7 +76,7 @@
                                     </p:panelGrid>
                                     <p:panelGrid columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3" columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
                                         <h:inputHidden/>
-                                        <p:commandButton process="@form" update=":infraction:infractionForm:infractionPanel" action="#{infractionBean.cancel(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
+                                        <p:commandButton process="@this" update=":infraction:infractionForm:infractionPanel" action="#{infractionBean.cancel(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
                                         <p:commandButton rendered="#{loginBean.ajouterInfraction}" process="@form" update=":infraction:infractionForm:infractionPanel,:infraction:message,:infraction:infractionsTab:infractionTab" action ="#{infractionBean.save(actionEvent)}" value="Valider" icon="fa fa-paper-plane-o"></p:commandButton>
                                         <h:inputHidden/>
 
@@ -114,7 +114,7 @@
                                 <p:column headerText="Dévéloppement"  filterBy="#{infras.infradeveloppe}" filterMatchMode="contains">
                                     <h:outputText value="#{infras.infradeveloppe}" />
                                 </p:column>
-                                <p:column width="3%" rendered="#{loginBean.modifierInfraction}">
+                                <p:column width="5%" rendered="#{loginBean.modifierInfraction}">
                                     <p:commandButton  update=":infraction:infractionForm:infractionPanel" icon="ui-icon-pencil" title="Editer" actionListener="#{infractionBean.getObject(infras.id)}" process="@form">
                                         <f:setPropertyActionListener value="#{infras}" target="#{infractionBean.infraction}" />
                                     </p:commandButton>

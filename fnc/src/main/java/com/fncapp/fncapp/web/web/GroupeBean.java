@@ -6,7 +6,6 @@
 package com.fncapp.fncapp.web.web;
 
 import com.fncapp.fncapp.impl.shiro.Constante;
-import com.fncapp.fncapp.api.api.utils.ManipulationDate;
 import com.fncapp.fncapp.api.api.utils.MethodeJournalisation;
 import com.fncapp.fncapp.api.entities.Groupe;
 import com.fncapp.fncapp.api.service.GroupeServiceBeanLocal;
@@ -14,7 +13,6 @@ import com.fncapp.fncapp.impl.transaction.TransactionManager;
 import java.awt.event.ActionEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -52,7 +50,10 @@ public class GroupeBean implements Serializable {
     }
 
     public void cancel(ActionEvent actionEvent) {
-        this.profil = new Groupe();
+        try {
+            this.profil = new Groupe();
+        } catch (Exception e) {
+        }
     }
 
     public void save(ActionEvent actionEvent) {
@@ -95,12 +96,17 @@ public class GroupeBean implements Serializable {
     }
 
     public void getObject(Long id) {
-        System.out.println(this.psbl.find(id));
-        this.profil = this.psbl.find(id);
+        try {
+            this.profil = this.psbl.find(id);
+        } catch (Exception e) {
+        }
     }
 
     public List<Groupe> getProfils() {
-        profils = this.psbl.getAll();
+        try {
+            profils = this.psbl.getAll("nom",true);
+        } catch (Exception e) {
+        }
         return profils;
     }
 
@@ -130,6 +136,14 @@ public class GroupeBean implements Serializable {
 
     public void setProfilsFilter(List<Groupe> profilsFilter) {
         this.profilsFilter = profilsFilter;
+    }
+
+    public MethodeJournalisation getJournalisation() {
+        return journalisation;
+    }
+
+    public void setJournalisation(MethodeJournalisation journalisation) {
+        this.journalisation = journalisation;
     }
 
 }

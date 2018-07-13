@@ -3,5 +3,5 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui">
 
-    <strong><span><p:outputLabel value="#{loginBean.currentUser()}#{loginBean.space}#{loginBean.tribunalUser()}" style="float: right;font-family: cursive;"/></span></strong>
+    <strong><span><p:outputLabel value="#{loginBean.currentPersonnel().nom}#{loginBean.espace}#{loginBean.currentPersonnel().prenom}#{loginBean.space}#{loginBean.currentPersonnel().juridiction.libellecourt}" style="float: right;font-family: cursive;"/></span></strong>
 </ui:composition>

@@ -51,7 +51,10 @@ public class PrisonBean implements Serializable {
     }
 
     public void cancel(ActionEvent actionEvent) {
-        this.prison = new Prison();
+        try {
+            this.prison = new Prison();
+        } catch (Exception e) {
+        }
     }
 
     public void save(ActionEvent actionEvent) {
@@ -97,7 +100,10 @@ public class PrisonBean implements Serializable {
     }
 
     public void getObject(Long id) {
-        this.prison = this.psbl.find(id);
+        try {
+            this.prison = this.psbl.find(id);
+        } catch (Exception e) {
+        }
     }
 
     public Prison getPrison() {
@@ -109,7 +115,10 @@ public class PrisonBean implements Serializable {
     }
 
     public List<Prison> getPrisons() {
-        this.prisons = this.psbl.getAll();
+        try {
+            this.prisons = this.psbl.getAll("libellecourt",true);
+        } catch (Exception e) {
+        }
         return prisons;
     }
 
@@ -131,6 +140,14 @@ public class PrisonBean implements Serializable {
 
     public void setPsbl(PrisonServiceBeanLocal psbl) {
         this.psbl = psbl;
+    }
+
+    public MethodeJournalisation getJournalisation() {
+        return journalisation;
+    }
+
+    public void setJournalisation(MethodeJournalisation journalisation) {
+        this.journalisation = journalisation;
     }
 
 }

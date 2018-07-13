@@ -13,8 +13,8 @@ and open the template in the editor.
         <param name="driver" value="com.mysql.jdbc.Driver"/>-->
         <param name="URL" value="jdbc:postgresql://localhost:5432/db_fnc"/>
         <param name="driver" value="org.postgresql.Driver"/>
-        <param name="user" value="devop"/>
-        <param name="password" value="@Devop2018"/>
+        <param name="user" value="postgres"/>
+        <param name="password" value="123456"/>
         <layout class="org.apache.log4j.PatternLayout">
                 
         </layout>

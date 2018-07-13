@@ -5,8 +5,6 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <p:tab id="information" title="Jugement">
-        <h:inputHidden value="#{condamnationBean.condamnation.id}"/>
-        <h:inputHidden value="#{condamnationBean.peine.id}"/>
         <div class="ui-g-12 ui-md-12 ui-lg-12 ui-fluid contact-form">
             <p:panel id="infoPanel" style="border-color: #171b1f;">
                 <p:growl id="messageInfo" life="4000" showSummary="true"/>
@@ -19,8 +17,8 @@
                         <f:selectItems var="jur" value="#{condamnationBean.juridictionsPersonnel()}" itemLabel="#{jur.libellecourt}" itemValue="#{jur}" />
                     </p:selectOneMenu> 
                     <h:outputText value="Date Jugement"/>
-                    <p:calendar navigator="true" yearRange="c-70:c+70" maxdate="#{condamnationBean.maxToday()}" required="true" requiredMessage="Choisir la dâte du jugement" value="#{condamnationBean.condamnation.datejugement}" locale="fr" pattern="dd/MM/yyyy" mask="true" readonlyInput="true">
-                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    <p:calendar navigator="true" yearRange="c-70:c+70" maxdate="#{condamnationBean.maxToday()}" required="true" requiredMessage="Choisir la dâte du jugement" value="#{condamnationBean.condamnation.datejugement}" locale="fr" pattern="dd/MM/yyyy" mask="true">
+                        <f:convertDateTime pattern="dd/MM/yyyy" locale="fr" />
                     </p:calendar>  
 
                     <h:outputText value="Nature des délits"/>
@@ -44,9 +42,9 @@
                     <h:inputHidden/>
                     <h:inputHidden/>
                     <p:commandButton process="@form" class="Fs16 OrangeButton" 
-                                     update=":users:userForm:wizard,:users:userForm:infoPanel,:users:userForm:messageInfo,:users:userForm:userPanel,:users:userForm:messageUser,:users:userForm:situaPanel,:users:userForm:messageSitua,:users:userForm:message" action="#{condamnationBean.save(actionEvent)}" 
+                                     update=":users:userForm:information,:users:userForm:situation,:users:userForm:personal,:users:userForm:wizard,:users:userForm:infoPanel,:users:userForm:messageInfo,:users:userForm:userPanel,:users:userForm:messageUser,:users:userForm:situaPanel,:users:userForm:messageSitua,:users:userForm:message" action="#{condamnationBean.save(actionEvent)}" 
                                      value="Valider" style="display:inline-block;margin-top:5px" 
-                                     oncomplete="PF('wiz').loadStep('personal', true)" />
+                                     onsuccess="PF('wiz').loadStep('personal', true)" />
 
                 </p:panelGrid>
             </p:panel>

@@ -35,8 +35,6 @@ import org.apache.log4j.Logger;
 @ViewScoped
 public class JuridictionBean implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
     private Juridiction juridiction;
     private CourtAppel courtAppel;
     private List<Juridiction> juridictions;
@@ -61,7 +59,11 @@ public class JuridictionBean implements Serializable {
     }
 
     public void cancel(ActionEvent actionEvent) {
-        this.juridiction = new Juridiction();
+        try {
+            this.courtAppel = new CourtAppel();
+            this.juridiction = new Juridiction();
+        } catch (Exception e) {
+        }
     }
 
     public void save(ActionEvent actionEvent) {
@@ -112,9 +114,12 @@ public class JuridictionBean implements Serializable {
     }
 
     public void getObject(Long id) {
-        this.juridiction = this.jsbl.find(id);
-        if (this.juridiction.getCourtAppel() != null) {
-            this.courtAppel = this.juridiction.getCourtAppel();
+        try {
+            this.juridiction = this.jsbl.find(id);
+            if (this.juridiction.getCourtAppel() != null) {
+                this.courtAppel = this.juridiction.getCourtAppel();
+            }
+        } catch (Exception e) {
         }
     }
 
@@ -128,7 +133,10 @@ public class JuridictionBean implements Serializable {
     }
 
     public List<Juridiction> getJuridictions() {
-        this.juridictions = this.jsbl.getAll();
+        try {
+            this.juridictions = this.jsbl.getAll("libellecourt",true);
+        } catch (Exception e) {
+        }
         return juridictions;
     }
 
@@ -169,7 +177,10 @@ public class JuridictionBean implements Serializable {
     }
 
     public List<CourtAppel> getCourtAppels() {
-        this.courtAppels = this.cadbl.getAll();
+        try {
+            this.courtAppels = this.cadbl.getAll("libelle",true);
+        } catch (Exception e) {
+        }
         return courtAppels;
     }
 

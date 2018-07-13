@@ -63,7 +63,7 @@
                                     </p:panelGrid>
                                     <p:panelGrid columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3" columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
                                         <h:inputHidden/>
-                                        <p:commandButton process="@form" update=":courtAppel:courtAppelForm:courtAppelPanel" action="#{courtAppelBean.cancel(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
+                                        <p:commandButton process="@this" update=":courtAppel:message,:courtAppel:courtAppelForm:courtAppelPanel" action="#{courtAppelBean.cancel(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
                                         <p:commandButton rendered="#{loginBean.ajouterCourtAppel}" process="@form" update=":courtAppel:courtAppelForm:courtAppelPanel,:courtAppel:message,:courtAppel:courtAppelsTab:courtAppelTab" action ="#{courtAppelBean.save(actionEvent)}" value="Valider" icon="fa fa-paper-plane-o"></p:commandButton>
                                         <h:inputHidden/>
                                     </p:panelGrid>
@@ -91,7 +91,7 @@
                                 <p:column filterBy="#{ca.libelle}" filterMatchMode="startsWith" headerText="Libellé">
                                     <h:outputText value="#{ca.libelle}" />
                                 </p:column>
-                                <p:column width="3%" rendered="#{loginBean.modifierCourtAppel}">
+                                <p:column width="5%" rendered="#{loginBean.modifierCourtAppel}">
                                     <p:commandButton  update=":courtAppel:courtAppelForm:courtAppelPanel"  icon="ui-icon-pencil" title="Editer" actionListener="#{courtAppelBean.getObject(ca.id)}" process="@form">
                                         <f:setPropertyActionListener value="#{ca}" target="#{courtAppelBean.courtAppel}" />
                                     </p:commandButton>

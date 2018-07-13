@@ -64,7 +64,7 @@
                         </p:panelGrid>
 
                         <div class="card card-w-title">
-                            <p:dataGrid id="table" var="stat" value="#{condamnationBean.statistiques3}" columns="3" layout="grid" 
+                            <p:dataGrid id="table" var="stat" value="#{condamnationBean.statistiques3()}" columns="3" layout="grid" 
                                         emptyMessage="Aucune statistique disponible">
                                 <f:facet name="header">
                                     Nombre total de saisie par Tribunal et par année

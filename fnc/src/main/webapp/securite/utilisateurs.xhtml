@@ -82,7 +82,7 @@
                                     </p:panelGrid>
                                     <p:panelGrid columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3" columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
                                         <h:inputHidden/>
-                                        <p:commandButton process="@form" update=":users:userForm:userPanel" action="#{utilisateurBean.cancel(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
+                                        <p:commandButton process="@this" update=":users:userForm:userPanel" action="#{utilisateurBean.cancel(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
                                         <p:commandButton rendered="#{loginBean.ajouterUtilisateur}" process="@form" update=":users:userForm:userPanel,:users:message,:users:usersTab:userTab" action ="#{utilisateurBean.save(actionEvent)}" value="Valider" icon="fa fa-paper-plane-o"></p:commandButton>
                                         <h:inputHidden/>
                                     </p:panelGrid>
@@ -121,7 +121,7 @@
                                 <p:column  headerText="Téléphone"  filterBy="#{use.telephone}" filterMatchMode="startsWith">
                                     <h:outputText value="#{use.telephone}" />
                                 </p:column>
-                                <p:column width="3%" rendered="#{loginBean.modifierUtilisateur}">
+                                <p:column width="5%" rendered="#{loginBean.modifierUtilisateur}">
                                     <p:commandButton  update=":users:userForm:userPanel"  icon="ui-icon-pencil" title="Editer" actionListener="#{utilisateurBean.getUsersObject(use.id)}" process="@form">
                                         <f:setPropertyActionListener value="#{use}" target="#{utilisateurBean.utilisateur}" />
                                     </p:commandButton>

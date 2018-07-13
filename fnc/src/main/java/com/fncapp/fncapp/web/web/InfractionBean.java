@@ -51,7 +51,10 @@ public class InfractionBean implements Serializable {
     }
 
     public void cancel(ActionEvent actionEvent) {
-        this.infraction = new Infraction();
+        try {
+            this.infraction = new Infraction();
+        } catch (Exception e) {
+        }
     }
 
     public void save(ActionEvent actionEvent) {
@@ -97,7 +100,10 @@ public class InfractionBean implements Serializable {
     }
 
     public void getObject(Long id) {
-        this.infraction = this.isbl.find(id);
+        try {
+            this.infraction = this.isbl.find(id);
+        } catch (Exception e) {
+        }
     }
 
     public Infraction getInfraction() {
@@ -109,7 +115,10 @@ public class InfractionBean implements Serializable {
     }
 
     public List<Infraction> getInfractions() {
-        this.infractions = this.isbl.getAll();
+        try {
+            this.infractions = this.isbl.getAll("libelle",true);
+        } catch (Exception e) {
+        }
         return infractions;
     }
 
@@ -131,6 +140,14 @@ public class InfractionBean implements Serializable {
 
     public void setIsbl(InfractionServiceBeanLocal isbl) {
         this.isbl = isbl;
+    }
+
+    public MethodeJournalisation getJournalisation() {
+        return journalisation;
+    }
+
+    public void setJournalisation(MethodeJournalisation journalisation) {
+        this.journalisation = journalisation;
     }
 
 }

@@ -63,10 +63,12 @@ public class LoginBean implements Serializable {
 
     @EJB
     private GroupeUtilisateurServiceBeanLocal pusbl;
-    @EJB//HUM Tu m'as vraiment dérangé.plus de 24h avant de me rappeller de te mettre.hum
+    @EJB
     private GroupeRoleServiceBeanLocal prsbl;
 
     private Date date = new Date();
+    private String curentUser;
+    private String tribunal;
     private String username;
     private String password;
     private String newPass;
@@ -86,7 +88,8 @@ public class LoginBean implements Serializable {
     private Utilisateur perse;
     private boolean remember = false;
     private boolean admin;
-    private String space = " / ";
+    private String space = " | ";
+    private String espace = " ";
 
     /**
      * Creates a new instance of LoginBean
@@ -99,107 +102,114 @@ public class LoginBean implements Serializable {
 
     @PostConstruct
     public void init() {
-
-        List<Rolee> all = rsl.getAll();
-        if (all.isEmpty()) {
-            this.rsl.saveOne(new Rolee("Recherche"));
-            this.rsl.saveOne(new Rolee("Ajouter profil"));
-            this.rsl.saveOne(new Rolee("Modifier profil"));
-            this.rsl.saveOne(new Rolee("Associer profil"));
-            this.rsl.saveOne(new Rolee("Associer role"));
-            this.rsl.saveOne(new Rolee("Activer compte"));
-            this.rsl.saveOne(new Rolee("Désactiver compte"));
-
-            this.rsl.saveOne(new Rolee("Ajouter utilisateur"));
-            this.rsl.saveOne(new Rolee("Modifier utilisateur"));
-            this.rsl.saveOne(new Rolee("Ajouter Court d'Appel"));
-            this.rsl.saveOne(new Rolee("Modifier Court d'Appel"));
-            this.rsl.saveOne(new Rolee("Ajouter juridiction"));
-            this.rsl.saveOne(new Rolee("Modifier juridiction"));
-            this.rsl.saveOne(new Rolee("Ajouter infraction"));
-            this.rsl.saveOne(new Rolee("Modifier infraction"));
-            this.rsl.saveOne(new Rolee("Ajouter prison"));
-            this.rsl.saveOne(new Rolee("Modifier prison"));
-            this.rsl.saveOne(new Rolee("Ajouter condamnation"));
-            this.rsl.saveOne(new Rolee("Modifier condamnation"));
-            this.rsl.saveOne(new Rolee("Tableau de bord"));
-
-            this.rsl.saveOne(new Rolee("Consulter condamnation"));
-            this.rsl.saveOne(new Rolee("Consulter juridiction"));
-            this.rsl.saveOne(new Rolee("Consulter Court d'Appel"));
-            this.rsl.saveOne(new Rolee("Consulter infraction"));
-            this.rsl.saveOne(new Rolee("Consulter prison"));
-            this.rsl.saveOne(new Rolee("Consulter profil"));
-            this.rsl.saveOne(new Rolee("Consulter associer profil"));
-            this.rsl.saveOne(new Rolee("Consulter associer role"));
-            this.rsl.saveOne(new Rolee("Consulter utilisateur"));
-            this.rsl.saveOne(new Rolee("Consulter compte"));
-
-        }
-        //A enlever plus tard
-        List<Rolee> al = this.rsl.getBy("nom", "Recherche");
-        if (al.isEmpty()) {
-            this.rsl.saveOne(new Rolee("Recherche"));
-        }
-
-        List<Groupe> profils = psbl.getBy("nom", "Admin");
-
-        UserTransaction tx = TransactionManager.getUserTransaction();
         try {
-            tx.begin();
-            if (profils.isEmpty()) {
-                this.psbl.saveOne(new Groupe("Admin", "Administrateur du système"));
-                GroupeRole pr;
-                List<Rolee> roles = this.rsl.getAll();
-                for (Rolee rolee : roles) {
-                    pr = new GroupeRole();
-                    pr.setRole(rolee);
-                    pr.setGroupe(psbl.getBy("nom", "Admin").get(0));
-                    prsbl.saveOne(pr);
-                }
+            List<Rolee> all = rsl.getAll();
+            if (all.isEmpty()) {
+                this.rsl.saveOne(new Rolee("Recherche"));
+                this.rsl.saveOne(new Rolee("Ajouter profil"));
+                this.rsl.saveOne(new Rolee("Modifier profil"));
+                this.rsl.saveOne(new Rolee("Associer profil"));
+                this.rsl.saveOne(new Rolee("Associer role"));
+                this.rsl.saveOne(new Rolee("Activer compte"));
+                this.rsl.saveOne(new Rolee("Désactiver compte"));
 
-                Utilisateur u = new Utilisateur();
-                u.setLogin("AdminFNC");
-                u.setQuestion("AdminFNC");
-                u.setReponse("AdminFNC");
-                u.setNom("AdminFNC");
-                u.setPrenom("AdminFNC");
-                u.setMail("fnc@fnc.com");
-                u.setPasswd(new Sha256Hash("@fnc2018").toHex());
-                u.setProfilactif(true);
-                usbl.saveOne(u);
+                this.rsl.saveOne(new Rolee("Ajouter utilisateur"));
+                this.rsl.saveOne(new Rolee("Modifier utilisateur"));
+                this.rsl.saveOne(new Rolee("Ajouter Court d'Appel"));
+                this.rsl.saveOne(new Rolee("Modifier Court d'Appel"));
+                this.rsl.saveOne(new Rolee("Ajouter juridiction"));
+                this.rsl.saveOne(new Rolee("Modifier juridiction"));
+                this.rsl.saveOne(new Rolee("Ajouter infraction"));
+                this.rsl.saveOne(new Rolee("Modifier infraction"));
+                this.rsl.saveOne(new Rolee("Ajouter prison"));
+                this.rsl.saveOne(new Rolee("Modifier prison"));
+                this.rsl.saveOne(new Rolee("Ajouter condamnation"));
+                this.rsl.saveOne(new Rolee("Modifier condamnation"));
+                this.rsl.saveOne(new Rolee("Tableau de bord"));
 
-                Groupeutilisateur pu = new Groupeutilisateur();
-                pu.setUtilisateur(usbl.getBy("login", "AdminFNC").get(0));
-                pu.setDateAffectation(date);
-                pu.setGroupe(psbl.getBy("nom", "Admin").get(0));
-                pu.setDatecreation(new Date());
-                pu.setRowvers(new Date());
-                pusbl.saveOne(pu);
-                pu = new Groupeutilisateur();
-                u = new Utilisateur();
-                pr = new GroupeRole();
-                tx.commit();
+                this.rsl.saveOne(new Rolee("Consulter condamnation"));
+                this.rsl.saveOne(new Rolee("Consulter juridiction"));
+                this.rsl.saveOne(new Rolee("Consulter Court d'Appel"));
+                this.rsl.saveOne(new Rolee("Consulter infraction"));
+                this.rsl.saveOne(new Rolee("Consulter prison"));
+                this.rsl.saveOne(new Rolee("Consulter profil"));
+                this.rsl.saveOne(new Rolee("Consulter associer profil"));
+                this.rsl.saveOne(new Rolee("Consulter associer role"));
+                this.rsl.saveOne(new Rolee("Consulter utilisateur"));
+                this.rsl.saveOne(new Rolee("Consulter compte"));
+
             }
-        } catch (Exception e) {
+            //A enlever plus tard
+            List<Rolee> al = this.rsl.getBy("nom", "Recherche");
+            if (al.isEmpty()) {
+                this.rsl.saveOne(new Rolee("Recherche"));
+            }
+
+            List<Groupe> profils = psbl.getBy("nom", "Admin");
+
+            UserTransaction tx = TransactionManager.getUserTransaction();
             try {
-                tx.rollback();
-            } catch (IllegalStateException ex) {
-                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
-            } catch (SecurityException ex) {
-                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
-            } catch (SystemException ex) {
-                Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
-            }
-        }
+                tx.begin();
+                if (profils.isEmpty()) {
+                    this.psbl.saveOne(new Groupe("Admin", "Administrateur du système"));
+                    GroupeRole pr;
+                    List<Rolee> roles = this.rsl.getAll();
+                    for (Rolee rolee : roles) {
+                        pr = new GroupeRole();
+                        pr.setRole(rolee);
+                        pr.setGroupe(psbl.getBy("nom", "Admin").get(0));
+                        prsbl.saveOne(pr);
+                    }
 
+                    Utilisateur u = new Utilisateur();
+                    u.setLogin("AdminFNC");
+                    u.setQuestion("AdminFNC");
+                    u.setReponse("AdminFNC");
+                    u.setNom("AdminFNC");
+                    u.setPrenom("AdminFNC");
+                    u.setMail("fnc@fnc.com");
+                    u.setPasswd(new Sha256Hash("@fnc2018").toHex());
+                    u.setProfilactif(true);
+                    usbl.saveOne(u);
+
+                    Groupeutilisateur pu = new Groupeutilisateur();
+                    pu.setUtilisateur(usbl.getBy("login", "AdminFNC").get(0));
+                    pu.setDateAffectation(date);
+                    pu.setGroupe(psbl.getBy("nom", "Admin").get(0));
+                    pu.setDatecreation(new Date());
+                    pu.setRowvers(new Date());
+                    pusbl.saveOne(pu);
+                    pu = new Groupeutilisateur();
+                    u = new Utilisateur();
+                    pr = new GroupeRole();
+                    tx.commit();
+                }
+            } catch (Exception e) {
+                try {
+                    tx.rollback();
+                } catch (IllegalStateException ex) {
+                    Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+                } catch (SecurityException ex) {
+                    Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+                } catch (SystemException ex) {
+                    Logger.getLogger(LoginBean.class.getName()).log(Level.FATAL, null, ex);
+                }
+            }
+
+        } catch (Exception e) {
+        }
     }
 
-    @SuppressWarnings("deprecation")
+    public static Utilisateur currentPersonnel() {
+        return (Utilisateur) SecurityUtils.getSubject().getPrincipal();
+    }
+
+    public static Subject currentSubject() {
+        return SecurityUtils.getSubject();
+    }
+
     public void login() throws IOException {
         try {
-            System.out.println("user=" + username);
-            System.out.println("ps=" + password);
             pers = usbl.getOneBy("login", username);
             if (pers != null) {
                 if (pers.getProfilactif() == false) {
@@ -220,267 +230,234 @@ public class LoginBean implements Serializable {
             }
 
             UsernamePasswordToken token = new UsernamePasswordToken(username.trim(), password.trim());
-            //  journalisation.saveLog4j(LoginBean.class.getName(), Level.INFO, "Journaliser");
-            //”Remember Me” built-in, just do this:
-            token.setRememberMe(true);
-            //With most of Shiro, you'll always want to make sure you're working with 
-            //the currently executing user, referred to as the subject
+            token.setRememberMe(false);
             SecurityUtils.getSubject().login(token);
-            //Authenticate the subject by passing
-            //the user name and password token
-            //into the login method
-            // currentUser.login(token);
-//            Long total = this.psl.count();
-//            List<Role> roleProf = new ArrayList<>();
-//            if (total > 0) {
-//                if (!username.equalsIgnoreCase("admin")) {
-//                    pers = EntityRealm.getUser();
-//                    if (pers != null) {
-//                        roleProf = prsbl.getProfilRoles(pers.getProfil());
-//                        System.out.println(roleProf);
-//                    }
-//                }
-//            }
-
-            List<Rolee> roles = this.rsl.getAll();
-            Boolean avoir = false;
-            Subject subject = EntityRealm.getSubject();
-            for (Rolee role : roles) {
-                if (subject.hasRole(role.getNom())) {
-                    avoir = true;
-                }
-            }
 
             if (!username.equalsIgnoreCase("admin")) {
 
-                if (subject.hasRole("Ajouter profil") || subject.hasRole("Modifier profil")
-                        || subject.hasRole("Associer profil") || subject.hasRole("Associer role")
-                        || subject.hasRole("Activer compte") || subject.hasRole("Désactiver compte")
-                        || subject.hasRole("Ajouter utilisateur") || subject.hasRole("Modifier utilisateur")
-                        || subject.hasRole("Consulter profil") || subject.hasRole("Consulter associer profil")
-                        || subject.hasRole("Consulter associer role") || subject.hasRole("Consulter compte")
-                        || subject.hasRole("Consulter utilisateur")) {
+                if (currentSubject().hasRole("Ajouter profil") || currentSubject().hasRole("Modifier profil")
+                        || currentSubject().hasRole("Associer profil") || currentSubject().hasRole("Associer role")
+                        || currentSubject().hasRole("Activer compte") || currentSubject().hasRole("Désactiver compte")
+                        || currentSubject().hasRole("Ajouter utilisateur") || currentSubject().hasRole("Modifier utilisateur")
+                        || currentSubject().hasRole("Consulter profil") || currentSubject().hasRole("Consulter associer profil")
+                        || currentSubject().hasRole("Consulter associer role") || currentSubject().hasRole("Consulter compte")
+                        || currentSubject().hasRole("Consulter utilisateur")) {
                     this.consulterSecurite = "true";
                 } else {
                     this.consulterSecurite = "false";
                 }
 
-                if (subject.hasRole("Ajouter profil") || subject.hasRole("Modifier profil")
-                        || subject.hasRole("Consulter profil")) {
+                if (currentSubject().hasRole("Ajouter profil") || currentSubject().hasRole("Modifier profil")
+                        || currentSubject().hasRole("Consulter profil")) {
                     this.consulterProfil = "true";
                 } else {
                     this.consulterProfil = "false";
                 }
 
-                if (subject.hasRole("Ajouter profil")) {
+                if (currentSubject().hasRole("Ajouter profil")) {
                     this.ajouterProfil = "true";
                 } else {
                     this.ajouterProfil = "false";
                 }
 
-                if (subject.hasRole("Modifier profil")) {
+                if (currentSubject().hasRole("Modifier profil")) {
                     this.modifierProfil = "true";
                 } else {
                     this.modifierProfil = "false";
                 }
 
-                if (subject.hasRole("Associer profil") || subject.hasRole("Consulter associer profil")) {
+                if (currentSubject().hasRole("Associer profil") || currentSubject().hasRole("Consulter associer profil")) {
                     this.consulterAssocierProfil = "true";
                 } else {
                     this.consulterAssocierProfil = "false";
                 }
 
-                if (subject.hasRole("Associer profil")) {
+                if (currentSubject().hasRole("Associer profil")) {
                     this.associerProfil = "true";
                 } else {
                     this.associerProfil = "false";
                 }
 
-                if (subject.hasRole("Associer role") || subject.hasRole("Consulter associer role")) {
+                if (currentSubject().hasRole("Associer role") || currentSubject().hasRole("Consulter associer role")) {
                     this.consulterRole = "true";
                 } else {
                     this.consulterRole = "false";
                 }
 
-                if (subject.hasRole("Associer role")) {
+                if (currentSubject().hasRole("Associer role")) {
                     this.associerRole = "true";
                 } else {
                     this.associerRole = "false";
                 }
 
-                if (subject.hasRole("Activer compte") || subject.hasRole("Désactiver Compte")
-                        || subject.hasRole("Consulter compte")) {
+                if (currentSubject().hasRole("Activer compte") || currentSubject().hasRole("Désactiver Compte")
+                        || currentSubject().hasRole("Consulter compte")) {
                     this.consulterCompte = "true";
                 } else {
                     this.consulterCompte = "false";
                 }
 
-                if (subject.hasRole("Activer compte")) {
+                if (currentSubject().hasRole("Activer compte")) {
                     this.activerCompte = "true";
                 } else {
                     this.activerCompte = "false";
                 }
 
-                if (subject.hasRole("Désactiver compte")) {
+                if (currentSubject().hasRole("Désactiver compte")) {
                     this.desactiverCompte = "true";
                 } else {
                     this.desactiverCompte = "false";
                 }
 
-                if (subject.hasRole("Ajouter utilisateur") || subject.hasRole("Modifier utilisateur")
-                        || subject.hasRole("Consulter utilisateur")) {
+                if (currentSubject().hasRole("Ajouter utilisateur") || currentSubject().hasRole("Modifier utilisateur")
+                        || currentSubject().hasRole("Consulter utilisateur")) {
                     this.consulterUtilisateur = "true";
                 } else {
                     this.consulterUtilisateur = "false";
                 }
 
-                if (subject.hasRole("Ajouter utilisateur")) {
+                if (currentSubject().hasRole("Ajouter utilisateur")) {
                     this.ajouterUtilisateur = "true";
                 } else {
                     this.ajouterUtilisateur = "false";
                 }
 
-                if (subject.hasRole("Modifier utilisateur")) {
+                if (currentSubject().hasRole("Modifier utilisateur")) {
                     this.modifierUtilisateur = "true";
                 } else {
                     this.modifierUtilisateur = "false";
                 }
 
-                if (subject.hasRole("Ajouter Court d'Appel") || subject.hasRole("Modifier Court d'Appel")
-                        || subject.hasRole("Ajouter juridiction") || subject.hasRole("Modifier juridiction")
-                        || subject.hasRole("Ajouter infraction") || subject.hasRole("Modifier infraction")
-                        || subject.hasRole("Ajouter prison") || subject.hasRole("Modifier prison")
-                        || subject.hasRole("Consulter infraction") || subject.hasRole("Consulter juridiction")
-                        || subject.hasRole("Consulter Court d'Appel") || subject.hasRole("Consulter prison")) {
+                if (currentSubject().hasRole("Ajouter Court d'Appel") || currentSubject().hasRole("Modifier Court d'Appel")
+                        || currentSubject().hasRole("Ajouter juridiction") || currentSubject().hasRole("Modifier juridiction")
+                        || currentSubject().hasRole("Ajouter infraction") || currentSubject().hasRole("Modifier infraction")
+                        || currentSubject().hasRole("Ajouter prison") || currentSubject().hasRole("Modifier prison")
+                        || currentSubject().hasRole("Consulter infraction") || currentSubject().hasRole("Consulter juridiction")
+                        || currentSubject().hasRole("Consulter Court d'Appel") || currentSubject().hasRole("Consulter prison")) {
                     this.consulterAdministration = "true";
                 } else {
                     this.consulterAdministration = "false";
                 }
 
-                if (subject.hasRole("Ajouter Court d'Appel") || subject.hasRole("Modifier Court d'Appel")
-                        || subject.hasRole("Consulter Court d'Appel")) {
+                if (currentSubject().hasRole("Ajouter Court d'Appel") || currentSubject().hasRole("Modifier Court d'Appel")
+                        || currentSubject().hasRole("Consulter Court d'Appel")) {
                     this.consulterAcourtAppel = "true";
                 } else {
                     this.consulterAcourtAppel = "false";
                 }
 
-                if (subject.hasRole("Ajouter Court d'Appel")) {
+                if (currentSubject().hasRole("Ajouter Court d'Appel")) {
                     this.ajouterCourtAppel = "true";
                 } else {
                     this.ajouterCourtAppel = "false";
                 }
 
-                if (subject.hasRole("Modifier Court d'Appel")) {
+                if (currentSubject().hasRole("Modifier Court d'Appel")) {
                     this.modifierCourtAppel = "true";
                 } else {
                     this.modifierCourtAppel = "false";
                 }
 
-                if (subject.hasRole("Ajouter juridiction") || subject.hasRole("Modifier juridiction")
-                        || subject.hasRole("Consulter juridiction")) {
+                if (currentSubject().hasRole("Ajouter juridiction") || currentSubject().hasRole("Modifier juridiction")
+                        || currentSubject().hasRole("Consulter juridiction")) {
                     this.consulterTribunaux = "true";
                 } else {
                     this.consulterTribunaux = "false";
                 }
 
-                if (subject.hasRole("Ajouter juridiction")) {
+                if (currentSubject().hasRole("Ajouter juridiction")) {
                     this.ajouterTribunaux = "true";
                 } else {
                     this.ajouterTribunaux = "false";
                 }
 
-                if (subject.hasRole("Modifier juridiction")) {
+                if (currentSubject().hasRole("Modifier juridiction")) {
                     this.modifierTribunaux = "true";
                 } else {
                     this.modifierTribunaux = "false";
                 }
 
-                if (subject.hasRole("Ajouter infraction") || subject.hasRole("Modifier infraction")
-                        || subject.hasRole("Consulter infraction")) {
+                if (currentSubject().hasRole("Ajouter infraction") || currentSubject().hasRole("Modifier infraction")
+                        || currentSubject().hasRole("Consulter infraction")) {
                     this.consulterInfraction = "true";
                 } else {
                     this.consulterInfraction = "false";
                 }
 
-                if (subject.hasRole("Ajouter infraction")) {
+                if (currentSubject().hasRole("Ajouter infraction")) {
                     this.ajouterInfraction = "true";
                 } else {
                     this.ajouterInfraction = "false";
                 }
 
-                if (subject.hasRole("Modifier infraction")) {
+                if (currentSubject().hasRole("Modifier infraction")) {
                     this.modifierInfraction = "true";
                 } else {
                     this.modifierInfraction = "false";
                 }
 
-                if (subject.hasRole("Ajouter prison") || subject.hasRole("Modifier prison")
-                        || subject.hasRole("Consulter prison")) {
+                if (currentSubject().hasRole("Ajouter prison") || currentSubject().hasRole("Modifier prison")
+                        || currentSubject().hasRole("Consulter prison")) {
                     this.consulterPrison = "true";
                 } else {
                     this.consulterPrison = "false";
                 }
 
-                if (subject.hasRole("Ajouter prison")) {
+                if (currentSubject().hasRole("Ajouter prison")) {
                     this.ajouterPrison = "true";
                 } else {
                     this.ajouterPrison = "false";
                 }
 
-                if (subject.hasRole("Modifier prison")) {
+                if (currentSubject().hasRole("Modifier prison")) {
                     this.modifierPrison = "true";
                 } else {
                     this.modifierPrison = "false";
                 }
 
-                if (subject.hasRole("Ajouter condamnation") || subject.hasRole("Modifier condamnation")
-                        || subject.hasRole("Consulter condamnation")) {
+                if (currentSubject().hasRole("Ajouter condamnation") || currentSubject().hasRole("Modifier condamnation")
+                        || currentSubject().hasRole("Consulter condamnation")) {
                     this.condamnation = "true";
                 } else {
                     this.condamnation = "false";
                 }
 
-                if (subject.hasRole("Ajouter condamnation")) {
+                if (currentSubject().hasRole("Ajouter condamnation")) {
                     this.ajouterCondamnation = "true";
                 } else {
                     this.ajouterCondamnation = "false";
                 }
 
-                if (subject.hasRole("Modifier condamnation") || subject.hasRole("Consulter condamnation")) {
+                if (currentSubject().hasRole("Modifier condamnation") || currentSubject().hasRole("Consulter condamnation")) {
                     this.consulterCondamnation = "true";
                 } else {
                     this.consulterCondamnation = "false";
                 }
 
-                if (subject.hasRole("Modifier condamnation")) {
+                if (currentSubject().hasRole("Modifier condamnation")) {
                     this.modifierCondamnation = "true";
                 } else {
                     this.modifierCondamnation = "false";
                 }
 
-                if (subject.hasRole("Tableau de bord")) {
+                if (currentSubject().hasRole("Tableau de bord")) {
                     this.consulterTableauBord = "true";
                 } else {
                     this.consulterTableauBord = "false";
                 }
 
-                if (subject.hasRole("Recherche")) {
+                if (currentSubject().hasRole("Recherche")) {
                     this.recherche = "true";
                 } else {
                     this.recherche = "false";
                 }
 
-                if (!avoir) {
-                    Faces.redirect("error.xhtml");
-                    username = "";
-                    return;
-                }
-
             }
             journalisation.saveLog4j(LoginBean.class.getSimpleName(), Level.INFO, "Connexion");
-
+            this.journalisation = new MethodeJournalisation();
+            username = "";
             SavedRequest savedRequest = WebUtils.getAndClearSavedRequest(Faces.getRequest());
-            Faces.redirect(savedRequest != null ? savedRequest.getRequestUrl() : "condamnation/saisie_condamnation.xhtml");
+            Faces.redirect(savedRequest != null ? savedRequest.getRequestUrl() : "tableau/tableau.xhtml");
         } catch (AuthenticationException e) {
             e.printStackTrace();
             FacesMessage mf = new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -490,34 +467,23 @@ public class LoginBean implements Serializable {
         //return "index";
     }
 
-    public String currentUser() {
-        Utilisateur user = EntityRealm.getUser();
-        if (user == null) {
-            return "Admin";
-        }
-        return EntityRealm.getUser().getNom().concat(" ").concat(EntityRealm.getUser().getPrenom());
-    }
-
-    public String tribunalUser() {
-        if (EntityRealm.getUser().getJuridiction() == null) {
-            return "Admin";
-        }
-        return EntityRealm.getUser().getJuridiction().getLibellecourt();
-    }
-
     public Date sessionTime() {
         return EntityRealm.getSubject().getSession().getStartTimestamp();
     }
 
     public void logout() {
-        //  try {
-        journalisation.saveLog4j(LoginBean.class.getSimpleName(), Level.INFO, "Déconnexion");
-        EntityRealm.getSubject().logout();
-        // Faces.redirect("acceuil.xhtml");
-        username = "";
-        //  } catch (IOException ex) {
-        //  }
-
+        try {
+            journalisation.saveLog4j(LoginBean.class.getSimpleName(), Level.INFO, "Déconnexion");
+            currentSubject().logout();
+            this.pers = new Utilisateur();
+            this.perse = new Utilisateur();
+            username = "";
+            password = "";
+            this.journalisation = new MethodeJournalisation();
+            Faces.redirect("acceuil.xhtml");
+            username = "";
+        } catch (IOException ex) {
+        }
     }
 
     public void modifierPasse() {
@@ -545,66 +511,83 @@ public class LoginBean implements Serializable {
     }
 
     public void modifierPasse2() {
-        if (new Sha256Hash(lastPass).toHex().equals(EntityRealm.getUser().getPasswd())) {
-            if (newPass.trim().equals(retapPass.trim())) {
-                if (new Sha256Hash(newPass).toHex().equals(EntityRealm.getUser().getPasswd())) {
+        try {
+            if (new Sha256Hash(lastPass).toHex().equals(pers.getPasswd())) {
+                if (newPass.trim().equals(retapPass.trim())) {
+                    if (new Sha256Hash(newPass).toHex().equals(pers.getPasswd())) {
+                        FacesMessage mf = new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                                "Tapez un mot de passe différent de l'ancien", "");
+                        FacesContext.getCurrentInstance().addMessage("erreur_login", mf);
+                        newPass = "";
+                        lastPass = "";
+                        retapPass = "";
+                    } else {
+                        pers.setPasswd(new Sha256Hash(newPass.trim()).toHex());
+                        usbl.updateOne(pers);
+                        FacesMessage mf = new FacesMessage(FacesMessage.SEVERITY_INFO,
+                                "Mot de passe corrigé", "");
+                        FacesContext.getCurrentInstance().addMessage("erreur_login", mf);
+                        RequestContext context = RequestContext.getCurrentInstance();
+                        context.execute("PF('dialogpasse').hide()");
+                    }
+                } else {
                     FacesMessage mf = new FacesMessage(FacesMessage.SEVERITY_FATAL,
-                            "Tapez un mot de passe différent de l'ancien", "");
+                            "Les mots de passe ne concorde pas", "");
                     FacesContext.getCurrentInstance().addMessage("erreur_login", mf);
                     newPass = "";
                     lastPass = "";
                     retapPass = "";
-                } else {
-                    EntityRealm.getUser().setPasswd(new Sha256Hash(newPass.trim()).toHex());
-                    usbl.updateOne(EntityRealm.getUser());
-                    FacesMessage mf = new FacesMessage(FacesMessage.SEVERITY_INFO,
-                            "Mot de passe corrigé", "");
-                    FacesContext.getCurrentInstance().addMessage("erreur_login", mf);
-                    RequestContext context = RequestContext.getCurrentInstance();
-                    context.execute("PF('dialogpasse').hide()");
                 }
+
             } else {
                 FacesMessage mf = new FacesMessage(FacesMessage.SEVERITY_FATAL,
-                        "Les mots de passe ne concorde pas", "");
+                        "mot de passe incorrect!!!", "");
                 FacesContext.getCurrentInstance().addMessage("erreur_login", mf);
                 newPass = "";
                 lastPass = "";
                 retapPass = "";
             }
-
-        } else {
-            FacesMessage mf = new FacesMessage(FacesMessage.SEVERITY_FATAL,
-                    "mot de passe incorrect!!!", "");
-            FacesContext.getCurrentInstance().addMessage("erreur_login", mf);
-            newPass = "";
-            lastPass = "";
-            retapPass = "";
+        } catch (Exception e) {
         }
+
     }
 
     public void reinitialiserPasse() throws IOException {
-        Utilisateur pe = this.usbl.getOneBy("login", recupQuestion);
-        if (pe.getProfilactif() == true) {
-            if (reponse.equals(pe.getReponse())) {
-                pe.setPasswd(new Sha256Hash("admin").toHex());
-                pe.setQuestion(null);
-                pe.setReponse(null);
-                usbl.updateOne(pe);
-                journalisation.saveLog4j(LoginBean.class.getSimpleName(), Level.INFO, "Réinitialisation du mot de passe de l'Utilisateur" + pe.getLogin());
+        try {
+            Utilisateur pe = this.usbl.getOneBy("login", per);
+            if (pe != null) {
+                if (pe.getProfilactif() == true) {
+                    if (reponse.equals(pe.getReponse())) {
+                        pe.setPasswd(new Sha256Hash("admin").toHex());
+                        pe.setQuestion(null);
+                        pe.setReponse(null);
+                        usbl.updateOne(pe);
+                        journalisation.saveLog4j(LoginBean.class.getSimpleName(), Level.INFO, "Réinitialisation du mot de passe de l'Utilisateur" + pe.getLogin());
 
-                question = "";
-                reponse = "";
-                FacesMessage mf = new FacesMessage(FacesMessage.SEVERITY_INFO,
-                        "Mot de passe réinitialisé", "");
-                FacesContext.getCurrentInstance().addMessage("", mf);
-                Faces.redirect("login.xhtml");
+                        question = "";
+                        reponse = "";
+                        FacesMessage mf = new FacesMessage(FacesMessage.SEVERITY_INFO,
+                                "Mot de passe réinitialisé", "");
+                        FacesContext.getCurrentInstance().addMessage("", mf);
+                        Faces.redirect("login.xhtml");
+                    } else {
+                        FacesMessage mf = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                "La reponse saisie est incorreste", "");
+                        FacesContext.getCurrentInstance().addMessage("", mf);
+                    }
+                } else {
+                    FacesMessage mf = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Vous n'etes pas autorisé à continuer", "");
+                    FacesContext.getCurrentInstance().addMessage("", mf);
+                }
             } else {
                 FacesMessage mf = new FacesMessage(FacesMessage.SEVERITY_FATAL,
                         "La reponse saisie est incorreste", "");
                 FacesContext.getCurrentInstance().addMessage("", mf);
             }
-        }
 
+        } catch (Exception e) {
+        }
     }
 
     public void recupererQuestion() {
@@ -1092,6 +1075,30 @@ public class LoginBean implements Serializable {
 
     public void setRecherche(String recherche) {
         this.recherche = recherche;
+    }
+
+    public String getCurentUser() {
+        return curentUser;
+    }
+
+    public void setCurentUser(String curentUser) {
+        this.curentUser = curentUser;
+    }
+
+    public String getTribunal() {
+        return tribunal;
+    }
+
+    public void setTribunal(String tribunal) {
+        this.tribunal = tribunal;
+    }
+
+    public String getEspace() {
+        return espace;
+    }
+
+    public void setEspace(String espace) {
+        this.espace = espace;
     }
 
 }

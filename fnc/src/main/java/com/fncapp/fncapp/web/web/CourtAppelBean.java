@@ -51,7 +51,10 @@ public class CourtAppelBean implements Serializable {
     }
 
     public void cancel(ActionEvent actionEvent) {
-        this.courtAppel = new CourtAppel();
+        try {
+            this.courtAppel = new CourtAppel();
+        } catch (Exception e) {
+        }
     }
 
     public void save(ActionEvent actionEvent) {
@@ -98,8 +101,10 @@ public class CourtAppelBean implements Serializable {
     }
 
     public void getObject(Long id) {
-        this.courtAppel = this.casb.find(id);
-        System.out.println(this.courtAppel.getId());
+        try {
+            this.courtAppel = this.casb.find(id);
+        } catch (Exception e) {
+        }
     }
 
     public MethodeJournalisation getJournalisation() {
@@ -119,7 +124,10 @@ public class CourtAppelBean implements Serializable {
     }
 
     public List<CourtAppel> getCourtAppels() {
-        this.courtAppels = this.casb.getAll();
+        try {
+            this.courtAppels = this.casb.getAll("libelle", true);
+        } catch (Exception e) {
+        }
         return courtAppels;
     }
 

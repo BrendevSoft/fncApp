@@ -15,7 +15,7 @@
                 <!-- Left Side -->
                 <h:form id="userForm">
                     <p:growl id="message" life="4000" showSummary="true"/>
-                    <p:wizard  widgetVar="wiz" id="wizard" flowListener="#{condamnationBean.onFlowProcess}" backLabel="Précédent" nextLabel="Suivant" >
+                    <p:wizard widgetVar="wiz" id="wizard" backLabel="Précédent" nextLabel="Suivant" >
                         <ui:include src="../condamnation/personnel.xhtml"/>            
                         <ui:include src="../condamnation/situation.xhtml"/>
                         <ui:include src="../condamnation/jugement.xhtml"/>

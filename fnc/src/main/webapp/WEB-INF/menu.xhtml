@@ -14,8 +14,14 @@
                     <pp:menu widgetVar="me">
                         <p:menuitem rendered="#{loginBean.consulterTableauBord}" id="tableau_de_bord" value="Tableau de bord" icon="fa fa-fw fa-home" outcome="/tableau/tableau"/>
                         <p:submenu rendered="#{loginBean.condamnation}" id="condamnation" label="Condamnation" icon="fa fa-fw fa-life-saver">
-                            <p:menuitem rendered="#{loginBean.ajouterCondamnation}" id="saisi_condamnation" value="Saisie Condamnation" icon="fa fa-fw fa-square-o" outcome="/condamnation/saisie_condamnation" />
-                            <p:menuitem rendered="#{loginBean.consulterCondamnation}" id="liste_condamnation" value="Liste Condamnation" icon="fa fa-fw fa-sign-in" outcome="/condamnation/liste_condamnation" />
+                            <p:menuitem rendered="#{loginBean.ajouterCondamnation}" id="saisi_condamnation" value="Saisie Condamnation" icon="fa fa-fw fa-square-o" outcome="/condamnation/condamnation" />
+                            <p:submenu rendered="#{loginBean.consulterCondamnation}" id="mise_a_jour" label="Mise à jour" icon="fa fa-fw fa-life-saver">                   
+                                <p:menuitem rendered="#{loginBean.consulterCondamnation}" id="identite" value="Modifier identité" icon="fa fa-fw fa-sign-in" outcome="/condamnation/modification/modifPersonnel" />
+                                <p:menuitem rendered="#{loginBean.consulterCondamnation}" id="situation" value="Modifier situation" icon="fa fa-fw fa-sign-in" outcome="/condamnation/modification/modifSituation.xhtml" />
+                                <p:menuitem rendered="#{loginBean.consulterCondamnation}" id="jugement" value="Modifier jugement" icon="fa fa-fw fa-sign-in" outcome="/condamnation/modification/modifJugement.xhtml" />
+                                <p:menuitem rendered="#{loginBean.consulterCondamnation}" id="peine" value="Modifier peine" icon="fa fa-fw fa-sign-in" outcome="/condamnation/modification/modifPeine" />
+
+                            </p:submenu>
                         </p:submenu>
                         <p:submenu rendered="#{loginBean.consulterAdministration}" id="administration" label="Administration" icon="fa fa-fw fa-life-saver">
                             <p:menuitem rendered="#{loginBean.consulterAcourtAppel}" id="courtAppel" value="Court d'Appel" icon="fa fa-fw fa-square-o" outcome="/administration/courtAppel" />

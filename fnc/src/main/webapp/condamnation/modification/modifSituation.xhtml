@@ -2,65 +2,178 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
 
+    <ui:define name="head">
+        <style type="text/css">
+            .cars-datalist .text-column p:last-child{
+                color:#757575;
+            }
 
+            .cars-datalist .car-item {
+                padding: 8px 14px;
+            }
 
-    <p:tab title="Modifier la situation">
-        <!-- Left Side -->
-        <div class="card card-w-title">
+            .cars-datalist .car-item img, .cars-datalist .car-item .car-details {
+                display: inline-block;
+                vertical-align: middle;
+                margin-right: 14px;
+            }
 
-            <p:dataTable reflow="true" var="sit" id="userTabSit" widgetVar="situationTable" value="#{condamnationBean.situations}"
-                         emptyMessage="Utilisateur non trouvé"
-                         style="border-color: #00AEEF" filteredValue="#{condamnationBean.situationsFileter}" 
-                         rows="5" scrollable="true"  paginator="true" paginatorPosition="top" 
-                         rowsPerPageTemplate="2,5,10,15">
-                <f:facet name="header">
-                    <p:outputPanel>
-                        <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
-                        <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
-                        <h:outputText value="Rechercher toutes les valeurs :" />
-                        <p:inputText id="globalFilter" onkeyup="PF('situationTable').filter()" style="width:150px" placeholder="entrer la valeur"/>
-                        <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="ui-icon-calculator" />
-                        <p:columnToggler datasource="userTabSit" trigger="toggler" />
+            .cars-datalist .car-item button {
+                float: right;
+            }
 
-                    </p:outputPanel>
-                </f:facet>
-                <p:column  headerText="Nom"  filterBy="#{sit.condamnation.personne.nom}" filterMatchMode="contains">
-                    <h:outputText value="#{sit.condamnation.personne.nom}" />
-                </p:column>
-                <p:column  headerText="Prenom"  filterBy="#{sit.condamnation.personne.prenom}" filterMatchMode="contains">
-                    <h:outputText value="#{sit.condamnation.personne.prenom}" />
-                </p:column>
-                <p:column  headerText="Situation"  filterBy="#{sit.typesituation}" filterMatchMode="contains">
-                    <h:outputText value="#{sit.typesituation}" />
-                </p:column>
-                <p:column  headerText="Mandat dépot"  filterBy="#{sit.numMandatDepot}" filterMatchMode="contains">
-                    <h:outputText value="#{sit.numMandatDepot}" />
-                </p:column>
-                <p:column  headerText="Date dépot"  filterBy="#{sit.dateMandatDepot.toLocaleString()}" filterMatchMode="contains">
-                    <h:outputText value="#{sit.dateMandatDepot.toLocaleString()}" />
-                </p:column>
-                <p:column  headerText="Numéro Ecrou"  filterBy="#{sit.numEcrou}" filterMatchMode="contains">
-                    <h:outputText value="#{sit.numEcrou}" />
-                </p:column>
-                <p:column  headerText="Prison"  filterBy="#{sit.prison.libellecourt}" filterMatchMode="contains">
-                    <h:outputText value="#{sit.prison.libellecourt}" />
-                </p:column>
-                <p:column  headerText="Mandat d'Arrêt"  filterBy="#{sit.numMandatArret}" filterMatchMode="contains">
-                    <h:outputText value="#{sit.numMandatArret}" />
-                </p:column>
-                <p:column  headerText="Date d'Arrêt"  filterBy="#{sit.dateMandatArret.toLocaleString()}" filterMatchMode="contains">
-                    <h:outputText value="#{sit.dateMandatArret.toLocaleString()}" />
-                </p:column>
-                <p:column  headerText="Décision LP"  filterBy="#{sit.numDecisionLp}" filterMatchMode="contains">
-                    <h:outputText value="#{sit.numDecisionLp}" />
-                </p:column>
-                <p:column  headerText="Date Décision"  filterBy="#{sit.dateDecisionLp.toLocaleString()}" filterMatchMode="contains">
-                    <h:outputText value="#{sit.dateDecisionLp.toLocaleString()}" />
-                </p:column>
-            </p:dataTable>
-        </div>
-    </p:tab>
+            .cars-datalist ul {
+                margin: 0;
+                padding: 0;
+            }
+
+            .ui-car-display td:last-child {
+                font-weight: 700;
+            }
+
+            @media (max-width:640px) {
+                .cars-datalist .text-column {
+                    text-align: center;
+                }
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="title">Gestion des condamnations</ui:define>
+
+    <ui:define name="viewname">Gestion des condamnations</ui:define>
+    <ui:define name="content">
+        <h:form id="condamnationForm">
+            <p:growl id="message" life="4000" showSummary="true"/>
+            <p:fieldset legend="Gestion des condamnations (Modification de la situation du detenu au moment du jugement)">
+                <div class="ui-g">
+                    <div class="ui-g-12">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12 ui-fluid contact-form">
+                            <p:panel id="userPanel" header="informations" style="border-color: #171b1f;">
+                                <p:panelGrid columnClasses="ui-grid-col-4,ui-grid-col-8" columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
+                                    <h:inputHidden value="#{condamnationBean.situation.id}"/>
+                                    <h:inputHidden/>
+                                    <h:inputHidden/>
+                                    <h:inputHidden/>
+                                    <p:outputLabel for="situation" value="Situation au moment du jugement"/>
+                                    <p:selectOneMenu id="situation"  value="#{condamnationBean.typeSituation}" 
+                                                     required="true" requiredMessage="Choisir la situation au moment du jugement">
+                                        <f:selectItem itemLabel="Choisir le type de situation au moment du jugement" noSelectionOption="true"/>
+                                        <f:selectItem itemLabel="En détention" itemValue="En Détention"/>
+                                        <f:selectItem itemLabel="En fuite" itemValue="En Fuite"/>
+                                        <f:selectItem itemLabel="En Liberté" itemValue="En liberté"/>
+                                        <p:ajax  event="change" process="@this" listener="#{condamnationBean.visible()}"
+                                                 update="detention,liberte,fuite"/>
+                                    </p:selectOneMenu>   
+                                </p:panelGrid>
+                                <p:panel style="width: 100%" id="detention" visible="#{condamnationBean.det}">
+                                    <p:panelGrid columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4," columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
+                                        <p:outputLabel for="depot" value="Numéro mandat de dépôt"/>
+                                        <p:inputText id="depot" required="#{condamnationBean.det}" requiredMessage="Veillez saisir le numero mandat de dépot" value="#{condamnationBean.situation.numMandatDepot}"  placeholder="Numéro mandat de dépôt"/>
+                                        <p:outputLabel for="dateD" value="Date mandat de dépôt"/>
+                                        <p:calendar id="dateD" navigator="true" yearRange="c-70:c+70" maxdate="#{condamnationBean.maxToday()}" required="#{condamnationBean.det}" requiredMessage="choisir la date du mandat de dépot" locale="fr" pattern="dd/MM/yyyy" mask="true" value="#{condamnationBean.situation.dateMandatDepot}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" locale="fr"/>
+                                        </p:calendar>
+                                        <p:outputLabel for="ecrou" value="Numéro Ecrou"/>
+                                        <p:inputText id="ecrou" required="#{condamnationBean.det}" requiredMessage="Veillez saisir le numéro Ecrou" value="#{condamnationBean.situation.numEcrou}"  placeholder="Numéro Ecrou"/>
+                                        <p:outputLabel for="prison" value="Prison"/>
+                                        <p:selectOneMenu id="prison" required="#{condamnationBean.det}" requiredMessage="Choisir la prison"  value="#{condamnationBean.prison}" 
+                                                         filter="true" filterMatchMode="startsWith"
+                                                         converter="omnifaces.SelectItemsIndexConverter">
+                                            <f:selectItem itemLabel="Choisir la prison" noSelectionOption="true"/>
+                                            <f:selectItems var="pris" value="#{condamnationBean.prisons}" itemLabel="#{pris.libellecourt}" itemValue="#{pris}"/>
+                                        </p:selectOneMenu>
+                                    </p:panelGrid>
+                                </p:panel>
+                                <p:panel style="width: 100%" id="liberte" visible="#{condamnationBean.lib}">
+                                    <p:panelGrid columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4," columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
+                                        <p:outputLabel for="arret" value="Numéro mandat d'arrêt"/>
+                                        <p:inputText id="arret" required="#{condamnationBean.lib}" requiredMessage="Veillez saisir le Numéro mandat d'arrêt" value="#{condamnationBean.situation.numMandatArret}"  placeholder="Numéro mandat d'arrêt"/>
+                                        <p:outputLabel for="dateA" value="Date mandat d'arrêt"/>
+                                        <p:calendar id="dateA" requiredMessage="Veillez choisir la date de mandat d'arrêt" navigator="true" yearRange="c-70:c+70" locale="fr" pattern="dd/MM/yyyy" mask="true" maxdate="#{condamnationBean.maxToday()}" value="#{condamnationBean.situation.dateMandatArret}" required="#{condamnationBean.lib}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" locale="fr"/>
+                                        </p:calendar>  
+                                    </p:panelGrid>
+                                </p:panel>
+                                <p:panel style="width: 100%" id="fuite" visible="#{condamnationBean.fuit}">
+                                    <p:panelGrid columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4," columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
+                                        <p:outputLabel for="lp" value="Numéro décision LP"/>
+                                        <p:inputText id="lp" required="#{condamnationBean.fuit}" requiredMessage="Veillez saisir le numéro décision LP" value="#{condamnationBean.situation.numDecisionLp}"  placeholder="Numéro décision LP"/>
+                                        <p:outputLabel for="dateLP" value="Date décison LP"/>
+                                        <p:calendar id="dateLP" requiredMessage="Veillez choisir la date décision LP" navigator="true" yearRange="c-70:c+70" value="#{condamnationBean.situation.dateDecisionLp}" maxdate="#{condamnationBean.maxToday()}" required="#{condamnationBean.fuit}" locale="fr" pattern="dd/MM/yyyy" mask="true">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" locale="fr"/>
+                                        </p:calendar>  
+                                    </p:panelGrid>
+                                </p:panel>
+                                <p:panelGrid columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3" columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
+                                    <h:inputHidden/>
+                                    <p:commandButton process="@this" update="userPanel" action="#{condamnationBean.cancel(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
+                                    <p:commandButton rendered="#{loginBean.consulterCondamnation}" update="userPanel,message,userTabIde" process="@form" action ="#{condamnationBean.updateSituation()}" value="Valider" icon="fa fa-paper-plane-o"></p:commandButton>
+                                    <h:inputHidden/>
+                                </p:panelGrid>
+                                <div class="card card-w-title">
+                                    <p:dataTable reflow="true" var="sit" id="userTabIde" widgetVar="situationTable" value="#{condamnationBean.situations}"
+                                                 emptyMessage="Personne non trouvé"
+                                                 style="border-color: #00AEEF" filteredValue="#{condamnationBean.situationsFileter}" 
+                                                 rows="5" scrollable="true"  paginator="true" paginatorPosition="top" 
+                                                 rowsPerPageTemplate="2,5,10,15">
+                                        <f:facet name="header">
+                                            <p:outputPanel>
+                                                <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
+                                                <h:outputText style="visibility: hidden" value="Rechercher toutes les valeurs :"/>
+                                                <h:outputText value="Rechercher toutes les valeurs :" />
+                                                <p:inputText id="globalFilter" onkeyup="PF('situationTable').filter()" style="width:150px" placeholder="entrer la valeur"/>
+                                            </p:outputPanel>
+                                        </f:facet>
+                                        <p:column  headerText="Nom"  filterBy="#{sit.condamnation.personne.nom}" filterMatchMode="contains">
+                                            <h:outputText value="#{sit.condamnation.personne.nom}" />
+                                        </p:column>
+                                        <p:column  headerText="Prenom"  filterBy="#{sit.condamnation.personne.prenom}" filterMatchMode="contains">
+                                            <h:outputText value="#{sit.condamnation.personne.prenom}" />
+                                        </p:column>
+                                        <p:column  headerText="Type situation"  filterBy="#{sit.typesituation}" filterMatchMode="contains">
+                                            <h:outputText value="#{sit.typesituation}" />
+                                        </p:column>
+                                        <p:column  headerText="Mandat dépot"  filterBy="#{sit.numMandatDepot}" filterMatchMode="contains">
+                                            <h:outputText value="#{sit.numMandatDepot}" />
+                                        </p:column>
+                                        <p:column  headerText="Numéro Ecrou"  filterBy="#{sit.numEcrou}" filterMatchMode="contains">
+                                            <h:outputText value="#{sit.numEcrou}" />
+                                        </p:column>
+                                        <p:column  headerText="Date Manda dépot"  filterBy="#{sit.dateMandatDepot.toLocaleString()}" filterMatchMode="contains">
+                                            <h:outputText value="#{sit.dateMandatDepot.toLocaleString()}" />
+                                        </p:column>
+                                        <p:column  headerText="Prison"  filterBy="#{sit.prison.libellecourt}" filterMatchMode="contains">
+                                            <h:outputText value="#{sit.prison.libellecourt}" />
+                                        </p:column>
+                                        <p:column  headerText="Mandat Arrêt"  filterBy="#{sit.numMandatArret}" filterMatchMode="contains">
+                                            <h:outputText value="#{sit.numMandatArret}" />
+                                        </p:column>
+                                        <p:column  headerText="Date Mandat Arrêt"  filterBy="#{sit.dateMandatArret.toLocaleString()}" filterMatchMode="contains">
+                                            <h:outputText value="#{sit.dateMandatArret.toLocaleString()}" />
+                                        </p:column>
+                                        <p:column  headerText="Décision LP"  filterBy="#{sit.numDecisionLp}" filterMatchMode="contains">
+                                            <h:outputText value="#{sit.numDecisionLp}" />
+                                        </p:column>
+                                        <p:column  headerText="Date Décision LP"  filterBy="#{sit.dateDecisionLp.toLocaleString()}" filterMatchMode="contains">
+                                            <h:outputText value="#{sit.dateDecisionLp.toLocaleString()}" />
+                                        </p:column>
+                                        <p:column width="5%" rendered="#{loginBean.consulterCondamnation}">
+                                            <p:commandButton update=":condamnationForm:userPanel" icon="ui-icon-pencil" title="Editer" actionListener="#{condamnationBean.getObjectSituation(sit.id)}" process="@this">
+                                                <f:setPropertyActionListener value="#{sit}" target="#{condamnationBean.situation}" />
+                                            </p:commandButton>
+                                        </p:column>
+                                    </p:dataTable>
+                                </div>
+                            </p:panel>
+                        </div>
+                    </div>
+                </div>                          
+            </p:fieldset>
+        </h:form>
+    </ui:define>
 
 </ui:composition>

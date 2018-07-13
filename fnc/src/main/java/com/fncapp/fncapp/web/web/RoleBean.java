@@ -13,7 +13,6 @@ import com.fncapp.fncapp.api.service.GroupeRoleServiceBeanLocal;
 import com.fncapp.fncapp.api.service.GroupeServiceBeanLocal;
 import com.fncapp.fncapp.api.service.GroupeUtilisateurServiceBeanLocal;
 import com.fncapp.fncapp.api.service.RoleServiceBeanLocal;
-import com.fncapp.fncapp.impl.shiro.EntityRealm;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,22 +68,26 @@ public class RoleBean implements Serializable {
 
     @PostConstruct
     private void init() {
-        if (EntityRealm.getUser() != null) {
-            this.profilUtilisateurs = this.pudbl.getBy("utilisateur", EntityRealm.getUser());
-            if (!profilUtilisateurs.isEmpty()) {
-                for (Groupeutilisateur pu : profilUtilisateurs) {
-                    if (pu.getDateRevocation() == null) {
-                        profil = pu.getGroupe().getNom();
-                        List< GroupeRole> l = this.prsbl.getBy("groupe", pu.getGroupe());
-                        for (GroupeRole p : l) {
-                            mesRoles.add(p.getRole());
+        try {
+            if (LoginBean.currentPersonnel() != null) {
+                this.profilUtilisateurs = this.pudbl.getBy("utilisateur", LoginBean.currentPersonnel());
+                if (!profilUtilisateurs.isEmpty()) {
+                    for (Groupeutilisateur pu : profilUtilisateurs) {
+                        if (pu.getDateRevocation() == null) {
+                            profil = pu.getGroupe().getNom();
+                            List< GroupeRole> l = this.prsbl.getBy("groupe", pu.getGroupe());
+                            for (GroupeRole p : l) {
+                                mesRoles.add(p.getRole());
+                            }
                         }
                     }
+
                 }
 
             }
-
+        } catch (Exception e) {
         }
+
     }
 
     public void onSelectAll() {
@@ -96,73 +99,83 @@ public class RoleBean implements Serializable {
     }
 
     public void modifierRole() {
-        if (selectRoles != null) {
-            //recherche des role des profil des personnels
-            List<Rolee> profilRoles = prsbl.getProfilRoles(selectProfil);
-            //si la liste des roles est vide il s'agit d'une insertion
-            if (profilRoles.isEmpty() && !selectRoles.isEmpty()) {
-                this.ajoutRolesPers(selectRoles);
-                FacesContext.getCurrentInstance().
-                        addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info Modification réussit !!!!!!!!", ""));
+        try {
+            if (selectRoles != null) {
+                //recherche des role des profil des personnels
+                List<Rolee> profilRoles = prsbl.getProfilRoles(selectProfil);
+                //si la liste des roles est vide il s'agit d'une insertion
+                if (profilRoles.isEmpty() && !selectRoles.isEmpty()) {
+                    this.ajoutRolesPers(selectRoles);
+                    FacesContext.getCurrentInstance().
+                            addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info Modification réussit !!!!!!!!", ""));
 
-                return;
-            }
-            //si la liste des personne n'est pas vide et ls roles selectioné ne le sont pas on fait une suppression
-            if (!profilRoles.isEmpty() && selectRoles.isEmpty()) {
-                List<GroupeRole> profilRole = prsbl.getBy("groupe", selectProfil);
-                for (GroupeRole role2 : profilRole) {
-                    prsbl.supGroupeRoles(role2);
+                    return;
                 }
-                FacesContext.getCurrentInstance().
-                        addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info Modification réussit !!!!!!!!", ""));
-                return;
-            }
-            //si la liste des role n'est pas vide et la liste des roles selectionné nest pas vide
-            if (!profilRoles.isEmpty() && !selectRoles.isEmpty()) {
-                //chercher les role que le personnel a retirer
-                for (Rolee roleProfil : profilRoles) {
-                    if (!selectRoles.contains(roleProfil)) {
-                        retraitRoles.add(roleProfil);
+                //si la liste des personne n'est pas vide et ls roles selectioné ne le sont pas on fait une suppression
+                if (!profilRoles.isEmpty() && selectRoles.isEmpty()) {
+                    List<GroupeRole> profilRole = prsbl.getBy("groupe", selectProfil);
+                    for (GroupeRole role2 : profilRole) {
+                        prsbl.supGroupeRoles(role2);
                     }
+                    FacesContext.getCurrentInstance().
+                            addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info Modification réussit !!!!!!!!", ""));
+                    return;
                 }
-                //chercher les role a ajouter
-                for (Rolee roleSelect : selectRoles) {
-                    if (!profilRoles.contains(roleSelect)) {
-                        ajoutRoles.add(roleSelect);
-                    }
-                }
-                //ajout des roles
-                if (!ajoutRoles.isEmpty()) {
-                    ajoutRolesPers(ajoutRoles);
-                }
-                //retrait de role
-                if (!retraitRoles.isEmpty()) {
-                    for (Rolee catPersonneRole : retraitRoles) {
-                        System.out.println(catPersonneRole);
-                    }
-                    for (Rolee role1 : retraitRoles) {
-                        GroupeRole profilRol = prsbl.getGroupeRoles(selectProfil, role1);
-                        System.out.println(profilRol);
-                        if (profilRol != null) {
-                            prsbl.supGroupeRoles(profilRol);
+                //si la liste des role n'est pas vide et la liste des roles selectionné nest pas vide
+                if (!profilRoles.isEmpty() && !selectRoles.isEmpty()) {
+                    //chercher les role que le personnel a retirer
+                    for (Rolee roleProfil : profilRoles) {
+                        if (!selectRoles.contains(roleProfil)) {
+                            retraitRoles.add(roleProfil);
                         }
                     }
+                    //chercher les role a ajouter
+                    for (Rolee roleSelect : selectRoles) {
+                        if (!profilRoles.contains(roleSelect)) {
+                            ajoutRoles.add(roleSelect);
+                        }
+                    }
+                    //ajout des roles
+                    if (!ajoutRoles.isEmpty()) {
+                        ajoutRolesPers(ajoutRoles);
+                    }
+                    //retrait de role
+                    if (!retraitRoles.isEmpty()) {
+                        for (Rolee catPersonneRole : retraitRoles) {
+                            System.out.println(catPersonneRole);
+                        }
+                        for (Rolee role1 : retraitRoles) {
+                            GroupeRole profilRol = prsbl.getGroupeRoles(selectProfil, role1);
+                            System.out.println(profilRol);
+                            if (profilRol != null) {
+                                prsbl.supGroupeRoles(profilRol);
+                            }
+                        }
+                    }
+                    FacesContext.getCurrentInstance().
+                            addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info Modification réussit !!!!!!!!", ""));
                 }
-                FacesContext.getCurrentInstance().
-                        addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info Modification réussit !!!!!!!!", ""));
             }
+        } catch (Exception e) {
         }
+
     }
 
     public void ajoutRolesPers(List<Rolee> roles) {
-        for (Rolee role1 : roles) {
-            GroupeRole profilRole = new GroupeRole(selectProfil, role1);
-            prsbl.saveOne(profilRole);
+        try {
+            for (Rolee role1 : roles) {
+                GroupeRole profilRole = new GroupeRole(selectProfil, role1);
+                prsbl.saveOne(profilRole);
+            }
+        } catch (Exception e) {
         }
     }
 
     public void saveRole() {
-        this.rsl.saveOne(role);
+        try {
+            this.rsl.saveOne(role);
+        } catch (Exception e) {
+        }
     }
 
     public Rolee getRole() {
@@ -174,7 +187,10 @@ public class RoleBean implements Serializable {
     }
 
     public List<Rolee> getRoles() {
-        roles = this.rsl.getAll();
+        try {
+            roles = this.rsl.getAll();
+        } catch (Exception e) {
+        }
         return roles;
     }
 
@@ -207,7 +223,10 @@ public class RoleBean implements Serializable {
     }
 
     public List<Groupe> getProfils() {
-        profils = this.psbl.getAll();
+        try {
+            profils = this.psbl.getAll();
+        } catch (Exception e) {
+        }
         return profils;
     }
 

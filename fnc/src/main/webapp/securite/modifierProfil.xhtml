@@ -78,7 +78,7 @@
                                         <h:inputHidden/>
                                         <h:inputHidden/>
                                         <p:panelGrid columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4" columns="3" layout="grid" styleClass="ui-panelgrid-blank form-group"> 
-                                            <p:commandButton process="@form" update=":profil:profilForm:profilPanel" action="#{utilisateurBean.cancelProfil(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
+                                            <p:commandButton process="@this" update=":profil:profilForm:profilPanel" action="#{utilisateurBean.cancelProfil(actionEvent)}" value="Réinitialiser" icon="fa fa-paper-plane-o"></p:commandButton>
                                             <h:inputHidden/>
                                             <p:commandButton rendered="#{loginBean.associerProfil}" update=":profil:profilForm:profilPanel,:profil:message,:profil:profilsTab:profilTab" class="Fs16 GreenButton" value="modifier" actionListener="#{utilisateurBean.modifierAssocierProfil()}" process="@form"/>                                      
                                         </p:panelGrid>
@@ -117,7 +117,7 @@
                                 <p:column  headerText="Login"  filterBy="#{user.utilisateur.login}" filterMatchMode="startsWith">
                                     <h:outputText value="#{user.utilisateur.login}" />
                                 </p:column>
-                                <p:column width="3%">
+                                <p:column width="5%">
                                     <p:commandButton  update=":profil:profilForm:profilPanel"  icon="ui-icon-pencil" title="Editer" actionListener="#{utilisateurBean.getObject(user.id)}" process="@form">
                                         <f:setPropertyActionListener value="#{user}" target="#{utilisateurBean.profilUtilisateur}" />
                                     </p:commandButton>                                   
